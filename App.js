@@ -17,7 +17,7 @@ import * as Updates from 'expo-updates';
 const Stack = createNativeStackNavigator();
 
 export default function App({ navigation }) {
-  //LogBox.ignoreLogs(['Warning: ...']);
+  //LogBox.ignoreLogs(['Warning: ...']);pepe
   LogBox.ignoreAllLogs();
   
   return (
