@@ -17,7 +17,9 @@ import CalendarioScreen from "../screens/Tab/CalendarioScreen";
 import PerfilScreen from "../screens/Tab/PerfilScreen";
 import AjustesScreen from "../screens/Drawer/AjustesScreen";
 import ChatsScreen from "../screens/TobTab/ChatsScreen";
-import GruposScreen from "../screens/TobTab/GruposScreen";
+
+import GrupalChat from "../screens/TobTab/GrupalChat/GrupalChat";
+import ChatScreen from "../screens/TobTab/GrupalChat/ChatScreen";
 
 import HomeScreen from '../screens/HomeScreen';
 import AddCommentScreen from '../screens/AddCommentScreen';
@@ -64,7 +66,7 @@ function TobTabGroup() {
         <TobTab.Navigator>
             <TobTab.Screen name="Comunidad" component={HomeGroup} />
             <TobTab.Screen name="Chats" component={ChatsScreen} />
-            <TobTab.Screen name="Grupos" component={GruposScreen} />
+            <TobTab.Screen name="Grupos" component={GrupalChat} />
 
         </TobTab.Navigator>
     )
@@ -90,6 +92,13 @@ function StackGroup() {
     return (
         <Stack.Navigator>
             <Stack.Screen name="HomeMain" component={TabGroup} options={{ headerShown: false }} />
+            <Stack.Screen
+                name="Chat"
+                component={ChatScreen}
+                options={({ route }) => ({
+                    title: route.params.userName,
+                })}
+            />
         </Stack.Navigator>
     )
 }
