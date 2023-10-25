@@ -21,14 +21,12 @@ const MessagesScreen = ({ navigation }) => {
 
     const fetchPosts = async () => {
         const users = query((collection(db, "user")));//, orderBy("messageTime", "asc"));
-        //console.log("holaaa")
         getDocs(users).then(docSnap => {
             const users1 = [];
             docSnap.forEach((doc) => {
                 users1.push({ ...doc.data(), id: doc.id })
                 setGroups(users1)
             })
-            //console.log(users1)
         })
 
     }
