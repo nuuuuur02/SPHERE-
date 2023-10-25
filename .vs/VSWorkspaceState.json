@@ -4,10 +4,8 @@
     "\\navigation",
     "\\screens",
     "\\screens\\TobTab",
-    "\\screens\\TobTab\\GrupalChat",
-    "\\styles",
-    "\\styles\\GrupalChat"
+    "\\screens\\TobTab\\GrupalChat"
   ],
-  "SelectedNode": "\\screens\\TobTab\\GrupalChat\\GrupalChat.js",
+  "SelectedNode": "\\navigation\\Navigation.js",
   "PreviewInSolutionExplorer": false
 }
