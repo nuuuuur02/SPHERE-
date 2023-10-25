@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, FlatList } from 'react-native';
+import { StyleSheet, FlatList } from 'react-native';
 import { db } from '../../../components/ConfigFirebase';
 import { query, collection, getDocs, orderBy } from "firebase/firestore";
 import {
@@ -28,7 +28,6 @@ const MessagesScreen = ({ navigation }) => {
                 setGroups(users1)
             })
         })
-
     }
 
     useEffect(() => {
