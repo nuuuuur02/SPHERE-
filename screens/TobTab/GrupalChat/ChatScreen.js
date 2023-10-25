@@ -3,10 +3,12 @@ import {View, ScrollView, Text, Button, StyleSheet} from 'react-native';
 import {Bubble, GiftedChat, Send} from 'react-native-gifted-chat';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { storagebd, db } from '../../../components/ConfigFirebase';
+import { doc, setDoc, addDoc, collection, snapshotEqual, Timestamp, orderBy, serverTimestamp, updateDoc, getDoc } from "firebase/firestore";
 
 const ChatScreen = ({ route }) => {
     const [messages, setMessages] = useState([]);
-    const { userName, userImg } = route.params;
+    const { userName, userImg, item } = route.params;
 
     const temporalAvatar = 'https://picsum.photos/200/300?grayscale';
 
@@ -21,6 +23,45 @@ const ChatScreen = ({ route }) => {
     userNames.push("Armand Putero Ballesteros");
 
     const truncatedUserNames = userNames.map((name) => truncateName(name));
+
+    function create(messages) {
+
+        addDoc(collection(db, "groups"), {
+            comments: messages,
+            userName: "Armand Putito",
+        })
+    }
+
+
+    const postMessages = async (message) => {
+        try {
+            console.log("", item.id)
+            console.log(item)
+            console.log(message)
+            
+                const postId = item.id;
+                const postRef = doc(db, 'test', postId);
+            const postDoc = await getDoc(postRef);
+            console.log(postDoc.exists())
+            const postData = postDoc.data();
+            const currentMessages = postData.messages || [];
+
+                    // Agregar el comentario con información del usuario
+                    const user = {
+                        userName: "pepe", // Reemplaza 'NombreUsuario' con el nombre real del usuario
+                        //userImg: item.userImg, // Reemplaza 'URLImagenUsuario' con la URL de la imagen real del usuario
+                    };
+                    console.log(user)
+
+                    currentMessages.push( "A", "B" );
+                    await updateDoc(postRef, { messages: currentMessages });
+                    console.log("currentMessages: ", currentMessages)
+                    console.log("DB: ", db)
+            } catch (error) {
+                console.error('Error al agregar el comentario: ', error);
+            }
+    }
+
 
     useEffect(() => {
         setMessages([
@@ -134,7 +175,10 @@ const ChatScreen = ({ route }) => {
     return (
         <GiftedChat
             messages={messages}
-            onSend={(messages) => onSend(messages)}
+            onSend={(messages) => {
+                postMessages(messages)
+                onSend(messages)
+            }}
             user={{
                 _id: 1,
             }}
@@ -149,11 +193,3 @@ const ChatScreen = ({ route }) => {
 };
 
 export default ChatScreen;
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});

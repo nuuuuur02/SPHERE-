@@ -40,7 +40,7 @@ const MessagesScreen = ({ navigation }) => {
                 data={messages}
                 keyExtractor={item=>item.id}
                 renderItem={({ item }) => (
-                    <Card onPress={() => navigation.navigate('Chat', { userName: item.userName, userImg: item.userImg })}>
+                    <Card onPress={() => navigation.navigate('Chat', { userName: item.userName, userImg: item.userImg, item })}>
                         <UserInfo>
                             <UserImgWrapper>
                                 <UserImg source={{ uri: item.userImg }} />
@@ -61,11 +61,3 @@ const MessagesScreen = ({ navigation }) => {
 };
 
 export default MessagesScreen;
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1, 
-        alignItems: 'center', 
-        justifyContent: 'center'
-    },
-});
