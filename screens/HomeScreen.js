@@ -102,14 +102,14 @@ const onRefresh = React.useCallback(() => {
 
   const fetchPosts = async () =>  {
     const q1 = query((collection(db,"posts")), orderBy("postTime","desc"));
-    console.log("holaaa")
+    //console.log("holaaa")
     getDocs(q1).then(docSnap => {
       const posts1 = [];
       docSnap.forEach((doc)=>{
         posts1.push({...doc.data(), id:doc.id})
         setPosts(posts1)
       })
-      console.log(posts1)
+      //console.log(posts1)
     })
       
     }

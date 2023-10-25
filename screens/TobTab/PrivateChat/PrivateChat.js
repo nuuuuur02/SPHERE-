@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Button, StyleSheet, FlatList } from 'react-native';
+import { db } from '../../../components/ConfigFirebase';
+import { query, collection, getDocs, orderBy } from "firebase/firestore";
 import {
     Container,
     Card,
@@ -11,62 +13,40 @@ import {
     PostTime,
     MessageText,
     TextSection,
-} from '../../../styles/GrupalChat/MessageStyles';
+} from '../../../styles/PrivateChat/MessageStyles';
 
-const Messages = [
-    {
-        id: '1',
-        userName: 'Kevin Hemsworth',
-        userImg: require('../../../assets/users/user-5.jpg'),
-        messageTime: '4 mins ago',
-        messageText:
-            'Hey there, this is my test for a post of my social app in React Native.',
-    },
-    {
-        id: '2',
-        userName: 'Karen Miller',
-        userImg: require('../../../assets/users/user-6.jpg'),
-        messageTime: '2 hours ago',
-        messageText:
-            'Hey there, this is my test for a post of my social app in React Native.',
-    },
-    {
-        id: '3',
-        userName: 'Christy Alex',
-        userImg: require('../../../assets/users/user-7.jpg'),
-        messageTime: '1 hours ago',
-        messageText:
-            'Hey there, this is my test for a post of my social app in React Native.',
-    },
-    {
-        id: '4',
-        userName: 'Austin Malone',
-        userImg: require('../../../assets/users/user-2.jpg'),
-        messageTime: '1 day ago',
-        messageText:
-            'Hey there, this is my test for a post of my social app in React Native.',
-    },
-    {
-        id: '5',
-        userName: 'Agatha Phillips',
-        userImg: require('../../../assets/users/user-8.jpg'),
-        messageTime: '2 days ago',
-        messageText:
-            'Hey there, this is my test for a post of my social app in React Native.',
-    },
-];
+const MessagesScreen = ({ navigation }) => {
 
-const MessagesScreen = ({navigation}) => {
+    const [messages, setGroups] = useState(null);
+
+    const fetchPosts = async () => {
+        const users = query((collection(db, "user")));//, orderBy("messageTime", "asc"));
+        //console.log("holaaa")
+        getDocs(users).then(docSnap => {
+            const users1 = [];
+            docSnap.forEach((doc) => {
+                users1.push({ ...doc.data(), id: doc.id })
+                setGroups(users1)
+            })
+            //console.log(users1)
+        })
+
+    }
+
+    useEffect(() => {
+        fetchPosts();
+    }, []);
+
     return (
         <Container>
-            <FlatList 
-                data={Messages}
+            <FlatList
+                data={messages}
                 keyExtractor={item=>item.id}
                 renderItem={({ item }) => (
                     <Card onPress={() => navigation.navigate('Chat', { userName: item.userName, userImg: item.userImg })}>
                         <UserInfo>
                             <UserImgWrapper>
-                                <UserImg source={item.userImg} />
+                                <UserImg source={{ uri: item.userImg }} />
                             </UserImgWrapper>
                             <TextSection>
                                 <UserInfoText>
