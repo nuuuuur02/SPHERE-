@@ -1,133 +1,85 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {View, ScrollView, Text, Button, StyleSheet} from 'react-native';
-import {Bubble, GiftedChat, Send} from 'react-native-gifted-chat';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View } from 'react-native';
+import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { storagebd, db } from '../../../components/ConfigFirebase';
-import { doc, setDoc, addDoc, collection, snapshotEqual, Timestamp, orderBy, serverTimestamp, updateDoc, getDoc } from "firebase/firestore";
+import { db } from '../../../components/ConfigFirebase';
+import { doc, updateDoc, getDoc } from "firebase/firestore";
 
 const ChatScreen = ({ route }) => {
-    const [messages, setMessages] = useState([]);
-    const { userName, userImg, item } = route.params;
 
-    const temporalAvatar = 'https://picsum.photos/200/300?grayscale';
+    const { item } = route.params;
+
+    const [messages, setMessages] = useState([]);
+
+    useEffect(() => {
+        fetchComments();
+    }, [item.id]);
 
     const truncateName = (name) => {
+        console.log("Name: ", name)
         const userNameSliced = name.split(' ');
         const firstName = userNameSliced[0];
         return firstName.length > 10 ? firstName.slice(0, 10) + "..." : firstName;
     };
 
-    const userNames = [];
-    userNames.push(userName);
-    userNames.push("Armand Putero Ballesteros");
+    //const truncatedUserNames = userNames.map((name) => truncateName(name));
 
-    const truncatedUserNames = userNames.map((name) => truncateName(name));
+    const postMessage = async (message) => {
 
-    function create(messages) {
-
-        addDoc(collection(db, "groups"), {
-            comments: messages,
-            userName: "Armand Putito",
-        })
-    }
-
-
-    const postMessages = async (message) => {
         try {
-            console.log("", item.id)
-            console.log(item)
-            console.log(message)
-            
-                const postId = item.id;
-                const postRef = doc(db, 'test', postId);
+            const postId = item.id;
+            const postRef = doc(db, 'groups', postId);
             const postDoc = await getDoc(postRef);
-            console.log(postDoc.exists())
             const postData = postDoc.data();
-            const currentMessages = postData.messages || [];
+            const currentMessages = postData && postData._messages ? postData._messages : [];
 
-                    // Agregar el comentario con información del usuario
-                    const user = {
-                        userName: "pepe", // Reemplaza 'NombreUsuario' con el nombre real del usuario
-                        //userImg: item.userImg, // Reemplaza 'URLImagenUsuario' con la URL de la imagen real del usuario
-                    };
-                    console.log(user)
+            _messages = currentMessages.concat(message);
 
-                    currentMessages.push( "A", "B" );
-                    await updateDoc(postRef, { messages: currentMessages });
-                    console.log("currentMessages: ", currentMessages)
-                    console.log("DB: ", db)
-            } catch (error) {
-                console.error('Error al agregar el comentario: ', error);
-            }
+            await updateDoc(postRef, { _messages });
+
+        } catch (error) {
+            console.error('Error al agregar el comentario: ', error);
+        }
     }
 
+    const fetchComments = async () => {
 
-    useEffect(() => {
-        setMessages([
-            {
-                _id: 6,
-                text: 'Nice XDDDDD',
-                createdAt: new Date(),
-                user: {
-                    _id: 3,
-                    name: truncatedUserNames[1],
-                    avatar: temporalAvatar,
-                },
-            },
-            {
-                _id: 5,
-                text: 'Oh fuck',
-                createdAt: new Date(),
-                user: {
-                    _id: 2,
-                    name: truncatedUserNames[0],
-                    avatar: userImg,
-                },
-            },
-            {
-                _id: 4,
-                text: 'Hi, I\'m fine, and you?',
-                createdAt: new Date(),
-                user: {
-                    _id: 2,
-                    name: truncatedUserNames[0],
-                    avatar: userImg,
-                },
-            },
-            {
-                _id: 3,
-                text: 'How are you?',
-                createdAt: new Date(),
-                user: {
-                    _id: 1,
-                },
-            },
-            {
-                _id: 2,
-                text: 'Hi',
-                createdAt: new Date(),
-                user: {
-                    _id: 3,
-                    name: truncatedUserNames[1],
-                    avatar: temporalAvatar,
-                },
-            },
-            {
-                _id: 1,
-                text: 'Nice',
-                createdAt: new Date(),
-                user: {
-                    _id: 1,
-                },
-            },
-        ]);
-    }, [userImg]);
+        try {
+            const postId = item.id;
+            const postRef = doc(db, 'groups', postId);
+            const postDoc = await getDoc(postRef);
 
-    const onSend = useCallback((messages = []) => {
+            if (postDoc.exists()) {
+                const postData = postDoc.data();
+                const postComments = postData && postData._messages ? postData._messages : [];
+
+                const messages = postComments.map((comment) => {
+                    const _messages = comment;
+                    const truncatedUserName = truncateName(_messages.user.name);
+                    return {
+                        _id: _messages._id,
+                        text: _messages.text,
+                        createdAt: new Date(_messages.createdAt.seconds * 1000),
+                        user: truncatedUserName,
+                    };
+                });
+
+                setMessages(messages.slice().reverse())
+            }
+        } catch (error) {
+            console.error('Error al cargar los comentarios: ', error);
+        }
+    }
+
+    const onSend = useCallback((messageText = []) => {
+
+        postMessage(messageText);
+
         setMessages((previousMessages) =>
-            GiftedChat.append(previousMessages, messages),
+            GiftedChat.append(previousMessages, messageText),
         );
+
     }, []);
 
     const renderSend = (props) => {
@@ -167,7 +119,7 @@ const ChatScreen = ({ route }) => {
     };
 
     const scrollToBottomComponent = () => {
-        return(
+        return (
             <FontAwesome name='angle-double-down' size={25} color='#333' />
         );
     }
@@ -175,12 +127,9 @@ const ChatScreen = ({ route }) => {
     return (
         <GiftedChat
             messages={messages}
-            onSend={(messages) => {
-                postMessages(messages)
-                onSend(messages)
-            }}
+            onSend={(messages) => onSend(messages)}
             user={{
-                _id: 1,
+                _id: 1, // Cambiar id al usuario actual que haya iniciado sesión en la base de datos
             }}
             renderBubble={renderBubble}
             alwaysShowSend

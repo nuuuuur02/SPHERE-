@@ -1,6 +1,7 @@
 {
   "ExpandedNodes": [
     "",
+    "\\components",
     "\\navigation",
     "\\screens",
     "\\screens\\TobTab",
@@ -8,6 +9,5 @@
     "\\styles",
     "\\styles\\GrupalChat"
   ],
-  "SelectedNode": "\\screens\\AddPostScreen.js",
   "PreviewInSolutionExplorer": false
 }
