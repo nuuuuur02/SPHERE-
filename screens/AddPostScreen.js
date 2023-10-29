@@ -227,7 +227,7 @@ const choosePhotoFromLibrary = async () => {
 
       {image != null ? <AddImage source={{ uri: image }} /> : null}
       <InputField
-        placeholder="Va a publicar o que perro triple ijueputa"
+        placeholder="Buen dia"
         multiline
         numberOfLines={4}
         value={post}

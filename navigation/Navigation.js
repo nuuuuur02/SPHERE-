@@ -52,8 +52,9 @@ function HomeGroup() {
             <Home.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
             <Home.Screen name="AddPostScreen" component={AddPostScreen} options={optionsAdd} />
             <Home.Screen name="AddCommentScreen" component={AddCommentScreen} options={optionsAdd} />
-
+            
         </Home.Navigator>
+        
     )
 }
 
@@ -66,7 +67,7 @@ function TobTabGroup() {
             <TobTab.Screen name="Comunidad" component={HomeGroup} />
             <TobTab.Screen name="Chats" component={ChatsScreen} />
             <TobTab.Screen name="Grupos" component={GrupalChat} />
-
+            
         </TobTab.Navigator>
     )
 }
@@ -92,13 +93,7 @@ const Stack = createNativeStackNavigator();
 function StackGroup() {
     return (
         <Stack.Navigator>
-            <Stack.Screen
-                    name="Chat"
-                    component={ChatScreen}
-                    options={({ route }) => ({
-                        title: route.params.userName,
-                    })}
-                />
+            
             <Stack.Screen name="HomeMain" component={TabGroup}
                 options=
                 {{
@@ -114,6 +109,11 @@ function StackGroup() {
                     },
                 }}
             />
+            <Stack.Screen
+                    name="Chat"
+                    component={ChatScreen}
+                   
+                />
         </Stack.Navigator>
     )
 }
