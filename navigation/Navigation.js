@@ -11,7 +11,6 @@ import { useNavigation } from "@react-navigation/native";
 import { useLayoutEffect } from "react";
 
 //Screens
-import ComunidadScreen from "../screens/Tab/ComunidadScreen";
 import PictosScreen from "../screens/Tab/PictosScreen";
 import CalendarioScreen from "../screens/Tab/CalendarioScreen";
 import PerfilScreen from "../screens/Tab/PerfilScreen";
@@ -79,7 +78,9 @@ const Drawer = createDrawerNavigator();
 function DrawerGroup() {
     return (
         <Drawer.Navigator /*screenOptions={{ headerShown: false }}*/>
-            <Drawer.Screen name="StackGroup" component={StackGroup} options={{ headerShown: false }} />
+            <Drawer.Screen name="Home" component={StackGroup} options={{ headerShown: false }}
+
+            />
             <Drawer.Screen name="Ajustes" component={AjustesScreen} />
         </Drawer.Navigator>
     )
@@ -91,13 +92,27 @@ const Stack = createNativeStackNavigator();
 function StackGroup() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="HomeMain" component={TabGroup} options={{ headerShown: false }} />
             <Stack.Screen
-                name="Chat"
-                component={ChatScreen}
-                options={({ route }) => ({
-                    title: route.params.userName,
-                })}
+                    name="Chat"
+                    component={ChatScreen}
+                    options={({ route }) => ({
+                        title: route.params.userName,
+                    })}
+                />
+            <Stack.Screen name="HomeMain" component={TabGroup}
+                options=
+                {{
+                    title: 'Sphere',
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                        color: '#2e64e5',
+                        fontSize: 18,
+                    },
+                    headerStyle: {
+                        shadowColor: '#fff',
+                        elevation: 0,
+                    },
+                }}
             />
         </Stack.Navigator>
     )
@@ -107,18 +122,6 @@ function StackGroup() {
 const Tab = createBottomTabNavigator();
 
 function TabGroup() {
-    const defaultSphere = {
-        title: 'Sphere',
-        headerTitleAlign: 'center',
-        headerTitleStyle: {
-            color: '#2e64e5',
-            fontSize: 18,
-        },
-        headerStyle: {
-            shadowColor: '#fff',
-            elevation: 0,
-        },
-    };
 
     const navigation = useNavigation();
 
@@ -137,7 +140,7 @@ function TabGroup() {
 
     return (
         <Tab.Navigator
-            
+
             screenOptions={({ route }) => ({
                 tabBarShowLabel: false,
                 tabBarIcon: ({ color, focused, size }) => {
@@ -152,10 +155,10 @@ function TabGroup() {
                 },
             })}
         >
-            <Tab.Screen name="Home" component={TobTabGroup} options={ defaultSphere } />
-            <Tab.Screen name="Pictos" component={PictosScreen} options={ defaultSphere } />
-            <Tab.Screen name="Calendario" component={CalendarioScreen} options={ defaultSphere } />
-            <Tab.Screen name="Perfil" component={PerfilScreen} options={ defaultSphere } />
+            <Tab.Screen name="Home" component={TobTabGroup} options={{ headerShown: false}}  />
+            <Tab.Screen name="Pictos" component={PictosScreen} options={{ headerShown: false }} />
+            <Tab.Screen name="Calendario" component={CalendarioScreen} options={{ headerShown: false }} />
+            <Tab.Screen name="Perfil" component={PerfilScreen} options={{ headerShown: false }} />
         </Tab.Navigator>
     )
 }
