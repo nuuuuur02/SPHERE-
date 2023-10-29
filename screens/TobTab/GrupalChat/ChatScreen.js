@@ -13,7 +13,7 @@ const ChatScreen = ({ route }) => {
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
-        fetchComments();
+        fetchMessages();
     }, [item.id]);
 
     const truncateName = (name) => {
@@ -22,8 +22,6 @@ const ChatScreen = ({ route }) => {
         const firstName = userNameSliced[0];
         return firstName.length > 10 ? firstName.slice(0, 10) + "..." : firstName;
     };
-
-    //const truncatedUserNames = userNames.map((name) => truncateName(name));
 
     const postMessage = async (message) => {
 
@@ -43,7 +41,7 @@ const ChatScreen = ({ route }) => {
         }
     }
 
-    const fetchComments = async () => {
+    const fetchMessages = async () => {
 
         try {
             const postId = item.id;
@@ -52,16 +50,19 @@ const ChatScreen = ({ route }) => {
 
             if (postDoc.exists()) {
                 const postData = postDoc.data();
-                const postComments = postData && postData._messages ? postData._messages : [];
+                const postMessages = postData && postData._messages ? postData._messages : [];
 
-                const messages = postComments.map((comment) => {
-                    const _messages = comment;
+                const messages = postMessages.map((message) => {
+                    const _messages = message;
                     const truncatedUserName = truncateName(_messages.user.name);
                     return {
                         _id: _messages._id,
                         text: _messages.text,
                         createdAt: new Date(_messages.createdAt.seconds * 1000),
-                        user: truncatedUserName,
+                        user: {
+                            ..._messages.user,
+                            name: truncatedUserName,
+                        }
                     };
                 });
 
