@@ -93,7 +93,6 @@ const Stack = createNativeStackNavigator();
 function StackGroup() {
     return (
         <Stack.Navigator>
-            
             <Stack.Screen name="HomeMain" component={TabGroup}
                 options=
                 {{
@@ -110,10 +109,12 @@ function StackGroup() {
                 }}
             />
             <Stack.Screen
-                    name="Chat"
-                    component={ChatScreen}
-                   
-                />
+                name="Chat"
+                component={ChatScreen}
+                options={({ route }) => ({
+                    title: route.params.item.userName,
+                })}
+            />
         </Stack.Navigator>
     )
 }

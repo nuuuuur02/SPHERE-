@@ -129,7 +129,7 @@ const ChatScreen = ({ route }) => {
             messages={messages}
             onSend={(messages) => onSend(messages)}
             user={{
-                _id: 3,         // Cambiar id al usuario actual que haya iniciado sesi�n en la base de datos
+                _id: 1,         // Cambiar id al usuario actual que haya iniciado sesi�n en la base de datos
                 name: "user",   // Cambiar user al usuario actual que haya iniciado sesi�n en la base de datos
                 avatar: "https://firebasestorage.googleapis.com/v0/b/niideapepe-45402.appspot.com/o/Images%2FGroups%2FLiax.jpg?alt=media&token=237b919f-0d72-46c3-a25f-06cc591cba13",
                                 // Cambiar avatar al usuario actual que haya iniciado sesi�n en la base de datos
