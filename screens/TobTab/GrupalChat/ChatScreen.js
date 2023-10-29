@@ -17,7 +17,6 @@ const ChatScreen = ({ route }) => {
     }, [item.id]);
 
     const truncateName = (name) => {
-        console.log("Name: ", name)
         const userNameSliced = name.split(' ');
         const firstName = userNameSliced[0];
         return firstName.length > 10 ? firstName.slice(0, 10) + "..." : firstName;
@@ -130,7 +129,10 @@ const ChatScreen = ({ route }) => {
             messages={messages}
             onSend={(messages) => onSend(messages)}
             user={{
-                _id: 1, // Cambiar id al usuario actual que haya iniciado sesión en la base de datos
+                _id: 1,         // Cambiar id al usuario actual que haya iniciado sesión en la base de datos
+                name: "user",   // Cambiar user al usuario actual que haya iniciado sesión en la base de datos
+                avatar: "https://firebasestorage.googleapis.com/v0/b/niideapepe-45402.appspot.com/o/Images%2FGroups%2FLiax.jpg?alt=media&token=237b919f-0d72-46c3-a25f-06cc591cba13",
+                                // Cambiar avatar al usuario actual que haya iniciado sesión en la base de datos
             }}
             renderBubble={renderBubble}
             alwaysShowSend
