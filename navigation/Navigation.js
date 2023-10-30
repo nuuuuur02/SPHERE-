@@ -12,6 +12,7 @@ import { useLayoutEffect } from "react";
 
 //Screens
 import PictosScreen from "../screens/Tab/PictosScreen";
+import Descripcion from "../screens/Tab/Descripcion";
 import CalendarioScreen from "../screens/Tab/CalendarioScreen";
 import PerfilScreen from "../screens/Tab/PerfilScreen";
 import AjustesScreen from "../screens/Drawer/AjustesScreen";
@@ -26,6 +27,7 @@ import AddPostScreen from '../screens/AddPostScreen';
 
 //Icons
 import { FontAwesome } from '@expo/vector-icons';
+import Principal from "../screens/Tab/PictosScreen";
 
 //Home
 const Home = createNativeStackNavigator();
@@ -114,6 +116,10 @@ function StackGroup() {
                 options={({ route }) => ({
                     title: route.params.item.userName,
                 })}
+            />
+            <Stack.Screen
+                name="Descripcion"
+                component={Descripcion}
             />
         </Stack.Navigator>
     )
