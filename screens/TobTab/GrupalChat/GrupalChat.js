@@ -14,6 +14,7 @@ import {
     MessageText,
     TextSection,
 } from '../../../styles/GrupalChat/MessageStyles';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const MessagesScreen = ({ navigation }) => {
 
@@ -55,6 +56,14 @@ const MessagesScreen = ({ navigation }) => {
                         </UserInfo>
                     </Card>
                 )}
+            />
+            <FontAwesome5.Button
+                name="plus"
+                size={22}
+                backgroundColor="#fff"
+                color="#2e64e5"
+                onPress={() => navigation.navigate('AddPostScreen')}
+                style={{ marginBottom: 10 }}
             />
         </Container>
     );
