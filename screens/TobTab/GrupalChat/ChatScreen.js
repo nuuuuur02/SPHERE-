@@ -4,7 +4,7 @@ import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { db } from '../../../components/ConfigFirebase';
-import { doc, updateDoc, getDoc } from "firebase/firestore";
+import { doc, updateDoc, getDoc, Timestamp } from "firebase/firestore";
 
 const ChatScreen = ({ route }) => {
 
@@ -32,8 +32,9 @@ const ChatScreen = ({ route }) => {
             const currentMessages = postData && postData._messages ? postData._messages : [];
 
             _messages = currentMessages.concat(message);
+            messageTime = Timestamp.now().toDate();
 
-            await updateDoc(postRef, { _messages });
+            await updateDoc(postRef, { _messages, messageTime });
 
         } catch (error) {
             console.error('Error al agregar el comentario: ', error);
@@ -61,7 +62,10 @@ const ChatScreen = ({ route }) => {
                         user: {
                             ..._messages.user,
                             name: truncatedUserName,
-                        }
+                        },
+                        image: _messages.image,
+                        sent: _messages.sent,
+                        received: _messages.received,
                     };
                 });
 

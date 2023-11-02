@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList } from 'react-native';
 import { db } from '../../../components/ConfigFirebase';
-import { query, collection, getDocs, orderBy } from "firebase/firestore";
+import { query, collection, getDocs, orderBy, onSnapshot } from "firebase/firestore";
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {
     Container,
     Card,
@@ -14,7 +15,6 @@ import {
     MessageText,
     TextSection,
 } from '../../../styles/GrupalChat/MessageStyles';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const MessagesScreen = ({ navigation }) => {
 
@@ -25,14 +25,16 @@ const MessagesScreen = ({ navigation }) => {
     }, []);
 
     const fetchPosts = async () => {
-        const groups = query((collection(db, 'groups')));//, orderBy("messageTime", "asc"));
-        getDocs(groups).then(docSnap => {
+        const groups = query((collection(db, 'groups')), orderBy("messageTime", "desc"));
+        const unsubscribe = onSnapshot(groups, (querySnapshot) => {
             const everyGroup = [];
-            docSnap.forEach((doc) => {
-                everyGroup.push({ ...doc.data(), id: doc.id })
-                setGroups(everyGroup)
-            })
-        })
+            querySnapshot.forEach((doc) => {
+                everyGroup.push({ ...doc.data(), id: doc.id });
+            });
+            setGroups(everyGroup);
+        });
+
+        return () => unsubscribe();
     }
 
     return (
@@ -49,7 +51,7 @@ const MessagesScreen = ({ navigation }) => {
                             <TextSection>
                                 <UserInfoText>
                                     <UserName>{item.userName}</UserName>
-                                    <PostTime>{item.messageTime}</PostTime>
+                                    <PostTime>{item.messageTime.toDate().toLocaleString()}</PostTime>
                                 </UserInfoText>
                                 <MessageText>{item.messageText}</MessageText>
                             </TextSection>
@@ -62,7 +64,7 @@ const MessagesScreen = ({ navigation }) => {
                 size={22}
                 backgroundColor="#fff"
                 color="#2e64e5"
-                onPress={() => navigation.navigate('AddPostScreen')}
+                onPress={() => navigation.navigate('CreateChat')}
                 style={{ marginBottom: 10 }}
             />
         </Container>

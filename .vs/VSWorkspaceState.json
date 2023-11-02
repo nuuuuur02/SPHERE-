@@ -1,11 +1,12 @@
 {
   "ExpandedNodes": [
     "",
+    "\\navigation",
     "\\screens",
     "\\screens\\TobTab",
     "\\screens\\TobTab\\GrupalChat",
-    "\\styles",
-    "\\styles\\GrupalChat"
+    "\\styles"
   ],
+  "SelectedNode": "\\package-lock.json",
   "PreviewInSolutionExplorer": false
 }
