@@ -17,25 +17,25 @@ import {
 
 const MessagesScreen = ({ navigation }) => {
 
-    const [messages, setGroups] = useState(null);
+    const [messages, setChats] = useState(null);
 
-    const fetchPosts = async () => {
-        const users = query((collection(db, "user")));//, orderBy("messageTime", "asc"));
+    useEffect(() => {
+        fetchChats();
+    }, []);
+
+    const fetchChats = async () => {
+        const chats = query((collection(db, "chats")));//, orderBy("messageTime", "asc"));
         //console.log("holaaa")
-        getDocs(users).then(docSnap => {
-            const users1 = [];
+        getDocs(chats).then(docSnap => {
+            const everyChat = [];
             docSnap.forEach((doc) => {
-                users1.push({ ...doc.data(), id: doc.id })
-                setGroups(users1)
+                everyChat.push({ ...doc.data(), id: doc.id })
+                setChats(everyChat)
             })
             //console.log(users1)
         })
 
     }
-
-    useEffect(() => {
-        fetchPosts();
-    }, []);
 
     return (
         <Container>
@@ -43,7 +43,7 @@ const MessagesScreen = ({ navigation }) => {
                 data={messages}
                 keyExtractor={item=>item.id}
                 renderItem={({ item }) => (
-                    <Card onPress={() => navigation.navigate('Chat', { userName: item.userName, userImg: item.userImg })}>
+                    <Card onPress={() => navigation.navigate('Private Chat', { item })}>
                         <UserInfo>
                             <UserImgWrapper>
                                 <UserImg source={{ uri: item.userImg }} />

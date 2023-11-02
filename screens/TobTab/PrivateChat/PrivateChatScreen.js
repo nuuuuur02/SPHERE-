@@ -6,7 +6,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { db } from '../../../components/ConfigFirebase';
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 
-const ChatScreen = ({ route }) => {
+const PrivateChatScreen = ({ route }) => {
 
     const { item } = route.params;
     
@@ -26,7 +26,7 @@ const ChatScreen = ({ route }) => {
 
         try {
             const postId = item.id;
-            const postRef = doc(db, 'groups', postId);
+            const postRef = doc(db, 'chats', postId);
             const postDoc = await getDoc(postRef);
             const postData = postDoc.data();
             const currentMessages = postData && postData._messages ? postData._messages : [];
@@ -36,7 +36,7 @@ const ChatScreen = ({ route }) => {
             await updateDoc(postRef, { _messages });
 
         } catch (error) {
-            console.error('Error al agregar el comentario: ', error);
+            console.error('Error al enviar el mensaje: ', error);
         }
     }
 
@@ -44,7 +44,7 @@ const ChatScreen = ({ route }) => {
 
         try {
             const postId = item.id;
-            const postRef = doc(db, 'groups', postId);
+            const postRef = doc(db, 'chats', postId);
             const postDoc = await getDoc(postRef);
 
             if (postDoc.exists()) {
@@ -68,7 +68,7 @@ const ChatScreen = ({ route }) => {
                 setMessages(messages.slice().reverse())
             }
         } catch (error) {
-            console.error('Error al cargar los comentarios: ', error);
+            console.error('Error al cargar los mensajes: ', error);
         }
     }
 
@@ -144,4 +144,4 @@ const ChatScreen = ({ route }) => {
     );
 };
 
-export default ChatScreen;
+export default PrivateChatScreen;

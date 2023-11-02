@@ -19,6 +19,7 @@ import AjustesScreen from "../screens/Drawer/AjustesScreen";
 import ChatsScreen from "../screens/TobTab/ChatsScreen";
 
 import PrivateChat from "../screens/TobTab/PrivateChat/PrivateChat";
+import PrivateChatScreen from "../screens/TobTab/PrivateChat/PrivateChatScreen";
 import GrupalChat from "../screens/TobTab/GrupalChat/GrupalChat";
 import ChatScreen from "../screens/TobTab/GrupalChat/ChatScreen";
 
@@ -96,6 +97,13 @@ function StackGroup() {
             <Stack.Screen
                 name="Chat"
                 component={ChatScreen}
+                options={({ route }) => ({
+                    title: route.params.userName,
+                })}
+            />
+            <Stack.Screen
+                name="Private Chat"
+                component={PrivateChatScreen}
                 options={({ route }) => ({
                     title: route.params.userName,
                 })}
