@@ -16,7 +16,11 @@ import Descripcion from "../screens/Tab/Descripcion";
 import CalendarioScreen from "../screens/Tab/CalendarioScreen";
 import PerfilScreen from "../screens/Tab/PerfilScreen";
 import AjustesScreen from "../screens/Drawer/AjustesScreen";
-import ChatsScreen from "../screens/TobTab/ChatsScreen";
+
+//diario
+import PrincipalEvento from "../screens/Tab/PrincipalEvento";
+import DescripcionEvento from "../screens/Tab/DescripcionEvento"
+import Diario from "../screens/Tab/Diario"
 
 import PrivateChat from "../screens/TobTab/PrivateChat/PrivateChat";
 import PrivateChatScreen from "../screens/TobTab/PrivateChat/PrivateChatScreen";
@@ -130,6 +134,14 @@ function StackGroup() {
                     title: route.params.userName,
                 })}
             />
+            <Stack.Screen
+                name="Descripcion de Evento"
+                component={DescripcionEvento}
+            />
+            <Stack.Screen
+                name="Diario"
+                component={Diario}
+            />
         </Stack.Navigator>
     )
 }
@@ -173,7 +185,7 @@ function TabGroup() {
         >
             <Tab.Screen name="Home" component={TobTabGroup} options={{ headerShown: false}}  />
             <Tab.Screen name="Pictos" component={PictosScreen} options={{ headerShown: false }} />
-            <Tab.Screen name="Calendario" component={CalendarioScreen} options={{ headerShown: false }} />
+            <Tab.Screen name="Calendario" component={PrincipalEvento} options={{ headerShown: false }} />
             <Tab.Screen name="Perfil" component={PerfilScreen} options={{ headerShown: false }} />
         </Tab.Navigator>
     )
