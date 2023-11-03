@@ -1,26 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {
-    Container,
-} from '../../../styles/GrupalChat/MessageStyles';
 import { TextInput, View, Text, StyleSheet } from 'react-native';
+import { db } from '../../../components/ConfigFirebase';
+import { query, collection, addDoc } from "firebase/firestore";
 
 const CreateChat = ({ navigation }) => {
+    const [nameGroup, onChangeName] = useState('');
+    const [description, onChangeDescription] = useState('');
+    const [photo, onChangePhoto] = useState('');
+    const [users, onChangeUsers] = useState('');
 
+    const groups = query(collection(db, 'groups'));
 
+    const fetchPosts = async () => {
+        //const groups = query(collection(db, 'groups'));
+    }
+
+    const AddGroup = () => {
+
+        const groups = query(collection(db, 'groups'));
+
+        const newGroup = {
+            userName: nameGroup,
+            messageText: description,
+            userImg: photo,
+            messageTime: new Date(),
+        };
+
+        addDoc(groups, newGroup)
+    }
     
     return (
         <View style={styles.container}>
-            <Input property="Nombre" />
-            <Input property="Descripción" />
-            <Input property="Foto" />
-            <Input property="Usuarios" />
+            <Input property="Nombre" onChangeText={onChangeName} value={nameGroup} />
+            <Input property="Descripción" onChangeText={onChangeDescription} value={description} />
+            <Input property="Foto" onChangeText={onChangePhoto} value={photo} />
+            <Input property="Usuarios" onChangeText={onChangeUsers} value={users} />
             <FontAwesome5.Button
                 name="plus-circle"
                 size={40}
                 backgroundColor="#fff"
                 color="#2e64e5"
-                onPress={() => navigation.navigate('Grupos')}
+                onPress={() => {
+                    AddGroup()
+                    navigation.navigate('Grupos')
+                }}
                 style={{
                     marginBottom: 0,
                     alignItems: 'center',
@@ -35,7 +59,11 @@ const Input = props => {
     return (
         <>
             <Text style={styles.boldText}>{ props.property }:</Text>
-            <TextInput style={styles.inputField} />
+            <TextInput
+                style={styles.inputField}
+                onChangeText={ props.onChangeText }
+                value={ props.value }
+            />
         </>
     )
 }

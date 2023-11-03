@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList } from 'react-native';
 import { db } from '../../../components/ConfigFirebase';
-import { query, collection, getDocs, orderBy, onSnapshot } from "firebase/firestore";
+import { query, collection, orderBy, onSnapshot } from "firebase/firestore";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {
     Container,
@@ -18,15 +18,15 @@ import {
 
 const MessagesScreen = ({ navigation }) => {
 
-    const [messages, setGroups] = useState(null);
+    const [groups, setGroups] = useState(null);
 
     useEffect(() => {
         fetchPosts();
     }, []);
 
     const fetchPosts = async () => {
-        const groups = query((collection(db, 'groups')), orderBy("messageTime", "desc"));
-        const unsubscribe = onSnapshot(groups, (querySnapshot) => {
+        const localGroups = query((collection(db, 'groups')), orderBy("messageTime", "desc"));
+        const unsubscribe = onSnapshot(localGroups, (querySnapshot) => {
             const everyGroup = [];
             querySnapshot.forEach((doc) => {
                 everyGroup.push({ ...doc.data(), id: doc.id });
@@ -40,7 +40,7 @@ const MessagesScreen = ({ navigation }) => {
     return (
         <Container>
             <FlatList
-                data={messages}
+                data={groups}
                 keyExtractor={item=>item.id}
                 renderItem={({ item }) => (
                     <Card onPress={() => navigation.navigate('Chat', { item })}>
