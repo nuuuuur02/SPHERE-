@@ -26,6 +26,7 @@ import PrivateChat from "../screens/TobTab/PrivateChat/PrivateChat";
 import PrivateChatScreen from "../screens/TobTab/PrivateChat/PrivateChatScreen";
 import GrupalChat from "../screens/TobTab/GrupalChat/GrupalChat";
 import ChatScreen from "../screens/TobTab/GrupalChat/ChatScreen";
+import CreateChat from "../screens/TobTab/GrupalChat/CreateChat";
 
 import HomeScreen from '../screens/HomeScreen';
 import AddCommentScreen from '../screens/AddCommentScreen';
@@ -75,7 +76,6 @@ function TobTabGroup() {
             <TobTab.Screen name="Comunidad" component={HomeGroup} />
             <TobTab.Screen name="Chats" component={PrivateChat} />
             <TobTab.Screen name="Grupos" component={GrupalChat} />
-            
         </TobTab.Navigator>
     )
 }
@@ -123,6 +123,7 @@ function StackGroup() {
                     title: route.params.item.userName,
                 })}
             />
+            <Stack.Screen name="CreateChat" component={CreateChat} />
             <Stack.Screen
                 name="Descripcion"
                 component={Descripcion}
