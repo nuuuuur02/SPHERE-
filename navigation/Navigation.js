@@ -32,6 +32,10 @@ import HomeScreen from '../screens/HomeScreen';
 import AddCommentScreen from '../screens/AddCommentScreen';
 import AddPostScreen from '../screens/AddPostScreen';
 
+//Login/User
+import LoginScreen from "../screens/LoginScreen";
+import RegisterScreen from "../screens/RegisterScreen";
+
 //Icons
 import { FontAwesome } from '@expo/vector-icons';
 import Principal from "../screens/Tab/PictosScreen";
