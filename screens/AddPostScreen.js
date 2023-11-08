@@ -161,7 +161,7 @@ const choosePhotoFromLibrary = async () => {
                 'Your post has been published Successfully!',
               );*/
               setPost(null);
-              navigation.navigate('HomeScreen')
+              navigation.navigate('Comunidad')
 
             }).catch((e) => {
               console.log(e)
@@ -201,7 +201,7 @@ const choosePhotoFromLibrary = async () => {
         'Your post has been published Successfully!',
       );*/
       setPost(null);
-      navigation.navigate('HomeScreen')
+      navigation.navigate('Comunidad')
 
     }).catch((e) => {
       console.log(e)
