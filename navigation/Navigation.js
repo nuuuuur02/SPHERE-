@@ -40,44 +40,13 @@ import RegisterScreen from "../screens/RegisterScreen";
 import { FontAwesome } from '@expo/vector-icons';
 import Principal from "../screens/Tab/PictosScreen";
 
-//Home
-const Home = createNativeStackNavigator();
-
-function HomeGroup() {
-    const optionsAdd = {
-        title: '',
-        headerTitleAlign: 'center',
-        headerStyle: {
-            backgroundColor: '#2e64e515',
-            shadowColor: '#2e64e515',
-            elevation: 0,
-        },
-        headerBackTitleVisible: false,
-        headerBackImage: () => (
-            <View style={{ marginLeft: 15 }}>
-                <Ionicons name="arrow-back" size={25} color="#2e64e5" />
-            </View>
-        ),
-    }
-
-    return (
-        <Home.Navigator>
-            <Home.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
-            <Home.Screen name="AddPostScreen" component={AddPostScreen} options={optionsAdd} />
-            <Home.Screen name="AddCommentScreen" component={AddCommentScreen} options={optionsAdd} />
-            
-        </Home.Navigator>
-        
-    )
-}
-
 //TopTab
 const TobTab = createMaterialTopTabNavigator();
 
 function TobTabGroup() {
     return (
         <TobTab.Navigator>
-            <TobTab.Screen name="Comunidad" component={HomeGroup} />
+            <TobTab.Screen name="Comunidad" component={HomeScreen} />
             <TobTab.Screen name="Chats" component={PrivateChat} />
             <TobTab.Screen name="Grupos" component={GrupalChat} />
         </TobTab.Navigator>
@@ -103,6 +72,22 @@ function DrawerGroup() {
 const Stack = createNativeStackNavigator();
 
 function StackGroup() {
+    const optionsAdd = {
+        title: '',
+        headerTitleAlign: 'center',
+        headerStyle: {
+            backgroundColor: '#2e64e515',
+            shadowColor: '#2e64e515',
+            elevation: 0,
+        },
+        headerBackTitleVisible: false,
+        headerBackImage: () => (
+            <View style={{ marginLeft: 15 }}>
+                <Ionicons name="arrow-back" size={25} color="#2e64e5" />
+            </View>
+        ),
+    }
+
     return (
         <Stack.Navigator>
             <Stack.Screen name="HomeMain" component={TabGroup}
@@ -120,6 +105,8 @@ function StackGroup() {
                     },
                 }}
             />
+            <Stack.Screen name="AddPostScreen" component={AddPostScreen} options={optionsAdd} />
+            <Stack.Screen name="AddCommentScreen" component={AddCommentScreen} options={optionsAdd} />
             <Stack.Screen
                 name="Chat"
                 component={ChatScreen}

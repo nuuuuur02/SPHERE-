@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react'
 import { db } from '../components/ConfigFirebase';
 import { updateDoc, getDoc, doc } from "firebase/firestore";
 import moment from 'moment';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import DropMenuReport from '../components/DropMenuReport';
 import {
 
     Card,
@@ -17,6 +19,7 @@ import {
     Interaction,
     InteractionText,
     Divider,
+    CardCom
 } from '../styles/FeedStyles';
 
 const AddCommentScreen = ({ route }) => {
@@ -24,8 +27,9 @@ const AddCommentScreen = ({ route }) => {
     const [comment, setComment] = useState('');
     const [isCommentEmpty, setIsCommentEmpty] = useState(true);
     const [comments, setComments] = useState([]);
+    const [openMenus, setOpenMenus] = useState({});
+    const [commReport, setCountReport] = useState(0);
 
-    // Cargar los comentarios cuando el componente se monta
     useEffect(() => {
         fetchComments();
     }, []);
@@ -51,6 +55,44 @@ const AddCommentScreen = ({ route }) => {
         setIsCommentEmpty(txt === '');
     }
 
+    const toggleMenu = (index) => {
+        // Cerrar todos los menús abiertos
+        const newOpenMenus = {};
+        Object.keys(openMenus).forEach((key) => {
+            newOpenMenus[key] = false;
+        });
+
+        // Abrir el menú correspondiente al índice seleccionado
+        newOpenMenus[index] = !openMenus[index];
+        setOpenMenus(newOpenMenus);
+    }
+
+    const addCountReport = async (commentIndex) => {
+        try {
+            if (commentIndex < comments.length) {
+                // Verifica que el índice esté dentro de los límites válidos
+                comments[commentIndex].user.commReport += 1;
+
+                const postId = item.id;
+                const postRef = doc(db, 'posts', postId);
+                const postDoc = await getDoc(postRef);
+
+                if (postDoc.exists()) {
+                    const postData = postDoc.data();
+                    const currentComments = postData.comments || [];
+
+                    currentComments[commentIndex] = comments[commentIndex];
+
+                    await updateDoc(postRef, { comments: currentComments });
+                }
+            } else {
+                console.error('Índice de comentario no válido:', commentIndex);
+            }
+        } catch (error) {
+            console.error('Error al actualizar el contador de commReport:', error);
+        }
+    }
+
     const postComment = async () => {
         if (!isCommentEmpty) {
             try {
@@ -64,8 +106,9 @@ const AddCommentScreen = ({ route }) => {
 
                     // Agregar el comentario con información del usuario
                     const user = {
-                        userName: item.userName, // Reemplaza 'NombreUsuario' con el nombre real del usuario
-                        userImg: item.userImg, // Reemplaza 'URLImagenUsuario' con la URL de la imagen real del usuario
+                        userName: item.userName,
+                        userImg: item.userImg,
+                        commReport: 0,
                     };
 
                     currentComments.push({ comment, user });
@@ -76,7 +119,7 @@ const AddCommentScreen = ({ route }) => {
                 }
                 fetchComments();
             } catch (error) {
-                console.error('Error al agregar el comentario:', error);
+                console.error('Error awl agregar el comentario:', error);
             }
         }
     }
@@ -114,15 +157,27 @@ const AddCommentScreen = ({ route }) => {
                     } else {
                         // Renderiza los comentarios
                         return (
-                            <Card>
+                            <CardCom>
                                 <UserInfo>
                                     <UserImg source={{ uri: item.user.userImg }} />
                                     <UserInfoText>
                                         <UserName>{item.user.userName}</UserName>
-                                        <PostText>{item.comment}</PostText>
+
                                     </UserInfoText>
+                                    <View style={{ flex: 1 }}></View>
+                                    <Interaction onPress={() => toggleMenu(index)}>
+                                        <Ionicons name="ellipsis-vertical" size={25} color="#333" />
+                                    </Interaction>
                                 </UserInfo>
-                            </Card>
+
+                                <PostText>{item.comment}</PostText>
+                                <DropMenuReport
+                                    isVisible={openMenus[index]}
+                                    onReportPress={() => addCountReport(comments.length - index)} // Pasa el índice inverso
+                                    onClose={() => toggleMenu(index)}
+                                />
+                            </CardCom>
+
                         );
                     }
                 }}
@@ -134,6 +189,7 @@ const AddCommentScreen = ({ route }) => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
             }}>
+
                 <TextInput
                     value={comment}
                     onChangeText={handleCommentChange}
