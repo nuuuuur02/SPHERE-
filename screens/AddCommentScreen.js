@@ -67,6 +67,53 @@ const AddCommentScreen = ({ route }) => {
         setOpenMenus(newOpenMenus);
     }
 
+    const checkReport = async (commentIndex) => {
+        addCountReport(commentIndex)
+        const newOpenMenus = {};
+        Object.keys(openMenus).forEach((key) => {
+            newOpenMenus[key] = false;
+        });
+        setOpenMenus(newOpenMenus);
+        if (comments[commentIndex].user.commReport >= 10){
+            console.log("Eliminarr")
+            try {
+                // Verifica que el índice de comentario sea válido
+                if (commentIndex >= 0 && commentIndex < comments.length) {
+                    // Obtén el ID del post
+                    const postId = item.id;
+    
+                    // Obtén el documento del post
+                    const postRef = doc(db, 'posts', postId);
+                    const postDoc = await getDoc(postRef);
+    
+                    if (postDoc.exists()) {
+                        // Obtén los datos del post
+                        const postData = postDoc.data();
+                        const currentComments = postData.comments || [];
+    
+                        // Elimina el comentario basado en el índice
+                        currentComments.splice(commentIndex, 1);
+    
+                        // Actualiza el documento del post con la nueva lista de comentarios
+                        await updateDoc(postRef, { comments: currentComments });
+    
+                        // Actualiza la lista de comentarios local
+                        setComments(currentComments);
+                        const newOpenMenus = {};
+                        Object.keys(openMenus).forEach((key) => {
+                            newOpenMenus[key] = false;
+                        });
+                        setOpenMenus(newOpenMenus);
+                    }
+                } else {
+                    console.error('Índice de comentario no válido:', commentIndex);
+                }} catch (error) {
+                    console.error('Error al eliminar el comentario:', error);
+                }
+        }
+
+    }
+
     const addCountReport = async (commentIndex) => {
         try {
             if (commentIndex < comments.length) {
@@ -173,7 +220,7 @@ const AddCommentScreen = ({ route }) => {
                                 <PostText>{item.comment}</PostText>
                                 <DropMenuReport
                                     isVisible={openMenus[index]}
-                                    onReportPress={() => addCountReport(comments.length - index)} // Pasa el índice inverso
+                                    onReportPress={() => checkReport(comments.length - index)} // Pasa el índice inverso
                                     onClose={() => toggleMenu(index)}
                                 />
                             </CardCom>
