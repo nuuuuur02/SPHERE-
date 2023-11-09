@@ -1,62 +1,38 @@
-import React, { useState, useContext, useEffect } from 'react';
-
-import {
-  View,
-  Text,
-  Platform,
-  StyleSheet,
-  Alert,
-  ActivityIndicator,
-  Button,
-  Image,
-  SafeAreaView,
-  TouchableOpacity
-} from 'react-native';
-
+import React, { useState} from 'react';
+import { StyleSheet, } from 'react-native';
 import {
   Container,
   InputField,
   AddImage,
   SubmitBtn,
   SubmitBtnText,
-  StatusWrapper,
-
-
 } from '../styles/AddPost';
-
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { storagebd, db } from '../components/ConfigFirebase';
-import { doc, setDoc, addDoc, collection, snapshotEqual, Timestamp, orderBy, serverTimestamp } from "firebase/firestore";
-import * as FileSystem from 'expo-file-system'
+import { addDoc, collection, Timestamp } from "firebase/firestore";
 import * as ImagePicker from 'expo-image-picker'
-import { ref, uploadBytes, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import * as Updates from 'expo-updates';
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+
 
 const AddPostScreen = ({ navigation }) => {
-
-
   const [image, setImage] = useState(null);
   const [post, setPost] = useState(null);
   const [imageURL, setURL] = useState(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
 
-  
-const choosePhotoFromLibrary = async () => {
+  const choosePhotoFromLibrary = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-
     })
-    console.log(result);
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
-      console.log(result.assets[0].uri);
-
+      //console.log(result.assets[0].uri);
     };
   }
 
@@ -66,21 +42,15 @@ const choosePhotoFromLibrary = async () => {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-
     })
-    console.log(result);
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
-      console.log(result.assets[0].uri);
-
+      //console.log(result.assets[0].uri);
     };
   }
 
-
-  const uploadMedia = async () => {
-
-
+  const uploadMediaPost = async () => {
     try {
       const blobImage = await new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
@@ -101,7 +71,6 @@ const choosePhotoFromLibrary = async () => {
         contentType: 'image/jpeg'
       };
 
-
       // Upload file and metadata to the object 'images/mountains.jpg'
       const storageRef = ref(storagebd, 'Images/' + Date.now());
       const uploadTask = uploadBytesResumable(storageRef, blobImage, metadata);
@@ -111,19 +80,17 @@ const choosePhotoFromLibrary = async () => {
         (snapshot) => {
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log('Upload is ' + progress + '% done');
+          //console.log('Upload is ' + progress + '% done');
           switch (snapshot.state) {
             case 'paused':
-              console.log('Upload is paused');
+              //console.log('Upload is paused');
               break;
             case 'running':
-              console.log('Upload is running');
+              //console.log('Upload is running');
               break;
           }
         },
         (error) => {
-          // A full list of error codes is available at
-          // https://firebase.google.com/docs/storage/web/handle-errors
           switch (error.code) {
             case 'storage/unauthorized':
               // User doesn't have permission to access the object
@@ -131,9 +98,6 @@ const choosePhotoFromLibrary = async () => {
             case 'storage/canceled':
               // User canceled the upload
               break;
-
-            // ...
-
             case 'storage/unknown':
               // Unknown error occurred, inspect error.serverResponse
               break;
@@ -142,7 +106,7 @@ const choosePhotoFromLibrary = async () => {
         () => {
           // Upload completed successfully, now we can get the download URL
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log('File available at', downloadURL);
+            //console.log('File available at', downloadURL);
             setURL(downloadURL);
             addDoc(collection(db, "posts"), {
 
@@ -155,11 +119,8 @@ const choosePhotoFromLibrary = async () => {
               userImg: "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
 
             }).then(() => {
-              console.log("Subido")
-              /*Alert.alert(
-                'Post published!',
-                'Your post has been published Successfully!',
-              );*/
+              //console.log("Subido")
+
               setPost(null);
               navigation.navigate('Comunidad')
 
@@ -172,20 +133,14 @@ const choosePhotoFromLibrary = async () => {
       );
 
     } catch (e) {
-      create()
-      console.log(e)
+      uploadTextPost()
+      //console.log(e)
     }
-
-
-
-
   }
 
-  function create() {
-    console.log(imageURL)
-
+  function uploadTextPost() {
+    //console.log(imageURL)
     addDoc(collection(db, "posts"), {
-
       comments: null,
       likes: [],
       post: post,
@@ -195,11 +150,8 @@ const choosePhotoFromLibrary = async () => {
       userImg: "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
 
     }).then(() => {
-      console.log("Subido")
-      /*Alert.alert(
-        'Post published!',
-        'Your post has been published Successfully!',
-      );*/
+      //console.log("Subido")
+
       setPost(null);
       navigation.navigate('Comunidad')
 
@@ -213,14 +165,6 @@ const choosePhotoFromLibrary = async () => {
     // Verifica si el campo de entrada y la imagen están vacíos para habilitar o deshabilitar el botón.
     setIsButtonDisabled(content === '' && image === null);
   };
-
-  const handleImageChange = (selectedImage) => {
-    setImage(selectedImage);
-    // Verifica si el campo de entrada y la imagen están vacíos para habilitar o deshabilitar el botón.
-    setIsButtonDisabled(post === '' && selectedImage === null);
-  };
-
-
 
   return (
     <Container>
@@ -237,7 +181,7 @@ const choosePhotoFromLibrary = async () => {
         <SubmitBtnText
           onPress={() => {
             if (!isUploading) {
-              uploadMedia();
+              uploadMediaPost();
             }
           }}
           disabled={isButtonDisabled || isUploading}
@@ -246,11 +190,9 @@ const choosePhotoFromLibrary = async () => {
         </SubmitBtnText>
       </SubmitBtn>
 
-
-
       <ActionButton buttonColor="#2e64e5">
 
-      <ActionButton.Item
+        <ActionButton.Item
           buttonColor="#9b59b6"
           title="Cámara"
           onPress={choosePhotoFromCamera}
@@ -266,7 +208,7 @@ const choosePhotoFromLibrary = async () => {
           <Icon name="md-images-outline" style={styles.actionButtonIcon} />
         </ActionButton.Item>
 
-        
+
       </ActionButton>
     </Container>
   )

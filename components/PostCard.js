@@ -1,16 +1,14 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import { db, storagebd } from '../components/ConfigFirebase';
 import { useNavigation } from '@react-navigation/native';
-import { getStorage, ref, deleteObject } from 'firebase/storage';
+import { ref, deleteObject } from 'firebase/storage';
 import { updateDoc, getDoc, doc, deleteDoc, collection, query, where, getDocs } from "firebase/firestore";
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View } from 'react-native';
 import DropMenu from './DropMenu';
 import { Alert } from 'react-native';
-
 import {
-
   Card,
   UserInfo,
   UserImg,
@@ -26,9 +24,22 @@ import {
 } from '../styles/FeedStyles';
 
 const PostCard = ({ item, updatePosts }) => {
+
   const isUserLiked = item.likes.includes("User");
+  const [commentCount, setCommentCount] = useState(0);
+  const initialLikeCount = Array.isArray(item.likes) ? item.likes.length : 0;
+  const [likeCount, setLikeCount] = useState(initialLikeCount);
+  const [liked, setLiked] = useState(item.liked);
+  const likeIconColor = liked ? '#2e64e5' : '#333';
+  const navigation = useNavigation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+
   useEffect(() => {
     setLiked(isUserLiked);
+    getCommentCount().then(count => {
+      setCommentCount(count);
+    });
   }, []);
 
   const getCommentCount = async () => {
@@ -42,19 +53,7 @@ const PostCard = ({ item, updatePosts }) => {
       return 0; // Manejar el error apropiadamente
     }
   };
-  const [commentCount, setCommentCount] = useState(0);
-  const initialLikeCount = Array.isArray(item.likes) ? item.likes.length : 0;
-  const [likeCount, setLikeCount] = useState(initialLikeCount);
-  const [liked, setLiked] = useState(item.liked);
-  const likeIconColor = liked ? '#2e64e5' : '#333';
-  const navigation = useNavigation();
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  useEffect(() => {
-    getCommentCount().then(count => {
-      setCommentCount(count);
-    });
-  }, []);
   const handleToggleMenu = () => {
     setIsMenuOpen(!isMenuOpen); // Cambia el estado para abrir o cerrar el menú
   };
@@ -96,22 +95,6 @@ const PostCard = ({ item, updatePosts }) => {
       { cancelable: false }
     );
   };
-
-  if (item.likes == 1) {
-    likeText = '1 Like';
-  } else if (item.likes > 1) {
-    likeText = item.likes + ' Likes';
-  } else {
-    likeText = 'Like';
-  }
-
-  if (item.comments == 1) {
-    commentText = '1 Comment';
-  } else if (item.comments > 1) {
-    commentText = item.comments + ' Comments';
-  } else {
-    commentText = 'Comment';
-  }
 
   const toggleLike = async () => {
     try {

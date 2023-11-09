@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, Button, FlatList, ScrollView } from 'react-native'
+import { View, TextInput, Button, FlatList } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { db } from '../components/ConfigFirebase';
 import { updateDoc, getDoc, doc } from "firebase/firestore";
@@ -6,7 +6,6 @@ import moment from 'moment';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import DropMenuReport from '../components/DropMenuReport';
 import {
-
     Card,
     UserInfo,
     UserImg,
@@ -17,7 +16,6 @@ import {
     PostImg,
     InteractionWrapper,
     Interaction,
-    InteractionText,
     Divider,
     CardCom
 } from '../styles/FeedStyles';
@@ -28,7 +26,6 @@ const AddCommentScreen = ({ route }) => {
     const [isCommentEmpty, setIsCommentEmpty] = useState(true);
     const [comments, setComments] = useState([]);
     const [openMenus, setOpenMenus] = useState({});
-    const [commReport, setCountReport] = useState(0);
 
     useEffect(() => {
         fetchComments();
@@ -74,29 +71,29 @@ const AddCommentScreen = ({ route }) => {
             newOpenMenus[key] = false;
         });
         setOpenMenus(newOpenMenus);
-        if (comments[commentIndex].user.commReport >= 10){
+        if (comments[commentIndex].user.commReport >= 10) {
             console.log("Eliminarr")
             try {
                 // Verifica que el índice de comentario sea válido
                 if (commentIndex >= 0 && commentIndex < comments.length) {
                     // Obtén el ID del post
                     const postId = item.id;
-    
+
                     // Obtén el documento del post
                     const postRef = doc(db, 'posts', postId);
                     const postDoc = await getDoc(postRef);
-    
+
                     if (postDoc.exists()) {
                         // Obtén los datos del post
                         const postData = postDoc.data();
                         const currentComments = postData.comments || [];
-    
+
                         // Elimina el comentario basado en el índice
                         currentComments.splice(commentIndex, 1);
-    
+
                         // Actualiza el documento del post con la nueva lista de comentarios
                         await updateDoc(postRef, { comments: currentComments });
-    
+
                         // Actualiza la lista de comentarios local
                         setComments(currentComments);
                         const newOpenMenus = {};
@@ -107,9 +104,10 @@ const AddCommentScreen = ({ route }) => {
                     }
                 } else {
                     console.error('Índice de comentario no válido:', commentIndex);
-                }} catch (error) {
-                    console.error('Error al eliminar el comentario:', error);
                 }
+            } catch (error) {
+                console.error('Error al eliminar el comentario:', error);
+            }
         }
 
     }
