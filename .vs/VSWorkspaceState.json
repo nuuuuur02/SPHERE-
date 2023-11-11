@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 {
   "ExpandedNodes": [
     "",
@@ -9,4 +10,16 @@
   ],
   "SelectedNode": "\\navigation\\Navigation.js",
   "PreviewInSolutionExplorer": false
+=======
+{
+  "ExpandedNodes": [
+    "",
+    "\\navigation",
+    "\\screens",
+    "\\screens\\TobTab",
+    "\\screens\\TobTab\\GrupalChat",
+    "\\styles"
+  ],
+  "PreviewInSolutionExplorer": false
+>>>>>>> Stashed changes
 }
