@@ -1,25 +1,10 @@
-<<<<<<< Updated upstream
 {
   "ExpandedNodes": [
     "",
     "\\navigation",
     "\\screens",
-    "\\screens\\TobTab",
-    "\\screens\\TobTab\\GrupalChat",
     "\\styles"
   ],
-  "SelectedNode": "\\navigation\\Navigation.js",
+  "SelectedNode": "\\screens\\RegisterScreen.js",
   "PreviewInSolutionExplorer": false
-=======
-{
-  "ExpandedNodes": [
-    "",
-    "\\navigation",
-    "\\screens",
-    "\\screens\\TobTab",
-    "\\screens\\TobTab\\GrupalChat",
-    "\\styles"
-  ],
-  "PreviewInSolutionExplorer": false
->>>>>>> Stashed changes
 }
