@@ -10,24 +10,22 @@ const CreateChat = ({ navigation }) => {
     const [photo, onChangePhoto] = useState('');
     const [users, onChangeUsers] = useState('');
 
-    const groups = query(collection(db, 'groups'));
-
-    const fetchPosts = async () => {
-        //const groups = query(collection(db, 'groups'));
-    }
-
     const AddGroup = () => {
+        try {
+            const groups = query(collection(db, 'groups'));
 
-        const groups = query(collection(db, 'groups'));
+            const newGroup = {
+                userName: nameGroup,
+                messageText: description,
+                userImg: photo,
+                messageTime: new Date(),
+            };
 
-        const newGroup = {
-            userName: nameGroup,
-            messageText: description,
-            userImg: photo,
-            messageTime: new Date(),
-        };
-
-        addDoc(groups, newGroup)
+            addDoc(groups, newGroup)
+        }
+        catch (error) {
+            console.error('Error al agregar el grupo: ', error);
+        }
     }
     
     return (

@@ -1,13 +1,33 @@
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View,Image } from 'react-native'
-import React,{useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
+import { db } from '../components/ConfigFirebase';
+import { query, collection, addDoc } from "firebase/firestore";
 
 import { useNavigation } from '@react-navigation/native'
 
-const RegisterScreen = ({navigation}) => {
-  const [email,setEmail] = useState('')
-  const [password,setPassword] = useState('')
+const RegisterScreen = ({ navigation }) => {
+    const [nick, setNick] = useState('')
+    const [email, setEmail] = useState('')
+    const [photo, setPhoto] = useState('')
+    const [password, setPassword] = useState('')
 
+    const AddUser = () => {
+        try {
+            const users = query(collection(db, 'user'));
 
+            const newUser = {
+                name: nick,
+                email: email,
+                avatar: '', //photo,
+                pass: password
+            };
+
+            addDoc(users, newUser)
+        }
+        catch (error) {
+            console.error('Error al agregar al usuario: ', error);
+        }
+    }
 
   return (
     <View
@@ -21,13 +41,21 @@ const RegisterScreen = ({navigation}) => {
       <View style ={styles.inputContainer}>
         <TextInput
           placeholder ="Username"
-          value =  {email}
-          onChangeText={text => setEmail(text)}
+          value={nick}
+          onChangeText={text => setNick(text)}
           style={styles.input}
           >
         </TextInput>
         <TextInput
           placeholder ="Email"
+          value = {email}
+          onChangeText={text => setEmail(text)}
+          style={styles.input}
+          secureTextEntry
+          >
+        </TextInput>
+        <TextInput
+          placeholder = "Password"
           value =  {password}
           onChangeText={text => setPassword(text)}
           style={styles.input}
@@ -35,15 +63,7 @@ const RegisterScreen = ({navigation}) => {
           >
         </TextInput>
         <TextInput
-          placeholder ="Password"
-          value =  {password}
-          onChangeText={text => setPassword(text)}
-          style={styles.input}
-          secureTextEntry
-          >
-        </TextInput>
-        <TextInput
-          placeholder ="Confirm Password"
+          placeholder = "Confirm Password"
           value =  {password}
           onChangeText={text => setPassword(text)}
           style={styles.input}
@@ -55,6 +75,10 @@ const RegisterScreen = ({navigation}) => {
       <View style ={styles.buttonContainer}>
         <TouchableOpacity
           //onPress={handleLogin}
+          onPress={() => {
+              AddUser()
+              navigation.navigate('HomeMain')
+          }}
           style ={styles.button}
         >
           <Text style ={styles.buttonText}>Register</Text>
