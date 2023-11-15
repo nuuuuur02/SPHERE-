@@ -5,6 +5,7 @@ import { updateDoc, getDoc, doc } from "firebase/firestore";
 import moment from 'moment';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import DropMenuReport from '../components/DropMenuReport';
+import { Alert } from 'react-native';
 import {
     Card,
     UserInfo,
@@ -71,6 +72,7 @@ const AddCommentScreen = ({ route }) => {
             newOpenMenus[key] = false;
         });
         setOpenMenus(newOpenMenus);
+        alertReport();
         if (comments[commentIndex].user.commReport >= 10) {
             console.log("Eliminarr")
             try {
@@ -101,7 +103,12 @@ const AddCommentScreen = ({ route }) => {
                             newOpenMenus[key] = false;
                         });
                         setOpenMenus(newOpenMenus);
+
+
                     }
+
+
+
                 } else {
                     console.error('Índice de comentario no válido:', commentIndex);
                 }
@@ -109,6 +116,22 @@ const AddCommentScreen = ({ route }) => {
                 console.error('Error al eliminar el comentario:', error);
             }
         }
+
+    }
+
+    const alertReport = async () => {
+
+        Alert.alert(
+            'Reportado con exito',
+            'Gracias por avisarnos',
+            [
+                {
+                    text: 'Vale',
+                    style: 'cancel',
+                },
+            ],
+            { cancelable: false }
+        );
 
     }
 
