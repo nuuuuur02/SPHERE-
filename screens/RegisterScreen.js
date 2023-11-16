@@ -2,6 +2,7 @@ import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, Vi
 import React, { useEffect, useState } from 'react'
 import { db } from '../components/ConfigFirebase';
 import { query, collection, addDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword } from "firebasae/auth";
 
 import { useNavigation } from '@react-navigation/native'
 
