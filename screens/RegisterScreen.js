@@ -1,8 +1,7 @@
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View,Image } from 'react-native'
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View,Image, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { db } from '../components/ConfigFirebase';
-import { query, collection, addDoc } from "firebase/firestore";
-import { createUserWithEmailAndPassword } from "firebasae/auth";
+import { auth } from '../components/ConfigFirebase';
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import { useNavigation } from '@react-navigation/native'
 
@@ -13,20 +12,15 @@ const RegisterScreen = ({ navigation }) => {
     const [password, setPassword] = useState('')
 
     const AddUser = () => {
-        try {
-            const users = query(collection(db, 'user'));
 
-            const newUser = {
-                name: nick,
-                email: email,
-                avatar: '', //photo,
-                pass: password
-            };
-
-            addDoc(users, newUser)
-        }
-        catch (error) {
-            console.error('Error al agregar al usuario: ', error);
+        if (email !== null && password !== null) {
+            createUserWithEmailAndPassword(auth, email, password)
+                .then(() => {
+                        console.log("Register ok");
+                        navigation.navigate('HomeMain');
+                    }
+                )
+                .catch((error) => Alert.alert("Login error:", error.message));
         }
     }
 
@@ -78,7 +72,6 @@ const RegisterScreen = ({ navigation }) => {
           //onPress={handleLogin}
           onPress={() => {
               AddUser()
-              navigation.navigate('HomeMain')
           }}
           style ={styles.button}
         >
@@ -105,7 +98,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 1,
     alignItems: 'center',
-
   },
   inputContainer: {
     width: "80%",
