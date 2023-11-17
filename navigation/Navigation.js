@@ -105,6 +105,21 @@ function StackGroup() {
                     },
                 }}
             />
+            <Stack.Screen name="Login" component={LoginScreen}
+                options=
+                {{
+                    title: 'Sphere',
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                        color: '#2e64e5',
+                        fontSize: 18,
+                    },
+                    headerStyle: {
+                        shadowColor: '#fff',
+                        elevation: 0,
+                    },
+                }}
+            />
             <Stack.Screen name="HomeMain" component={TabGroup}
                 options=
                 {{

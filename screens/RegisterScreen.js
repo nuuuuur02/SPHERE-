@@ -46,7 +46,6 @@ const RegisterScreen = ({ navigation }) => {
           value = {email}
           onChangeText={text => setEmail(text)}
           style={styles.input}
-          secureTextEntry
           >
         </TextInput>
         <TextInput
@@ -80,7 +79,7 @@ const RegisterScreen = ({ navigation }) => {
 
         <TouchableOpacity
         style={styles.forgotButton}
-        //onPress={() => navigation.navigate('SignupScreen')}
+        onPress={() => navigation.navigate('Login')}
         >
         <Text style={styles.navButtonText}>
           Already have an acount?

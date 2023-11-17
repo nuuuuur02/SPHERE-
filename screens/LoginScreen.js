@@ -1,63 +1,76 @@
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View,Image } from 'react-native'
-import React,{useEffect, useState} from 'react'
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View,Image, Alert } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { auth } from '../components/ConfigFirebase';
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 import { useNavigation } from '@react-navigation/native'
 
 const LoginScreen = ({navigation}) => {
-  const [email,setEmail] = useState('')
-  const [password,setPassword] = useState('')
+    const [email,setEmail] = useState('')
+    const [password,setPassword] = useState('')
 
+    const SignIn = () => {
+        if (email !== null && password !== null) {
+            signInWithEmailAndPassword(auth, email, password)
+                .then(() => {
+                    console.log("Log-in ok");
+                    navigation.navigate('HomeMain');
+                }
+            )
+                .catch((error) => Alert.alert("Login error:", error.message));
+        }
+    }
 
-
-  return (
+    return (
     <View
-      style={styles.container}
-      behavior='padding'
+        style={styles.container}
+        behavior='padding'
     >
 
-<Image
+    <Image
         source={require('../assets/twit.png')}
         style={styles.logo}
-      />
+        />
      
 
-      <View style ={styles.inputContainer}>
-        <TextInput
-          placeholder ="Email"
-          value =  {email}
-          onChangeText={text => setEmail(text)}
-          style={styles.input}
-          >
-        </TextInput>
-        <TextInput
-          placeholder ="Password"
-          value =  {password}
-          onChangeText={text => setPassword(text)}
-          style={styles.input}
-          secureTextEntry
-          >
-        </TextInput>
-      </View>
+        <View style ={styles.inputContainer}>
+            <TextInput
+                placeholder ="Email"
+                value =  {email}
+                onChangeText={text => setEmail(text)}
+                style={styles.input}
+                >
+            </TextInput>
+            <TextInput
+                placeholder ="Password"
+                value = {password}
+                onChangeText={text => setPassword(text)}
+                style={styles.input}
+                secureTextEntry
+                >
+            </TextInput>
+        </View>
       
-      <View style ={styles.buttonContainer}>
-        <TouchableOpacity
-          //onPress={handleLogin}
-          style ={styles.button}
-        >
-          <Text style ={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-        style={styles.forgotButton}
-        //onPress={() => navigation.navigate('SignupScreen')}
-        >
-        <Text style={styles.navButtonText}>
-          Don't have an acount? Create here
-        </Text>
-      </TouchableOpacity>
-      </View>
+        <View style ={styles.buttonContainer}>
+            <TouchableOpacity
+                onPress={() => {
+                    SignIn()
+                }}
+                style = {styles.button}
+            >
+            <Text style = {styles.buttonText}>Login</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.forgotButton}
+                onPress={() => navigation.navigate('Register')}
+            >
+                <Text style={styles.navButtonText}>
+                    Don't have an acount? Create here
+                </Text>
+            </TouchableOpacity>
+        </View>
     </View>
-  )
+    )
 }
 
 export default LoginScreen
