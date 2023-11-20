@@ -36,6 +36,13 @@ import AddPostScreen from '../screens/AddPostScreen';
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 
+//ColorTheme
+import { EventRegister } from 'react-native-event-listeners';
+import { useState, useEffect } from 'react';
+import { DarkTheme, DefaultTheme } from "@react-navigation/native";
+import theme from '../styles/Theme/theme.js';
+import themeContext from '../styles/Theme/themeContext.js';
+
 //Icons
 import { FontAwesome } from '@expo/vector-icons';
 import Principal from "../screens/Tab/PictosScreen";
@@ -213,10 +220,27 @@ function TabGroup() {
     )
 }
 
+//Color theme
+
+
+
 export default function Navigation() {
+    const [darkMode, setDarkMode] = useState(false)
+
+    useEffect(() => {
+        const listener = EventRegister.addEventListener('ChangeTheme', (data) => {
+            setDarkMode(data)
+        })
+        return () => {
+            EventRegister.removeAllListeners(listener)
+        }
+    }, [darkMode])
+
     return (
-        <NavigationContainer>
-            <DrawerGroup />
-        </NavigationContainer>
+        <themeContext.Provider value={darkMode === true ? theme.dark : theme.light}>
+            <NavigationContainer theme={darkMode === true ? DarkTheme : DefaultTheme}>
+                <DrawerGroup />
+            </NavigationContainer>
+        </themeContext.Provider>
     )
 }
