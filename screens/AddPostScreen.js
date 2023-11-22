@@ -9,7 +9,7 @@ import {
 } from '../styles/AddPost';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { storagebd, db } from '../components/ConfigFirebase';
+import { storagebd, db ,auth} from '../components/ConfigFirebase';
 import { addDoc, collection, Timestamp } from "firebase/firestore";
 import * as ImagePicker from 'expo-image-picker'
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
@@ -115,8 +115,8 @@ const AddPostScreen = ({ navigation }) => {
               post: post,
               postImg: downloadURL,
               postTime: Timestamp.fromDate(new Date()),
-              userName: "User",
-              userImg: "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
+              userName: auth.currentUser?.displayName,
+              userImg: auth.currentUser?.photoURL,
 
             }).then(() => {
               //console.log("Subido")
@@ -146,8 +146,8 @@ const AddPostScreen = ({ navigation }) => {
       post: post,
       postImg: imageURL,
       postTime: Timestamp.fromDate(new Date()),
-      userName: "User",
-      userImg: "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
+      userName: auth.currentUser?.displayName,
+      userImg: auth.currentUser?.photoURL,
 
     }).then(() => {
       //console.log("Subido")

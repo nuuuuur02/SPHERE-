@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { db } from '../../../components/ConfigFirebase';
+import { db, auth } from '../../../components/ConfigFirebase';
 import { doc, updateDoc, getDoc, Timestamp } from "firebase/firestore";
 
 const ChatScreen = ({ route }) => {
@@ -133,10 +133,9 @@ const ChatScreen = ({ route }) => {
             messages={messages}
             onSend={(messages) => onSend(messages)}
             user={{
-                _id: 1,         // Cambiar id al usuario actual que haya iniciado sesi�n en la base de datos
-                name: "user",   // Cambiar user al usuario actual que haya iniciado sesi�n en la base de datos
-                avatar: "https://firebasestorage.googleapis.com/v0/b/niideapepe-45402.appspot.com/o/Images%2FGroups%2FLiax.jpg?alt=media&token=237b919f-0d72-46c3-a25f-06cc591cba13",
-                                // Cambiar avatar al usuario actual que haya iniciado sesi�n en la base de datos
+                _id: auth.currentUser?.uid,
+                name: auth.currentUser?.displayName,
+                avatar: auth.currentUser?.photoURL,
             }}
             renderBubble={renderBubble}
             alwaysShowSend
