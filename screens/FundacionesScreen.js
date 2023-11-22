@@ -3,11 +3,11 @@ import { FlatList, RefreshControl, StyleSheet, Text, View, Image } from 'react-n
 import { Container } from '../styles/FeedStyles';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { db } from '../components/ConfigFirebase';
-import { query, collection, getDocs, orderBy, GeoPoint  } from "firebase/firestore";
+import { query, collection, getDocs, orderBy,} from "firebase/firestore";
 
 const FundacionesCard = ({ item }) => (
   <View style={styles.newsCard}>
-    <Image source={{ uri:  item.urlToImage}} style={{ width: 200, height: 200 }} />
+    <Image source={{ uri:  item.urlToImage}} style={{ width: 200, height: 200, alignSelf: 'center' }} />
     <Text style={styles.newsTitle}>{item.nombre}</Text>
     <Text style={styles.newsContent}>{item.descripcion}</Text>
     {/* Puedes agregar más elementos según tus necesidades */}
@@ -17,17 +17,17 @@ const FundacionesCard = ({ item }) => (
 const HomeScreen = ({ navigation }) => {
   const [fundaciones, setFundaciones] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
-  const [distanciaMaxima, setDistanciaMaxima] = useState(1000000000); // Define la distancia máxima permitida en kilómetros
+  const [distanciaMaxima, setDistanciaMaxima] = useState(100000000); // Define la distancia máxima permitida en kilómetros
 
   const fetchFundaciones = async () => {
     try {
-      const q1 = query((collection(db, "fundaciones")));
+      const q1 = query((collection(db, "fundaciones"))); 
       const docSnap = await getDocs(q1);
 
       const fundacionesData = docSnap.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
       setFundaciones(fundacionesData);
-
       filterFundacionesPorDistancia(fundacionesData);
+      setFundaciones(fundacionesData.sort((a, b) => a.distancia - b.distancia));
     } catch (error) {
       console.error("Error fetching news:", error);
     }
@@ -54,15 +54,15 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const filterFundacionesPorDistancia = (fundacionesData) => {
-  // Reemplaza con las coordenadas de tu ubicación actual
-  const ubicacionActual = { latitude: 32, longitude: -122 };
+  // Reemplaza con las coordenadas de tu ubicación actual     
+  const ubicacionActual = { latitude: 39, longitude: 0.3 };
 
   const fundacionesFiltradas = fundacionesData.filter((fundacion) => {
     const distancia = calcularDistanciaHaversine(
       ubicacionActual,
       fundacion.ubicacion
     );
-
+    fundacion.distancia = distancia;
     return distancia <= distanciaMaxima;
   });
 
@@ -113,8 +113,9 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   // Define estilos para NewsCard según tus necesidades
   newsCard: {
-    borderWidth: 1,
-    borderColor: '#ccc',
+    borderWidth: 3,
+    backgroundColor: '#ffa',
+    borderColor: '#000',
     borderRadius: 8,
     padding: 16,
     margin: 8,
@@ -122,9 +123,11 @@ const styles = StyleSheet.create({
   newsTitle: {
     fontSize: 18,
     fontWeight: 'bold',
+    textAlign: 'center',
     marginBottom: 8,
   },
   newsContent: {
+    textAlign: 'center',
     fontSize: 16,
   },
 });
