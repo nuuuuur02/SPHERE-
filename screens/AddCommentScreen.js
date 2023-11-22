@@ -1,10 +1,11 @@
 import { View, TextInput, Button, FlatList } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import { db } from '../components/ConfigFirebase';
-import { updateDoc, getDoc, doc } from "firebase/firestore";
+import { db, auth, deleteUser } from '../components/ConfigFirebase';
+import {  arrayUnion,updateDoc, getDoc, doc, query, getDocs, collection, setDoc } from "firebase/firestore";
 import moment from 'moment';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import DropMenuReport from '../components/DropMenuReport';
+
 import { Alert } from 'react-native';
 import {
     Card,
@@ -66,7 +67,7 @@ const AddCommentScreen = ({ route }) => {
     }
 
     const checkReport = async (commentIndex) => {
-        addCountReport(commentIndex)
+        addCountReport(commentIndex);
         const newOpenMenus = {};
         Object.keys(openMenus).forEach((key) => {
             newOpenMenus[key] = false;
@@ -74,10 +75,14 @@ const AddCommentScreen = ({ route }) => {
         setOpenMenus(newOpenMenus);
         alertReport();
         if (comments[commentIndex].user.commReport >= 10) {
-            console.log("Eliminarr")
+            console.log("Eliminar");
             try {
                 // Verifica que el índice de comentario sea válido
                 if (commentIndex >= 0 && commentIndex < comments.length) {
+                    const reportedUserEmail = comments[commentIndex].user.userEmail;
+
+                    await addToBlacklist(reportedUserEmail);
+
                     // Obtén el ID del post
                     const postId = item.id;
 
@@ -98,17 +103,7 @@ const AddCommentScreen = ({ route }) => {
 
                         // Actualiza la lista de comentarios local
                         setComments(currentComments);
-                        const newOpenMenus = {};
-                        Object.keys(openMenus).forEach((key) => {
-                            newOpenMenus[key] = false;
-                        });
-                        setOpenMenus(newOpenMenus);
-
-
                     }
-
-
-
                 } else {
                     console.error('Índice de comentario no válido:', commentIndex);
                 }
@@ -116,8 +111,29 @@ const AddCommentScreen = ({ route }) => {
                 console.error('Error al eliminar el comentario:', error);
             }
         }
-
     }
+
+    const addToBlacklist = async (reportedUserEmail) => {
+        try {
+          // Obtén la referencia de la colección "listaNegraUsers"
+          const blacklistRef = collection(db, 'listaNegraUsers');
+      
+          // Obtén los documentos de la colección
+          const snapshot = await getDocs(blacklistRef);
+      
+          // Supongamos que solo hay un documento en la colección
+          const docId = snapshot.docs[0].id;
+      
+          // Actualiza el documento añadiendo el email reportado a la listaNegra
+          await updateDoc(doc(blacklistRef, docId), {
+            listaNegra: arrayUnion(reportedUserEmail),
+          });
+      
+          console.log('Email añadido a la lista negra con éxito');
+        } catch (error) {
+          console.error('Error al añadir el email a la lista negra:', error);
+        }
+      };
 
     const alertReport = async () => {
 
@@ -136,6 +152,7 @@ const AddCommentScreen = ({ route }) => {
     }
 
     const addCountReport = async (commentIndex) => {
+
         try {
             if (commentIndex < comments.length) {
                 // Verifica que el índice esté dentro de los límites válidos
@@ -174,9 +191,11 @@ const AddCommentScreen = ({ route }) => {
 
                     // Agregar el comentario con información del usuario
                     const user = {
-                        userName: item.userName,
-                        userImg: item.userImg,
+                        userName: auth.currentUser?.displayName,
+                        userImg: auth.currentUser?.photoURL,
+                        userEmail: auth.currentUser?.email,
                         commReport: 0,
+
                     };
 
                     currentComments.push({ comment, user });
@@ -184,6 +203,7 @@ const AddCommentScreen = ({ route }) => {
                     setComment('');
                     setIsCommentEmpty(true);
                     setComments(currentComments);
+                    console.log(user);
                 }
                 fetchComments();
             } catch (error) {
