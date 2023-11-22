@@ -1,20 +1,29 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useLayoutEffect, useCallback } from 'react';
 import { View } from 'react-native';
 import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { db, auth } from '../../../components/ConfigFirebase';
-import { doc, updateDoc, getDoc, Timestamp } from "firebase/firestore";
+import { doc, updateDoc, getDoc, Timestamp, onSnapshot } from "firebase/firestore";
 
 const ChatScreen = ({ route }) => {
 
     const { item } = route.params;
+
+    const postId = item.id;
+    const postRef = doc(db, 'groups', postId);
     
     const [messages, setMessages] = useState([]);
 
-    useEffect(() => {
-        fetchMessages();
-    }, [item.id]);
+    useLayoutEffect(() => {
+
+        const unsubscribe = onSnapshot(postRef, () => {
+            fetchMessages();
+        });
+
+        return () => unsubscribe();
+
+    }, []);
 
     const truncateName = (name) => {
         const userNameSliced = name.split(' ');
@@ -25,8 +34,8 @@ const ChatScreen = ({ route }) => {
     const postMessage = async (message) => {
 
         try {
-            const postId = item.id;
-            const postRef = doc(db, 'groups', postId);
+            /*const postId = item.id;
+            const postRef = doc(db, 'groups', postId);*/
             const postDoc = await getDoc(postRef);
             const postData = postDoc.data();
             const currentMessages = postData && postData._messages ? postData._messages : [];
@@ -44,8 +53,6 @@ const ChatScreen = ({ route }) => {
     const fetchMessages = async () => {
 
         try {
-            const postId = item.id;
-            const postRef = doc(db, 'groups', postId);
             const postDoc = await getDoc(postRef);
 
             if (postDoc.exists()) {

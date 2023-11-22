@@ -52,10 +52,12 @@ const LoginScreen = ({ navigation }) => {
       behavior='padding'
     >
 
-      <Image
-        source={require('../assets/twit.png')}
+    <Image
+        source={{ uri: "https://firebasestorage.googleapis.com/v0/b/niideapepe-45402.appspot.com/o/Images%2FGroups%2FSphereLogo.jpg?alt=media&token=517e5910-c963-47e2-96b3-2343fbb2ff88" }}
         style={styles.logo}
-      />
+    />
+
+     
 
 
       <View style={styles.inputContainer}>
