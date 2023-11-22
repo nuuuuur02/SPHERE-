@@ -18,7 +18,7 @@ const FundacionesCard = ({ item }) => (
 const HomeScreen = () => {
   const [fundaciones, setFundaciones] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
-  const [distanciaMaxima, setDistanciaMaxima] = useState(1); // Define la distancia máxima permitida en kilómetros
+  const [distanciaMaxima, setDistanciaMaxima] = useState(10000000000); // Define la distancia máxima permitida en kilómetros
   const [isDialogVisible, setDialogVisible] = useState(false);
 
   const fetchFundaciones = async () => {
