@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native';
+import { FlatList, RefreshControl, StyleSheet, Text, View, Image } from 'react-native';
 import { Container } from '../styles/FeedStyles';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { db } from '../components/ConfigFirebase';
 import { query, collection, getDocs, orderBy, GeoPoint  } from "firebase/firestore";
 
-const FundacionesCard = ({ title, content }) => (
+const FundacionesCard = ({ item }) => (
   <View style={styles.newsCard}>
-    <Text style={styles.newsTitle}>{title}</Text>
-    <Text style={styles.newsContent}>{content}</Text>
+    <Image source={{ uri:  item.urlToImage}} style={{ width: 200, height: 200 }} />
+    <Text style={styles.newsTitle}>{item.nombre}</Text>
+    <Text style={styles.newsContent}>{item.descripcion}</Text>
     {/* Puedes agregar más elementos según tus necesidades */}
   </View>
 );
@@ -81,8 +82,7 @@ const HomeScreen = ({ navigation }) => {
 
   const renderItem = ({ item }) => (
     <FundacionesCard
-      title={item.nombre}
-      content={item.descripcion}
+      item = {item}
       // Agrega más props según sea necesario
     />
   );
