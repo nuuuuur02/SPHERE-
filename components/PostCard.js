@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
-import { db, storagebd } from '../components/ConfigFirebase';
+import { db, storagebd} from '../components/ConfigFirebase';
 import { useNavigation } from '@react-navigation/native';
 import { ref, deleteObject } from 'firebase/storage';
 import { updateDoc, getDoc, doc, deleteDoc, collection, query, where, getDocs } from "firebase/firestore";

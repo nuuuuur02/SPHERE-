@@ -10,19 +10,21 @@ const RegisterScreen = ({ navigation }) => {
     const [email, setEmail] = useState('')
     const [photo, setPhoto] = useState('')
     const [password, setPassword] = useState('')
+    
 
     const AddUser = () => {
 
         if (email !== null && password !== null) {
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
-                    // Después de crear la cuenta, obtenemos la referencia al usuario
+                    // Despuï¿½s de crear la cuenta, obtenemos la referencia al usuario
                     const user = userCredential.user;
 
                     // Actualizamos el displayName y photoURL
                     return updateProfile(user, {
                         displayName: nick,
                         photoURL: photo,
+                        
                     });
                 })
                 .then(() => {
