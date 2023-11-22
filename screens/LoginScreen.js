@@ -14,9 +14,9 @@ const LoginScreen = ({navigation}) => {
             signInWithEmailAndPassword(auth, email, password)
                 .then(() => {
                     console.log("Log-in ok");
+                    console.log(auth)
                     navigation.navigate('HomeMain');
-                }
-            )
+                })
                 .catch((error) => Alert.alert("Login error:", error.message));
         }
     }
