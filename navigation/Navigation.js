@@ -89,7 +89,7 @@ function StackGroup() {
     }
 
     return (
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName="Login">
             <Stack.Screen name="Register" component={RegisterScreen}
                 options=
                 {{
@@ -168,6 +168,59 @@ function StackGroup() {
     )
 }
 
+/*function AuthStack() {
+    const optionsAdd = {
+        title: '',
+        headerTitleAlign: 'center',
+        headerStyle: {
+            backgroundColor: '#2e64e515',
+            shadowColor: '#2e64e515',
+            elevation: 0,
+        },
+        headerBackTitleVisible: false,
+        headerBackImage: () => (
+            <View style={{ marginLeft: 15 }}>
+                <Ionicons name="arrow-back" size={25} color="#2e64e5" />
+            </View>
+        ),
+    }
+
+    return (
+        <Stack.Navigator initialRouteName="Login" >
+            <Stack.Screen name="Register" component={RegisterScreen}
+                options=
+                {{
+                    title: 'Sphere',
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                        color: '#2e64e5',
+                        fontSize: 18,
+                    },
+                    headerStyle: {
+                        shadowColor: '#fff',
+                        elevation: 0,
+                    },
+                }}
+            />
+            <Stack.Screen name="Login" component={LoginScreen}
+                options=
+                {{
+                    title: 'Sphere',
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                        color: '#2e64e5',
+                        fontSize: 18,
+                    },
+                    headerStyle: {
+                        shadowColor: '#fff',
+                        elevation: 0,
+                    },
+                }}
+            />
+        </Stack.Navigator>
+    )
+}*/
+
 //Tab
 const Tab = createBottomTabNavigator();
 
@@ -215,6 +268,7 @@ function TabGroup() {
 
 export default function Navigation() {
     return (
+        //<DrawerGroup />
         <NavigationContainer>
             <DrawerGroup />
         </NavigationContainer>
