@@ -1,4 +1,4 @@
-import React, { useState, useLyoutEffect, useCallback } from 'react';
+import React, { useState, useLayoutEffect, useCallback } from 'react';
 import { View } from 'react-native';
 import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -15,7 +15,7 @@ const ChatScreen = ({ route }) => {
     
     const [messages, setMessages] = useState([]);
 
-    useLyoutEffect(() => {
+    useLayoutEffect(() => {
 
         const unsubscribe = onSnapshot(postRef, () => {
             fetchMessages();
