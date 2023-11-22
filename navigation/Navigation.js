@@ -27,6 +27,7 @@ import PrivateChatScreen from "../screens/TobTab/PrivateChat/PrivateChatScreen";
 import GrupalChat from "../screens/TobTab/GrupalChat/GrupalChat";
 import ChatScreen from "../screens/TobTab/GrupalChat/ChatScreen";
 import CreateChat from "../screens/TobTab/GrupalChat/CreateChat";
+import FundacionScreen from "../screens/FundacionesScreen";
 
 import HomeScreen from '../screens/HomeScreen';
 import AddCommentScreen from '../screens/AddCommentScreen';
@@ -49,6 +50,7 @@ function TobTabGroup() {
             <TobTab.Screen name="Comunidad" component={HomeScreen} />
             <TobTab.Screen name="Chats" component={PrivateChat} />
             <TobTab.Screen name="Grupos" component={GrupalChat} />
+            <TobTab.Screen name="Fundaciones" component={FundacionScreen}/>
         </TobTab.Navigator>
     )
 }
@@ -90,36 +92,7 @@ function StackGroup() {
 
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Register" component={RegisterScreen}
-                options=
-                {{
-                    title: 'Sphere',
-                    headerTitleAlign: 'center',
-                    headerTitleStyle: {
-                        color: '#2e64e5',
-                        fontSize: 18,
-                    },
-                    headerStyle: {
-                        shadowColor: '#fff',
-                        elevation: 0,
-                    },
-                }}
-            />
-            <Stack.Screen name="Login" component={LoginScreen}
-                options=
-                {{
-                    title: 'Sphere',
-                    headerTitleAlign: 'center',
-                    headerTitleStyle: {
-                        color: '#2e64e5',
-                        fontSize: 18,
-                    },
-                    headerStyle: {
-                        shadowColor: '#fff',
-                        elevation: 0,
-                    },
-                }}
-            />
+            
             <Stack.Screen name="HomeMain" component={TabGroup}
                 options=
                 {{

@@ -1,0 +1,130 @@
+import React, { useState, useEffect, useCallback } from 'react';
+import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native';
+import { Container } from '../styles/FeedStyles';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { db } from '../components/ConfigFirebase';
+import { query, collection, getDocs, orderBy, GeoPoint  } from "firebase/firestore";
+
+const FundacionesCard = ({ title, content }) => (
+  <View style={styles.newsCard}>
+    <Text style={styles.newsTitle}>{title}</Text>
+    <Text style={styles.newsContent}>{content}</Text>
+    {/* Puedes agregar más elementos según tus necesidades */}
+  </View>
+);
+
+const HomeScreen = ({ navigation }) => {
+  const [fundaciones, setFundaciones] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
+  const [distanciaMaxima, setDistanciaMaxima] = useState(1000000000); // Define la distancia máxima permitida en kilómetros
+
+  const fetchFundaciones = async () => {
+    try {
+      const q1 = query((collection(db, "fundaciones")));
+      const docSnap = await getDocs(q1);
+
+      const fundacionesData = docSnap.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+      setFundaciones(fundacionesData);
+
+      filterFundacionesPorDistancia(fundacionesData);
+    } catch (error) {
+      console.error("Error fetching news:", error);
+    }
+  };
+
+  const calcularDistanciaHaversine = (coordenadas1, coordenadas2) => {
+    const R = 6371; // Radio de la Tierra en kilómetros
+    const lat1 = coordenadas1.latitude;
+    const lon1 = coordenadas1.longitude;
+    const lat2 = coordenadas2.latitude;
+    const lon2 = coordenadas2.longitude;
+  
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+  
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distancia = R * c;
+  
+    return distancia;
+  };
+
+  const filterFundacionesPorDistancia = (fundacionesData) => {
+  // Reemplaza con las coordenadas de tu ubicación actual
+  const ubicacionActual = { latitude: 32, longitude: -122 };
+
+  const fundacionesFiltradas = fundacionesData.filter((fundacion) => {
+    const distancia = calcularDistanciaHaversine(
+      ubicacionActual,
+      fundacion.ubicacion
+    );
+
+    return distancia <= distanciaMaxima;
+  });
+
+  setFundaciones(fundacionesFiltradas);
+};
+
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await fetchFundaciones();
+    setRefreshing(false);
+  }, []);
+
+  useEffect(() => {
+    fetchFundaciones();
+  }, []);
+
+  const renderItem = ({ item }) => (
+    <FundacionesCard
+      title={item.nombre}
+      content={item.descripcion}
+      // Agrega más props según sea necesario
+    />
+  );
+
+  return (
+    <Container>
+      <FlatList
+        data={fundaciones}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+        showsVerticalScrollIndicator={false}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      />
+
+      <FontAwesome5.Button
+        name="plus"
+        size={22}
+        backgroundColor="#fff"
+        color="#2e64e5"
+        onPress={() => navigation.navigate('AddNewsScreen')}
+      />
+    </Container>
+  );
+};
+
+export default HomeScreen;
+
+const styles = StyleSheet.create({
+  // Define estilos para NewsCard según tus necesidades
+  newsCard: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    padding: 16,
+    margin: 8,
+  },
+  newsTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  newsContent: {
+    fontSize: 16,
+  },
+});
