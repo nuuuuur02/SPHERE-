@@ -4,7 +4,9 @@
     "\\components",
     "\\navigation",
     "\\screens",
+    "\\screens\\Drawer",
     "\\styles"
   ],
+  "SelectedNode": "\\package.json",
   "PreviewInSolutionExplorer": false
 }
