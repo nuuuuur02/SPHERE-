@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
-import { db, storagebd} from '../components/ConfigFirebase';
+import { db, storagebd,auth} from '../components/ConfigFirebase';
 import { useNavigation } from '@react-navigation/native';
 import { ref, deleteObject } from 'firebase/storage';
 import { updateDoc, getDoc, doc, deleteDoc, collection, query, where, getDocs } from "firebase/firestore";
@@ -35,11 +35,19 @@ const PostCard = ({ item, updatePosts }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 
+
   useEffect(() => {
-    setLiked(isUserLiked);
     getCommentCount().then(count => {
       setCommentCount(count);
     });
+  
+    // Verificar si el usuario actual ya dio like al post
+    const isUserLiked = item.likes.includes(auth.currentUser?.displayName);
+    setLiked(isUserLiked);
+  
+    // Inicializar el contador de likes
+    const initialLikeCount = Array.isArray(item.likes) ? item.likes.length : 0;
+    setLikeCount(initialLikeCount);
   }, []);
 
   const getCommentCount = async () => {
@@ -55,7 +63,13 @@ const PostCard = ({ item, updatePosts }) => {
   };
 
   const handleToggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen); // Cambia el estado para abrir o cerrar el menú
+    const isCurrentUserOwner = auth.currentUser?.displayName === item.userName;
+    if (isMenuOpen && isCurrentUserOwner) {
+      setIsMenuOpen(false);
+    } else {
+      
+      setIsMenuOpen(isCurrentUserOwner);
+    }
   };
 
   const handleDeletePost = () => {
@@ -98,34 +112,35 @@ const PostCard = ({ item, updatePosts }) => {
 
   const toggleLike = async () => {
     try {
-      const postId = item.id; // Supongamos que tienes un campo id en tu objeto item
+      const postId = item.id;
       const postRef = doc(db, 'posts', postId);
       const postDoc = await getDoc(postRef);
-
+  
       if (postDoc.exists()) {
         const postData = postDoc.data();
         const currentLikes = postData.likes || [];
-
+        
         if (liked) {
-          const updatedLikes = currentLikes.filter(user => user !== item.userName);
+          const updatedLikes = currentLikes.filter(user => user !== auth.currentUser?.displayName);
           await updateDoc(postRef, { likes: updatedLikes });
           setLikeCount(likeCount - 1);
           setLiked(false);
-
+  
         } else {
-          const updatedLikes = [...currentLikes, item.userName];
+          const updatedLikes = [...currentLikes, auth.currentUser?.displayName];
           await updateDoc(postRef, { likes: updatedLikes });
           setLikeCount(likeCount + 1);
           setLiked(true);
-
+          
+  
         }
-
       }
     } catch (error) {
       console.error('Error al actualizar la lista de likes:', error);
     }
   };
 
+  
   return (
     <Card>
       <UserInfo>
