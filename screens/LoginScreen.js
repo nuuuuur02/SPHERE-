@@ -1,38 +1,48 @@
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Image, Alert } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image, Alert } from 'react-native'
+import React, { useEffect, useState, useLayoutEffect } from 'react'
 import { auth, db } from '../components/ConfigFirebase';
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { collection, query, where, getDocs } from 'firebase/firestore';
-
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { collection, query, getDocs } from 'firebase/firestore';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [blacklistEmails, setBlacklistEmails] = useState([]);
 
-  useEffect(() => {
-    const fetchBlacklistEmails = async () => {
-      const blacklistCollectionRef = collection(db, 'listaNegraUsers');
-      const blacklistQuery = query(blacklistCollectionRef);
 
-      try {
+    // Check before render
+    useLayoutEffect(() => {
+        // Esta función se ejecutará cada vez que cambie el estado de autenticación
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // El usuario está autenticado, puedes realizar acciones específicas para usuarios autenticados
+                navigation.navigate('HomeMain');
+            }
+        });
+    }, []);
+
+    useEffect(() => {
+    const fetchBlacklistEmails = async () => {
+    const blacklistCollectionRef = collection(db, 'listaNegraUsers');
+    const blacklistQuery = query(blacklistCollectionRef);
+
+    try {
         const snapshot = await getDocs(blacklistQuery);
 
         const blacklistData = snapshot.docs[0].data().listaNegra || [];
         setBlacklistEmails(blacklistData);
-      } catch (error) {
+    } catch (error) {
         console.error('Error fetching blacklist emails:', error);
-      }
-      
-    };
+    }};
     fetchBlacklistEmails();
-
-  }, []);
+    }, []);
 
     const SignIn = () => {
         if (email !== null && password !== null && !blacklistEmails.includes(email)) {
+            console.log("Before login: ", auth)
             signInWithEmailAndPassword(auth, email, password)
                 .then(() => {
+                    console.log("After login: ", auth)
                     navigation.navigate('HomeMain');
             })
             .catch((error) => Alert.alert("Login error:", error.message));
