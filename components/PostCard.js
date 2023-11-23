@@ -63,7 +63,13 @@ const PostCard = ({ item, updatePosts }) => {
   };
 
   const handleToggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen); // Cambia el estado para abrir o cerrar el menú
+    const isCurrentUserOwner = auth.currentUser?.displayName === item.userName;
+    if (isMenuOpen && isCurrentUserOwner) {
+      setIsMenuOpen(false);
+    } else {
+      
+      setIsMenuOpen(isCurrentUserOwner);
+    }
   };
 
   const handleDeletePost = () => {
@@ -113,7 +119,7 @@ const PostCard = ({ item, updatePosts }) => {
       if (postDoc.exists()) {
         const postData = postDoc.data();
         const currentLikes = postData.likes || [];
-  
+        
         if (liked) {
           const updatedLikes = currentLikes.filter(user => user !== auth.currentUser?.displayName);
           await updateDoc(postRef, { likes: updatedLikes });
@@ -125,19 +131,16 @@ const PostCard = ({ item, updatePosts }) => {
           await updateDoc(postRef, { likes: updatedLikes });
           setLikeCount(likeCount + 1);
           setLiked(true);
+          
   
         }
-  
-        // Aquí actualizamos el número de likes en el objeto `item` que proviene de props
-        const updatedItem = { ...item, likes: updatedLikes };
-        updatePosts(postId, updatedItem);
-  
       }
     } catch (error) {
       console.error('Error al actualizar la lista de likes:', error);
     }
   };
 
+  
   return (
     <Card>
       <UserInfo>
