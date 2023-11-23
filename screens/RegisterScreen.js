@@ -1,7 +1,7 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image, Alert } from 'react-native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image, Alert, Switch } from 'react-native'
 import React, { useState } from 'react'
 import { auth } from '../components/ConfigFirebase';
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile, setCustomUserClaims } from "firebase/auth";
 
 const RegisterScreen = ({ navigation }) => {
     const [nick, setNick] = useState('')
@@ -9,11 +9,15 @@ const RegisterScreen = ({ navigation }) => {
     const [photo, setPhoto] = useState('')
     const [password, setPassword] = useState('')
     const [repeatPassword, setRepeatPassword] = useState('')
-    
+
+    const [isProfesionalEnabled, setIsProfesionalEnabled] = useState(false);
+    const [isFamiliarEnabled, setIsFamiliarEnabled] = useState(false);
+    const toggleProfesionalSwitch = () => setIsProfesionalEnabled(previousState => !previousState);
+    const toggleFamiliarSwitch = () => setIsFamiliarEnabled(previousState => !previousState);
 
     const AddUser = () => {
 
-        if (email !== null && password !== null) {
+        if (!(email == '' || email == null) && !(password == '' || password == null) && password === repeatPassword) {
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     // Después de crear la cuenta, obtenemos la referencia al usuario
@@ -23,12 +27,35 @@ const RegisterScreen = ({ navigation }) => {
                     return updateProfile(user, {
                         displayName: nick,
                         photoURL: photo,
+                        /*providerData: {
+                            profesional: isProfesionalEnabled,
+                            familiar: isFamiliarEnabled,
+                        },
+                        stsTokenManager: {
+                            profesional: isProfesionalEnabled,
+                            familiar: isFamiliarEnabled,
+                        },*/
                     });
                 })
+                /*.then((auth) => {
+                    // Obtenemos la referencia al uid del usuario
+                    const uidUser = auth.currentUser?.uid;
+
+                    // Actualizamos el profesional y familiar
+                    return setCustomUserClaims(uidUser, {
+                        profesional: isProfesionalEnabled,
+                        familiar: isFamiliarEnabled,
+                    });
+                })*/
                 .then(() => {
+                    console.log(auth)
                     navigation.navigate('HomeMain');
                 })
                 .catch((error) => Alert.alert("Login error:", error.message));
+        } else if (email == null || email == '') {
+            Alert.alert("Email incorrecto.", "Debe tener una estructura de email@dominio.xxx");
+        } else {
+            Alert.alert("Contraseña incorrecta", "Las contraseñas no coinciden.");
         }
     }
 
@@ -76,11 +103,39 @@ const RegisterScreen = ({ navigation }) => {
                     style={styles.input}
                 >
                 </TextInput>
+                <View
+                    accessibilityRole={'checkbox'}
+                    style={{
+                        flexDirection: 'row',
+                        height: 50,
+                        padding: 15,
+                    }}
+                >
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Text>¿Profesional?</Text>
+                        <Switch
+                            trackColor={{ false: '#767577', true: '#767577' }}
+                            thumbColor={isProfesionalEnabled ? '#f5dd4b' : '#f4f3f4'}
+                            onValueChange={toggleProfesionalSwitch}
+                            value={isProfesionalEnabled}
+                            accessibilityRole={'checkbox'}
+                        />
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 60 }}>
+                        <Text>¿Familiar?</Text>
+                        <Switch
+                            trackColor={{ false: '#767577', true: '#767577' }}
+                            thumbColor={isFamiliarEnabled ? '#f5dd4b' : '#f4f3f4'}
+                            onValueChange={toggleFamiliarSwitch}
+                            value={isFamiliarEnabled}
+                            accessibilityRole={'checkbox'}
+                        />
+                    </View>
+                </View>
             </View>
 
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
-                    //onPress={handleLogin}
                     onPress={() => {
                         AddUser()
                     }}

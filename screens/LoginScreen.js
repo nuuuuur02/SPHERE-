@@ -32,8 +32,9 @@ const LoginScreen = ({ navigation }) => {
     const SignIn = () => {
         if (email !== null && password !== null && !blacklistEmails.includes(email)) {
             signInWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                navigation.navigate('HomeMain');
+                .then(() => {
+                    console.log(auth)
+                    navigation.navigate('HomeMain');
             })
             .catch((error) => Alert.alert("Login error:", error.message));
         } else if (blacklistEmails.includes(email)) {
