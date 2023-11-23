@@ -5,7 +5,10 @@
     "\\navigation",
     "\\screens",
     "\\screens\\Drawer",
+    "\\screens\\TobTab",
+    "\\screens\\TobTab\\GrupalChat",
     "\\styles"
   ],
+  "SelectedNode": "\\screens\\TobTab\\GrupalChat\\CreateChat.js",
   "PreviewInSolutionExplorer": false
 }

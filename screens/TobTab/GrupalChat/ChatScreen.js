@@ -34,8 +34,6 @@ const ChatScreen = ({ route }) => {
     const postMessage = async (message) => {
 
         try {
-            /*const postId = item.id;
-            const postRef = doc(db, 'groups', postId);*/
             const postDoc = await getDoc(postRef);
             const postData = postDoc.data();
             const currentMessages = postData && postData._messages ? postData._messages : [];

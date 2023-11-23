@@ -1,7 +1,8 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image, Alert, Switch } from 'react-native'
 import React, { useState } from 'react'
-import { auth } from '../components/ConfigFirebase';
+import { db, auth } from '../components/ConfigFirebase';
 import { createUserWithEmailAndPassword, updateProfile, setCustomUserClaims } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 const RegisterScreen = ({ navigation }) => {
     const [nick, setNick] = useState('')
@@ -10,9 +11,9 @@ const RegisterScreen = ({ navigation }) => {
     const [password, setPassword] = useState('')
     const [repeatPassword, setRepeatPassword] = useState('')
 
-    const [isProfesionalEnabled, setIsProfesionalEnabled] = useState(false);
+    const [isProfessionalEnabled, setIsProfessionalEnabled] = useState(false);
     const [isFamiliarEnabled, setIsFamiliarEnabled] = useState(false);
-    const toggleProfesionalSwitch = () => setIsProfesionalEnabled(previousState => !previousState);
+    const toggleProfesionalSwitch = () => setIsProfessionalEnabled(previousState => !previousState);
     const toggleFamiliarSwitch = () => setIsFamiliarEnabled(previousState => !previousState);
 
     const AddUser = () => {
@@ -27,28 +28,11 @@ const RegisterScreen = ({ navigation }) => {
                     return updateProfile(user, {
                         displayName: nick,
                         photoURL: photo,
-                        /*providerData: {
-                            profesional: isProfesionalEnabled,
-                            familiar: isFamiliarEnabled,
-                        },
-                        stsTokenManager: {
-                            profesional: isProfesionalEnabled,
-                            familiar: isFamiliarEnabled,
-                        },*/
                     });
                 })
-                /*.then((auth) => {
-                    // Obtenemos la referencia al uid del usuario
-                    const uidUser = auth.currentUser?.uid;
-
-                    // Actualizamos el profesional y familiar
-                    return setCustomUserClaims(uidUser, {
-                        profesional: isProfesionalEnabled,
-                        familiar: isFamiliarEnabled,
-                    });
-                })*/
                 .then(() => {
-                    console.log(auth)
+                    // Add extra parameters to User (is profesional? is familiar?)
+                    AddParametersUser();
                     navigation.navigate('HomeMain');
                 })
                 .catch((error) => Alert.alert("Login error:", error.message));
@@ -57,6 +41,19 @@ const RegisterScreen = ({ navigation }) => {
         } else {
             Alert.alert("Contraseña incorrecta", "Las contraseñas no coinciden.");
         }
+    }
+
+    // Add the profesional and/or familiar parameters to User
+    const AddParametersUser = async () => {
+        try {
+            const newUser = {
+                professional: isProfessionalEnabled,
+                familiar: isFamiliarEnabled,
+            };
+
+            await setDoc(doc(db, "user", auth.currentUser?.uid), newUser);
+        }
+        catch (error) { console.error("Error al añadir los parámetros al usuario", error); }
     }
 
     return (
@@ -115,9 +112,9 @@ const RegisterScreen = ({ navigation }) => {
                         <Text>¿Profesional?</Text>
                         <Switch
                             trackColor={{ false: '#767577', true: '#767577' }}
-                            thumbColor={isProfesionalEnabled ? '#f5dd4b' : '#f4f3f4'}
+                            thumbColor={isProfessionalEnabled ? '#f5dd4b' : '#f4f3f4'}
                             onValueChange={toggleProfesionalSwitch}
-                            value={isProfesionalEnabled}
+                            value={isProfessionalEnabled}
                             accessibilityRole={'checkbox'}
                         />
                     </View>

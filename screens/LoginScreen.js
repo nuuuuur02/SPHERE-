@@ -33,7 +33,6 @@ const LoginScreen = ({ navigation }) => {
         if (email !== null && password !== null && !blacklistEmails.includes(email)) {
             signInWithEmailAndPassword(auth, email, password)
                 .then(() => {
-                    console.log(auth)
                     navigation.navigate('HomeMain');
             })
             .catch((error) => Alert.alert("Login error:", error.message));
