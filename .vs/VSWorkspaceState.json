@@ -1,12 +1,15 @@
 {
   "ExpandedNodes": [
     "",
+    "\\components",
     "\\navigation",
     "\\screens",
-    "\\screens\\TobTab",
+    "\\screens\\Drawer",
     "\\screens\\TobTab\\GrupalChat",
-    "\\styles"
+    "\\screens\\TobTab\\PrivateChat",
+    "\\styles\\GrupalChat",
+    "\\styles\\Theme"
   ],
-  "SelectedNode": "\\screens\\RegisterScreen.js",
+  "SelectedNode": "\\components\\PostCard.js",
   "PreviewInSolutionExplorer": false
 }

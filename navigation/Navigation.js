@@ -36,7 +36,7 @@ import AddPostScreen from '../screens/AddPostScreen';
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 
-//ColorTheme
+//Theme
 import { EventRegister } from 'react-native-event-listeners';
 import { useState, useEffect } from 'react';
 import { DarkTheme, DefaultTheme } from "@react-navigation/native";
@@ -219,10 +219,6 @@ function TabGroup() {
         </Tab.Navigator>
     )
 }
-
-//Color theme
-
-
 
 export default function Navigation() {
     const [darkMode, setDarkMode] = useState(false)

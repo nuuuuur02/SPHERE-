@@ -1,22 +1,24 @@
 import styled from 'styled-components';
 
+
 export const Container = styled.View`
   flex: 1;
   align-items: center;
   
-  background-color: #fff;  
+  background-color: black;
+  
 `;
-
+//f8f8f8
 export const Card = styled.View`
-    background-color: #f8f8f8;
+    background-color: #000;
     width: 100%;
     margin-top: 20px;
     
 `;
-
+//f8f8f8
 export const CardCom = styled.View`
     
-    background-color: #f8f8f8;
+    background-color: #000;
     width: 100%;
     margin-top: 20px;
     
@@ -46,10 +48,11 @@ export const UserName = styled.Text`
     font-weight: bold;
     
 `;
-
+//666
 export const PostTime = styled.Text`
     font-size: 12px;
-    color: #666;
+    
+    color: white;
 `;
 
 export const PostText = styled.Text`
@@ -65,9 +68,9 @@ export const PostImg = styled.Image`
     height: 250px;
     /* margin-top: 15px; */
 `;
-
+//dddddd
 export const Divider = styled.View`
-    border-bottom-color: #dddddd;
+    border-bottom-color: white;
     border-bottom-width: 1px;
     width: 92%;
     align-self: center;

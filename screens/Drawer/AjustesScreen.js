@@ -8,8 +8,8 @@ export default function AjustesScreen() {
     const [darkMode, setDarkMode] = useState(false)
 
     return (
-        <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
-            <Text style={[styles.text, { color: theme.color }]}>AjustesScreen</Text>
+        <View style={{ backgroundColor: theme.backgroundColor }}>
+            <Text style={{ color: theme.color }}>Tema dark</Text>
             <Switch
                 value={darkMode}
                 onValueChange={(value) => {
@@ -20,13 +20,3 @@ export default function AjustesScreen() {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    text: {
-        fontWeight: 'bold'
-    }
- })
