@@ -1,15 +1,14 @@
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Image, Alert } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image, Alert } from 'react-native'
+import React, { useState } from 'react'
 import { auth } from '../components/ConfigFirebase';
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-
-import { useNavigation } from '@react-navigation/native'
 
 const RegisterScreen = ({ navigation }) => {
     const [nick, setNick] = useState('')
     const [email, setEmail] = useState('')
     const [photo, setPhoto] = useState('')
     const [password, setPassword] = useState('')
+    const [repeatPassword, setRepeatPassword] = useState('')
     
 
     const AddUser = () => {
@@ -17,32 +16,20 @@ const RegisterScreen = ({ navigation }) => {
         if (email !== null && password !== null) {
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
-                    // Despu�s de crear la cuenta, obtenemos la referencia al usuario
+                    // Después de crear la cuenta, obtenemos la referencia al usuario
                     const user = userCredential.user;
 
                     // Actualizamos el displayName y photoURL
                     return updateProfile(user, {
                         displayName: nick,
                         photoURL: photo,
-                        
                     });
                 })
                 .then(() => {
-                    console.log(auth)
                     navigation.navigate('HomeMain');
                 })
                 .catch((error) => Alert.alert("Login error:", error.message));
         }
-    }
-
-    const UpdateUser = (profileUpdates) => {
-        user.updateProfile(profileUpdates)
-            .then(() => {
-                console.log("User profile updated.");
-            })
-            .catch((error) => {
-                Alert.alert("Login error:", error.message);
-            });
     }
 
     return (
@@ -50,10 +37,7 @@ const RegisterScreen = ({ navigation }) => {
             style={styles.container}
             behavior='padding'
         >
-
             <Text style={styles.text}>Join Sphere Today</Text>
-
-
             <View style={styles.inputContainer}>
                 <TextInput
                     placeholder="Username"
@@ -79,8 +63,8 @@ const RegisterScreen = ({ navigation }) => {
                 </TextInput>
                 <TextInput
                     placeholder="Confirm Password"
-                    value={password}
-                    onChangeText={text => setPassword(text)}
+                    value={repeatPassword}
+                    onChangeText={text => setRepeatPassword(text)}
                     style={styles.input}
                     secureTextEntry
                 >

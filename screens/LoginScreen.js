@@ -29,75 +29,67 @@ const LoginScreen = ({ navigation }) => {
 
   }, []);
 
-  const SignIn = () => {
-    if (email !== null && password !== null && !blacklistEmails.includes(email)) {
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          console.log("Log-in ok");
-          console.log(blacklistEmails)
-          console.log(auth);
-          navigation.navigate('HomeMain');
-        })
-        .catch((error) => Alert.alert("Login error:", error.message));
-    } else if (blacklistEmails.includes(email)) {
-      Alert.alert("Login error:", "Tu cuenta a sido Baneada");
-    } else {
-      Alert.alert("Login error:", "Escribe un email y/o contraseña valida.");
-    }
-  };
+    const SignIn = () => {
+        if (email !== null && password !== null && !blacklistEmails.includes(email)) {
+            signInWithEmailAndPassword(auth, email, password)
+            .then(() => {
+                navigation.navigate('HomeMain');
+            })
+            .catch((error) => Alert.alert("Login error:", error.message));
+        } else if (blacklistEmails.includes(email)) {
+            Alert.alert("Login error:", "Tu cuenta a sido Baneada");
+        } else {
+            Alert.alert("Login error:", "Escribe un email y/o contraseña valida.");
+        }
+    };
 
-  return (
-    <View
-      style={styles.container}
-      behavior='padding'
-    >
-
-    <Image
-        source={{ uri: "https://firebasestorage.googleapis.com/v0/b/niideapepe-45402.appspot.com/o/Images%2FGroups%2FSphereLogo.jpg?alt=media&token=517e5910-c963-47e2-96b3-2343fbb2ff88" }}
-        style={styles.logo}
-    />
-
-     
-
-
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Email"
-          value={email}
-          onChangeText={text => setEmail(text.toLowerCase())}
-          style={styles.input}
+    return (
+        <View
+          style={styles.container}
+          behavior='padding'
         >
-        </TextInput>
-        <TextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={text => setPassword(text)}
-          style={styles.input}
-          secureTextEntry
-        >
-        </TextInput>
-      </View>
+            <Image
+                source={{ uri: "https://firebasestorage.googleapis.com/v0/b/niideapepe-45402.appspot.com/o/Images%2FGroups%2FSphereLogo.jpg?alt=media&token=517e5910-c963-47e2-96b3-2343fbb2ff88" }}
+                style={styles.logo}
+            />
+            <View style={styles.inputContainer}>
+                <TextInput
+                  placeholder="Email"
+                  value={email}
+                  onChangeText={text => setEmail(text.toLowerCase())}
+                  style={styles.input}
+                >
+                </TextInput>
+                <TextInput
+                  placeholder="Password"
+                  value={password}
+                  onChangeText={text => setPassword(text)}
+                  style={styles.input}
+                  secureTextEntry
+                >
+                </TextInput>
+            </View>
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          onPress={() => {
-            SignIn()
-          }}
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.forgotButton}
-          onPress={() => navigation.navigate('Register')}
-        >
-          <Text style={styles.navButtonText}>
-            Don't have an acount? Create here
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  )
+            <View style={styles.buttonContainer}>
+            <TouchableOpacity
+                onPress={() => {
+                SignIn()
+                }}
+                style={styles.button}
+            >
+                <Text style={styles.buttonText}>Login</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.forgotButton}
+                onPress={() => navigation.navigate('Register')}
+            >
+                <Text style={styles.navButtonText}>
+                Don't have an acount? Create here
+                </Text>
+            </TouchableOpacity>
+            </View>
+        </View>
+    )
 }
 
 export default LoginScreen
