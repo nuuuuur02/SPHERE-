@@ -1,48 +1,59 @@
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Image, Alert } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { auth } from '../components/ConfigFirebase';
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-
-import { useNavigation } from '@react-navigation/native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image, Alert, Switch } from 'react-native'
+import React, { useState } from 'react'
+import { db, auth } from '../components/ConfigFirebase';
+import { createUserWithEmailAndPassword, updateProfile, setCustomUserClaims } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 const RegisterScreen = ({ navigation }) => {
     const [nick, setNick] = useState('')
     const [email, setEmail] = useState('')
     const [photo, setPhoto] = useState('')
     const [password, setPassword] = useState('')
-    
+    const [repeatPassword, setRepeatPassword] = useState('')
+
+    const [isProfessionalEnabled, setIsProfessionalEnabled] = useState(false);
+    const [isFamiliarEnabled, setIsFamiliarEnabled] = useState(false);
+    const toggleProfesionalSwitch = () => setIsProfessionalEnabled(previousState => !previousState);
+    const toggleFamiliarSwitch = () => setIsFamiliarEnabled(previousState => !previousState);
 
     const AddUser = () => {
 
-        if (email !== null && password !== null) {
+        if (!(email == '' || email == null) && !(password == '' || password == null) && password === repeatPassword) {
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
-                    // Despu�s de crear la cuenta, obtenemos la referencia al usuario
+                    // Después de crear la cuenta, obtenemos la referencia al usuario
                     const user = userCredential.user;
 
                     // Actualizamos el displayName y photoURL
                     return updateProfile(user, {
                         displayName: nick,
                         photoURL: photo,
-                        
                     });
                 })
                 .then(() => {
-                    console.log(auth)
+                    // Add extra parameters to User (is profesional? is familiar?)
+                    AddParametersUser();
                     navigation.navigate('HomeMain');
                 })
                 .catch((error) => Alert.alert("Login error:", error.message));
+        } else if (email == null || email == '') {
+            Alert.alert("Email incorrecto.", "Debe tener una estructura de email@dominio.xxx");
+        } else {
+            Alert.alert("Contraseña incorrecta", "Las contraseñas no coinciden.");
         }
     }
 
-    const UpdateUser = (profileUpdates) => {
-        user.updateProfile(profileUpdates)
-            .then(() => {
-                console.log("User profile updated.");
-            })
-            .catch((error) => {
-                Alert.alert("Login error:", error.message);
-            });
+    // Add the profesional and/or familiar parameters to User
+    const AddParametersUser = async () => {
+        try {
+            const newUser = {
+                professional: isProfessionalEnabled,
+                familiar: isFamiliarEnabled,
+            };
+
+            await setDoc(doc(db, "user", auth.currentUser?.uid), newUser);
+        }
+        catch (error) { console.error("Error al añadir los parámetros al usuario", error); }
     }
 
     return (
@@ -50,10 +61,7 @@ const RegisterScreen = ({ navigation }) => {
             style={styles.container}
             behavior='padding'
         >
-
             <Text style={styles.text}>Join Sphere Today</Text>
-
-
             <View style={styles.inputContainer}>
                 <TextInput
                     placeholder="Username"
@@ -79,8 +87,8 @@ const RegisterScreen = ({ navigation }) => {
                 </TextInput>
                 <TextInput
                     placeholder="Confirm Password"
-                    value={password}
-                    onChangeText={text => setPassword(text)}
+                    value={repeatPassword}
+                    onChangeText={text => setRepeatPassword(text)}
                     style={styles.input}
                     secureTextEntry
                 >
@@ -92,11 +100,39 @@ const RegisterScreen = ({ navigation }) => {
                     style={styles.input}
                 >
                 </TextInput>
+                <View
+                    accessibilityRole={'checkbox'}
+                    style={{
+                        flexDirection: 'row',
+                        height: 50,
+                        padding: 15,
+                    }}
+                >
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Text>¿Profesional?</Text>
+                        <Switch
+                            trackColor={{ false: '#767577', true: '#767577' }}
+                            thumbColor={isProfessionalEnabled ? '#f5dd4b' : '#f4f3f4'}
+                            onValueChange={toggleProfesionalSwitch}
+                            value={isProfessionalEnabled}
+                            accessibilityRole={'checkbox'}
+                        />
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 60 }}>
+                        <Text>¿Familiar?</Text>
+                        <Switch
+                            trackColor={{ false: '#767577', true: '#767577' }}
+                            thumbColor={isFamiliarEnabled ? '#f5dd4b' : '#f4f3f4'}
+                            onValueChange={toggleFamiliarSwitch}
+                            value={isFamiliarEnabled}
+                            accessibilityRole={'checkbox'}
+                        />
+                    </View>
+                </View>
             </View>
 
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
-                    //onPress={handleLogin}
                     onPress={() => {
                         AddUser()
                     }}
