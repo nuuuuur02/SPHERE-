@@ -4,7 +4,9 @@
     "\\components",
     "\\navigation",
     "\\screens",
+    "\\screens\\Drawer",
     "\\styles"
   ],
+  "SelectedNode": "\\components\\DropMenu.js",
   "PreviewInSolutionExplorer": false
 }
