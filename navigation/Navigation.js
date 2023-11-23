@@ -268,7 +268,6 @@ function TabGroup() {
 
 export default function Navigation() {
     return (
-        //<DrawerGroup />
         <NavigationContainer>
             <DrawerGroup />
         </NavigationContainer>
