@@ -35,11 +35,19 @@ const PostCard = ({ item, updatePosts }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 
+
   useEffect(() => {
-    setLiked(isUserLiked);
     getCommentCount().then(count => {
       setCommentCount(count);
     });
+  
+    // Verificar si el usuario actual ya dio like al post
+    const isUserLiked = item.likes.includes(auth.currentUser?.displayName);
+    setLiked(isUserLiked);
+  
+    // Inicializar el contador de likes
+    const initialLikeCount = Array.isArray(item.likes) ? item.likes.length : 0;
+    setLikeCount(initialLikeCount);
   }, []);
 
   const getCommentCount = async () => {
@@ -98,28 +106,32 @@ const PostCard = ({ item, updatePosts }) => {
 
   const toggleLike = async () => {
     try {
-      const postId = item.id; // Supongamos que tienes un campo id en tu objeto item
+      const postId = item.id;
       const postRef = doc(db, 'posts', postId);
       const postDoc = await getDoc(postRef);
-
+  
       if (postDoc.exists()) {
         const postData = postDoc.data();
         const currentLikes = postData.likes || [];
-
+  
         if (liked) {
           const updatedLikes = currentLikes.filter(user => user !== auth.currentUser?.displayName);
           await updateDoc(postRef, { likes: updatedLikes });
           setLikeCount(likeCount - 1);
           setLiked(false);
-
+  
         } else {
           const updatedLikes = [...currentLikes, auth.currentUser?.displayName];
           await updateDoc(postRef, { likes: updatedLikes });
           setLikeCount(likeCount + 1);
           setLiked(true);
-
+  
         }
-
+  
+        // Aquí actualizamos el número de likes en el objeto `item` que proviene de props
+        const updatedItem = { ...item, likes: updatedLikes };
+        updatePosts(postId, updatedItem);
+  
       }
     } catch (error) {
       console.error('Error al actualizar la lista de likes:', error);
