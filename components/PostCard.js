@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
-import { db, storagebd} from '../components/ConfigFirebase';
+import { db, storagebd,auth} from '../components/ConfigFirebase';
 import { useNavigation } from '@react-navigation/native';
 import { ref, deleteObject } from 'firebase/storage';
 import { updateDoc, getDoc, doc, deleteDoc, collection, query, where, getDocs } from "firebase/firestore";
@@ -107,13 +107,13 @@ const PostCard = ({ item, updatePosts }) => {
         const currentLikes = postData.likes || [];
 
         if (liked) {
-          const updatedLikes = currentLikes.filter(user => user !== item.userName);
+          const updatedLikes = currentLikes.filter(user => user !== auth.currentUser?.displayName);
           await updateDoc(postRef, { likes: updatedLikes });
           setLikeCount(likeCount - 1);
           setLiked(false);
 
         } else {
-          const updatedLikes = [...currentLikes, item.userName];
+          const updatedLikes = [...currentLikes, auth.currentUser?.displayName];
           await updateDoc(postRef, { likes: updatedLikes });
           setLikeCount(likeCount + 1);
           setLiked(true);
