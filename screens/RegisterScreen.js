@@ -56,12 +56,20 @@ const RegisterScreen = ({ navigation }) => {
         catch (error) { console.error("Error al añadir los parámetros al usuario", error); }
     }
 
+    const pressedImageButton = () => {
+        console.log("button pressed")
+    }
+
     return (
         <View
             style={styles.container}
             behavior='padding'
         >
             <Text style={styles.text}>Join Sphere Today</Text>
+            <TouchableOpacity
+                style={styles.button}
+                onPress={pressedImageButton}
+            ></TouchableOpacity>
             <View style={styles.inputContainer}>
                 <TextInput
                     placeholder="Username"
