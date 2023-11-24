@@ -13,6 +13,11 @@ const CreateChat = ({ navigation }) => {
 
     const AddGroup = () => {
         try {
+
+            // Dividir la cadena de usuarios y agregar el nuevo usuario al principio
+            const actualUsers = users.split(" ")
+            actualUsers.unshift(auth.currentUser?.email)
+
             const groups = query(collection(db, 'groups'));
 
             const newGroup = {
@@ -20,7 +25,7 @@ const CreateChat = ({ navigation }) => {
                 messageText: description,
                 userImg: photo,
                 messageTime: new Date(),
-                usersInGroup: users.split(" "),
+                usersInGroup: actualUsers,
             };
 
             addDoc(groups, newGroup)
