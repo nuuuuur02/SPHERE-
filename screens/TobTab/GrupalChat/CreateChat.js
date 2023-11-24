@@ -3,7 +3,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { TextInput, View, Text, StyleSheet, Alert } from 'react-native';
 import { db, auth } from '../../../components/ConfigFirebase';
 import { query, collection, addDoc } from "firebase/firestore";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { fetchSignInMethodsForEmail } from "firebase/auth";
 
 const CreateChat = ({ navigation }) => {
     const [nameGroup, onChangeName] = useState('');
@@ -68,19 +68,27 @@ const CreateChat = ({ navigation }) => {
 
     const checkUsers = async (users) => {
         try {
-            await Promise.all(users.map(async (userEmail) => {
-                await signInWithEmailAndPassword(auth, userEmail, 'fP');
+            const results = await Promise.all(users.map(async (userEmail) => {
+                try {
+                    await fetchSignInMethodsForEmail(auth, userEmail);
+                    // El usuario existe
+                    return true;
+                } catch (error) {
+                    // El usuario no existe
+                    return false;
+                }
             }));
-        }
-        catch (error) {
-            if (error.code === 'auth/invalid-email') {
-                //El usuario no existe
+
+            if (results.includes(false)) {
                 Alert.alert("Usuarios incorrectos.", "Asegúrate de que los correos de los usuarios introducidos son correctos y existen en la aplicación.");
                 return false;
             } else {
-                //El usuario existe
                 return true;
             }
+        }
+        catch (error) {
+            console.error("Error al verificar usuarios:", error);
+            return false;
         }
     }
 
