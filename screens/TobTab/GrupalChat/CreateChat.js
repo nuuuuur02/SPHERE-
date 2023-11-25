@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { TextInput, View, Text, StyleSheet, Alert } from 'react-native';
+import { TextInput, View, StyleSheet, Alert, Image } from 'react-native';
 import { db, auth } from '../../../components/ConfigFirebase';
 import { query, collection, addDoc } from "firebase/firestore";
 import { fetchSignInMethodsForEmail } from "firebase/auth";
@@ -93,39 +93,46 @@ const CreateChat = ({ navigation }) => {
     }
 
     return (
-        <View style={styles.container}>
-            <Input property="Nombre" onChangeText={onChangeName} value={nameGroup} />
-            <Input property="Descripción" onChangeText={onChangeDescription} value={description} />
-            <Input property="Foto" onChangeText={onChangePhoto} value={photo} />
-            <Input property="Usuarios" onChangeText={onChangeUsers} value={users} />
-            <FontAwesome5.Button
-                name="plus-circle"
-                size={40}
-                backgroundColor="#fff"
-                color="#2e64e5"
-                onPress={() => {
-                    CheckCredentials()
-                }}
-                style={{
-                    marginBottom: 0,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}
+        <View
+            style={styles.container}
+            behavior='padding'
+        >
+            <Image
+                source={{ uri: "https://firebasestorage.googleapis.com/v0/b/niideapepe-45402.appspot.com/o/Images%2FGroups%2FSphereLogo.jpg?alt=media&token=517e5910-c963-47e2-96b3-2343fbb2ff88" }}
+                style={styles.logo}
             />
+            <View>
+                <Input property="Nombre" onChangeText={onChangeName} value={nameGroup} />
+                <Input property="Descripción" onChangeText={onChangeDescription} value={description} />
+                <Input property="Foto" onChangeText={onChangePhoto} value={photo} />
+                <Input property="Usuarios" onChangeText={onChangeUsers} value={users} />
+                <FontAwesome5.Button
+                    name="plus-circle"
+                    size={40}
+                    backgroundColor="#fff"
+                    color="#2e64e5"
+                    onPress={() => {
+                        CheckCredentials()
+                    }}
+                    style={{
+                        marginTop: 15,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                    />
+            </View>
         </View>
     );
 };
 
 const Input = props => {
     return (
-        <>
-            <Text style={styles.boldText}>{ props.property }:</Text>
-            <TextInput
-                style={styles.inputField}
-                onChangeText={ props.onChangeText }
-                value={ props.value }
-            />
-        </>
+        <TextInput
+            style={styles.inputField}
+            onChangeText={props.onChangeText}
+            value={props.value}
+            placeholder={props.property}
+        />
     )
 }
 
@@ -138,13 +145,25 @@ const styles = StyleSheet.create({
         width: 300,
         borderColor: '#2e64e5',
         borderWidth: 1,
+        backgroundColor: "white",
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        borderRadius: 70,
+        marginTop: 15,
+        fontFamily: 'Roboto',
     },
     container: {
         flex: 1,
-        justifyContent: 'space-between',
         backgroundColor: '#fff',
         padding: 50,
         margin: 10,
+        justifyContent: "center",
+        alignItems: 'center',
+    },
+    logo: {
+        height: 150,
+        width: 150,
+        resizeMode: 'cover',
     },
 });
 
