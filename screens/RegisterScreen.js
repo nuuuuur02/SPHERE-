@@ -66,10 +66,10 @@ const RegisterScreen = ({ navigation }) => {
             behavior='padding'
         >
             <Text style={styles.text}>Join Sphere Today</Text>
-            <TouchableOpacity
+            {/*<TouchableOpacity
                 style={styles.button}
                 onPress={pressedImageButton}
-            ></TouchableOpacity>
+            ></TouchableOpacity>*/}
             <View style={styles.inputContainer}>
                 <TextInput
                     placeholder="Username"
