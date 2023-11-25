@@ -36,6 +36,8 @@ const HomeScreen = ({ navigation }) => {
     fetchPosts();
   }, []);
 
+  
+
   return (
     <Container>
       <FlatList

@@ -5,6 +5,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { db } from '../components/ConfigFirebase';
 import { query, collection, getDocs } from "firebase/firestore";
 import DialogInput from 'react-native-dialog-input';
+import * as Location from 'expo-location';
 
 const FundacionesCard = ({ item }) => (
   <View style={styles.newsCard}>
@@ -20,14 +21,20 @@ const HomeScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [distanciaMaxima, setDistanciaMaxima] = useState(10000000000); // Define la distancia máxima permitida en kilómetros
   const [isDialogVisible, setDialogVisible] = useState(false);
+  const [userPosition, setUserPosition] = useState('')
 
+  const getLocation = async () => {
+    let location = await Location.getCurrentPositionAsync({});
+    setUserPosition(location)
+  }
+  
   const fetchFundaciones = async () => {
     try {
       const q1 = query((collection(db, "fundaciones")));
       const docSnap = await getDocs(q1);
 
       const fundacionesData = docSnap.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-      const fundacionesDataSorted = filterFundacionesPorDistancia(fundacionesData);
+      const fundacionesDataSorted = await filterFundacionesPorDistancia(fundacionesData);
       const fundacionesDataSortedFiltered = fundacionesDataSorted.sort((a, b) => a.distancia - b.distancia);
       setFundaciones(fundacionesDataSortedFiltered);
     } catch (error) {
@@ -55,12 +62,14 @@ const HomeScreen = () => {
     return distancia;
   };
 
-  const filterFundacionesPorDistancia = (fundacionesData) => {
-    // Reemplaza con las coordenadas de tu ubicación actual     
-    const ubicacionActual = { latitude: 39, longitude: 0.3 };
+  const filterFundacionesPorDistancia = async (fundacionesData) => {
+    // Reemplaza con las coordenadas de tu ubicación actual    
+    await getLocation();
+    console.log(userPosition.coords);
+    const ubicacionActual = userPosition.coords;
     const fundacionesFiltradas = fundacionesData.filter((fundacion) => {
       const distancia = calcularDistanciaHaversine(
-        ubicacionActual,
+        ubicacionActual, 
         fundacion.ubicacion
       );
       fundacion.distancia = distancia;
