@@ -27,6 +27,7 @@ import PrivateChatScreen from "../screens/TobTab/PrivateChat/PrivateChatScreen";
 import GrupalChat from "../screens/TobTab/GrupalChat/GrupalChat";
 import ChatScreen from "../screens/TobTab/GrupalChat/ChatScreen";
 import CreateChat from "../screens/TobTab/GrupalChat/CreateChat";
+import FundacionScreen from "../screens/FundacionesScreen";
 
 import HomeScreen from '../screens/HomeScreen';
 import AddCommentScreen from '../screens/AddCommentScreen';
@@ -49,6 +50,7 @@ function TobTabGroup() {
             <TobTab.Screen name="Comunidad" component={HomeScreen} />
             <TobTab.Screen name="Chats" component={PrivateChat} />
             <TobTab.Screen name="Grupos" component={GrupalChat} />
+            <TobTab.Screen name="Fundaciones" component={FundacionScreen}/>
         </TobTab.Navigator>
     )
 }
