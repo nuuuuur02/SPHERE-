@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
-import { auth, db } from '../../components/ConfigFirebase';  // Asumo que `db` es tu instancia de Firestore
+import { auth, db } from '../../components/ConfigFirebase';  
 import { doc, getDoc } from 'firebase/firestore';
 
 export default function PerfilScreen({ navigation }) {
@@ -18,12 +18,10 @@ export default function PerfilScreen({ navigation }) {
           nombre: user.displayName,
         });
 
-        // Obtén el documento del usuario desde Firestore
         const userDocRef = doc(db, 'user', user.uid);
         const userDoc = await getDoc(userDocRef);
 
         if (userDoc.exists()) {
-          // Actualiza los estados para reflejar los roles del usuario
           const userData = userDoc.data();
           setIsProfessional(userData.profesional);
           setIsFamiliar(userData.familiar);
@@ -57,6 +55,7 @@ export default function PerfilScreen({ navigation }) {
           {isFamiliarEnabled && <Text style={styles.text}>Familiar</Text>}
 
           {isProfessionalEnabled && <Text style={styles.label}>Papers publicados:</Text>}
+          {isProfessionalEnabled && <Text style={styles.text}>¿Cómo reconocer los signos del TEA en niños?:</Text>}
           
         </View>
       ) : (
