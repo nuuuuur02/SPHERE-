@@ -1,29 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
-import { auth } from '../../components/ConfigFirebase';
-import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from '../../components/ConfigFirebase';  // Asumo que `db` es tu instancia de Firestore
+import { doc, getDoc } from 'firebase/firestore';
 
 export default function PerfilScreen({ navigation }) {
   const [userData, setUserData] = useState(null);
+  const [isProfessionalEnabled, setIsProfessional] = useState(false);
+  const [isFamiliarEnabled, setIsFamiliar] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
-        // Usuario autenticado, puedes acceder a los datos del usuario aquí
         setUserData({
           uid: user.uid,
           photo: user.photoURL,
           email: user.email,
           nombre: user.displayName,
         });
+
+        // Obtén el documento del usuario desde Firestore
+        const userDocRef = doc(db, 'user', user.uid);
+        const userDoc = await getDoc(userDocRef);
+
+        if (userDoc.exists()) {
+          // Actualiza los estados para reflejar los roles del usuario
+          const userData = userDoc.data();
+          setIsProfessional(userData.profesional);
+          setIsFamiliar(userData.familiar);
+        }
       } else {
         setUserData(null);
+        setIsProfessional(false);
+        setIsFamiliar(false);
       }
     });
 
     return () => unsubscribe();
   }, []);
-
 
   return (
     <View style={styles.container}>
@@ -43,7 +56,8 @@ export default function PerfilScreen({ navigation }) {
           <Text style={styles.text}>{userData.nombre}</Text>
 
           <Text style={styles.label}>Rol:</Text>
-          <Text style={styles.text}>{userData.nombre}</Text>
+          {isProfessionalEnabled && <Text style={styles.text}>Profesional</Text>}
+          {isFamiliarEnabled && <Text style={styles.text}>Familiar</Text>}
         </View>
       ) : (
         <Text>Loading...</Text>
