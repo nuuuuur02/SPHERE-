@@ -24,18 +24,4 @@ export default function App() {
     LogBox.ignoreAllLogs();
 
     return <Navigation />;
-
-
-
 }
-/*
-useEffect(() => {
-    (async () => {
-      
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
-    })();
-}, []);*/
