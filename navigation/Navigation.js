@@ -16,6 +16,7 @@ import Descripcion from "../screens/Tab/Descripcion";
 import CalendarioScreen from "../screens/Tab/CalendarioScreen";
 import PerfilScreen from "../screens/Tab/PerfilScreen";
 import AjustesScreen from "../screens/Drawer/AjustesScreen";
+import RecursosScreen from "../screens/Drawer/RecursosScreen";
 
 //diario
 import PrincipalEvento from "../screens/Tab/PrincipalEvento";
@@ -65,6 +66,7 @@ function DrawerGroup() {
 
             />
             <Drawer.Screen name="Ajustes" component={AjustesScreen} />
+            <Drawer.Screen name="Recursos" component={RecursosScreen} />
             <Drawer.Screen name="Fundaciones" component={FundacionScreen} />
         </Drawer.Navigator>
     )
