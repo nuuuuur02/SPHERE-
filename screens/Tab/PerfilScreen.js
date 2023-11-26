@@ -46,18 +46,18 @@ export default function PerfilScreen({ navigation }) {
             /*<Image source={{ uri: userData.photo }} style={styles.profileImage} />*/ //Esto se te que canviar quan s'arregle lo de la imatge 
             <Image source={require("../../assets/user.png")} style={styles.profileImage} />
           )}
-          <Text style={styles.label}>UID:</Text>
-          <Text style={styles.text}>{userData.uid}</Text>
+          <Text style={styles.label}>Nombre:</Text>
+          <Text style={styles.text}>{userData.nombre}</Text>
 
           <Text style={styles.label}>Email:</Text>
           <Text style={styles.text}>{userData.email}</Text>
 
-          <Text style={styles.label}>Nombre:</Text>
-          <Text style={styles.text}>{userData.nombre}</Text>
-
           <Text style={styles.label}>Rol:</Text>
           {isProfessionalEnabled && <Text style={styles.text}>Profesional</Text>}
           {isFamiliarEnabled && <Text style={styles.text}>Familiar</Text>}
+
+          {isProfessionalEnabled && <Text style={styles.label}>Papers publicados:</Text>}
+          
         </View>
       ) : (
         <Text>Loading...</Text>
