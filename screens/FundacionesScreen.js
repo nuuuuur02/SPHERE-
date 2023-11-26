@@ -7,14 +7,6 @@ import { query, collection, getDocs } from "firebase/firestore";
 import DialogInput from 'react-native-dialog-input';
 import * as Location from 'expo-location';
 
-const FundacionesCard = ({ item }) => (
-  <View style={styles.newsCard}>
-    <Image source={{ uri: item.urlToImage }} style={{ width: 200, height: 200, alignSelf: 'center' }} />
-    <Text style={styles.newsTitle}>{item.nombre}</Text>
-    <Text style={styles.newsContent}>{item.descripcion}</Text>
-    {/* Puedes agregar más elementos según tus necesidades */}
-  </View>
-);
 
 const HomeScreen = () => {
   const [fundaciones, setFundaciones] = useState(null);
@@ -22,6 +14,17 @@ const HomeScreen = () => {
   const [distanciaMaxima, setDistanciaMaxima] = useState(10000000000); // Define la distancia máxima permitida en kilómetros
   const [isDialogVisible, setDialogVisible] = useState(false);
   const [userPosition, setUserPosition] = useState('')
+  const [color, setColor] = useState('blue');
+
+  const getColor = (index) => {
+    if (index % 3 === 0) {
+      return { backgroundColor: 'lightblue' }
+    } else if (index % 3 === 1) {
+      return { backgroundColor: 'lightyellow' }
+    } else {
+      return { backgroundColor: 'lightpink' }
+    }
+  }
 
   const getLocation = async () => {
     let location = await Location.getCurrentPositionAsync({});
@@ -36,12 +39,31 @@ const HomeScreen = () => {
       const fundacionesData = docSnap.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
       const fundacionesDataSorted = await filterFundacionesPorDistancia(fundacionesData);
       const fundacionesDataSortedFiltered = fundacionesDataSorted.sort((a, b) => a.distancia - b.distancia);
-      setFundaciones(fundacionesDataSortedFiltered);
+      const fundacionesDataSortedFilteredColored = colorearData(fundacionesDataSortedFiltered);
+      setFundaciones(fundacionesDataSortedFilteredColored);
     } catch (error) {
       console.error("Error fetching news:", error);
     }
   };
 
+  const colorearData = (fundacionesDataSortedFiltered) => {
+    for (let index = 0; index < fundacionesDataSortedFiltered.length; index++) {
+      let color;
+  
+      // Establecer el color basado en el índice
+      if (index % 3 === 0) {
+        color = 'pink';
+      } else if (index % 3 === 1) {
+        color = 'yellow';
+      } else {
+        color = 'blue';
+      }
+        fundacionesDataSortedFiltered[index].backgroundColor = color;
+
+      return fundacionesDataSortedFiltered;
+    }
+  };
+  
   const calcularDistanciaHaversine = (coordenadas1, coordenadas2) => {
     const R = 6371; // Radio de la Tierra en kilómetros
     const lat1 = coordenadas1.latitude;
@@ -84,11 +106,14 @@ const HomeScreen = () => {
     setRefreshing(false);
   }, []);
 
-  const renderItem = ({ item }) => (
-    <FundacionesCard
-      item={item}
-      // Agrega más props según sea necesario
-    />
+  const renderItem = ({ item, index }) => (
+    <View style={[styles.newsCard, getColor(index)]}>
+      <Text style={styles.newsTitle}>{item.ciudad}</Text>
+      <Image source={{ uri: item.urlToImage }} style={{ width: 200, height: 200, alignSelf: 'center' }} />
+      <Text style={styles.newsTitle}>{item.nombre}</Text>
+      <Text style={styles.newsContent}>{item.descripcion}</Text>
+      {/* Puedes agregar más elementos según tus necesidades */}
+    </View>
   );
 
   const showDialog = () => {
@@ -113,7 +138,7 @@ const HomeScreen = () => {
     <Container>
       <FlatList
         data={fundaciones}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
@@ -148,7 +173,30 @@ const styles = StyleSheet.create({
   // Define estilos para NewsCard según tus necesidades
   newsCard: {
     borderWidth: 3,
-    backgroundColor: '#ffa',
+    borderColor: '#000',
+    borderRadius: 8,
+    padding: 16,
+    margin: 8,
+  },
+  newsCardBlue: {
+    borderWidth: 3,
+    backgroundColor: 'blue',
+    borderColor: '#000',
+    borderRadius: 8,
+    padding: 16,
+    margin: 8,
+  },
+  newsCardYellow: {
+    borderWidth: 3,
+    backgroundColor: 'yellow',
+    borderColor: '#000',
+    borderRadius: 8,
+    padding: 16,
+    margin: 8,
+  },
+  newsCardPink: {
+    borderWidth: 3,
+    backgroundColor: 'pink',
     borderColor: '#000',
     borderRadius: 8,
     padding: 16,
@@ -158,6 +206,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
+    marginTop: 8,
     marginBottom: 8,
   },
   newsContent: {
