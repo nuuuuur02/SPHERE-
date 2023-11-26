@@ -50,7 +50,6 @@ function TobTabGroup() {
             <TobTab.Screen name="Comunidad" component={HomeScreen} />
             <TobTab.Screen name="Chats" component={PrivateChat} />
             <TobTab.Screen name="Grupos" component={GrupalChat} />
-            <TobTab.Screen name="Fundaciones" component={FundacionScreen}/>
         </TobTab.Navigator>
     )
 }
@@ -66,6 +65,7 @@ function DrawerGroup() {
 
             />
             <Drawer.Screen name="Ajustes" component={AjustesScreen} />
+            <Drawer.Screen name="Fundaciones" component={FundacionScreen} />
         </Drawer.Navigator>
     )
 }

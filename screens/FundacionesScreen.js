@@ -8,12 +8,16 @@ import DialogInput from 'react-native-dialog-input';
 import * as Location from 'expo-location';
 
 
-const HomeScreen = () => {
+const FundacionScreen = () => {
+  const locationInitial = {
+    latitude: 0,
+    longitude: 0,
+  }
   const [fundaciones, setFundaciones] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
   const [distanciaMaxima, setDistanciaMaxima] = useState(10000000000); // Define la distancia máxima permitida en kilómetros
   const [isDialogVisible, setDialogVisible] = useState(false);
-  const [userPosition, setUserPosition] = useState('')
+  const [userPosition, setUserPosition] = useState(locationInitial);
   const [color, setColor] = useState('blue');
 
   const getColor = (index) => {
@@ -35,12 +39,9 @@ const HomeScreen = () => {
     try {
       const q1 = query((collection(db, "fundaciones")));
       const docSnap = await getDocs(q1);
-
+      console.log(userPosition)
       const fundacionesData = docSnap.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-      const fundacionesDataSorted = await filterFundacionesPorDistancia(fundacionesData);
-      const fundacionesDataSortedFiltered = fundacionesDataSorted.sort((a, b) => a.distancia - b.distancia);
-      const fundacionesDataSortedFilteredColored = colorearData(fundacionesDataSortedFiltered);
-      setFundaciones(fundacionesDataSortedFilteredColored);
+      setFundaciones(fundacionesData);
     } catch (error) {
       console.error("Error fetching news:", error);
     }
@@ -112,7 +113,6 @@ const HomeScreen = () => {
       <Image source={{ uri: item.urlToImage }} style={{ width: 200, height: 200, alignSelf: 'center' }} />
       <Text style={styles.newsTitle}>{item.nombre}</Text>
       <Text style={styles.newsContent}>{item.descripcion}</Text>
-      {/* Puedes agregar más elementos según tus necesidades */}
     </View>
   );
 
@@ -130,8 +130,18 @@ const HomeScreen = () => {
     fetchFundaciones();
   };
 
-  useEffect(() => {
-    fetchFundaciones();
+  arreglarFiltros = async () => {
+    const fundacionesDataSorted = await filterFundacionesPorDistancia(fundaciones);
+    const fundacionesDataSortedFiltered = await fundacionesDataSorted.sort((a, b) => a.distancia - b.distancia);
+    const fundacionesDataSortedFilteredColored = await colorearData(fundacionesDataSortedFiltered);
+    setFundaciones(fundacionesDataSortedFilteredColored)
+  }
+  useEffect(() => {(async () => {
+    await getLocation();
+    await fetchFundaciones();
+    await arreglarFiltros();
+  })();
+  
   }, [distanciaMaxima]);
 
   return (
@@ -143,7 +153,6 @@ const HomeScreen = () => {
         showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       />
-
       <FontAwesome5.Button
         style={styles.awesomeButton}
         name="sort-up"
@@ -162,12 +171,11 @@ const HomeScreen = () => {
         submitText={"Aceptar"}
         cancelText={"Cancelar"}
       />
-
     </Container>
   );
 };
 
-export default HomeScreen;
+export default FundacionScreen;
 
 const styles = StyleSheet.create({
   // Define estilos para NewsCard según tus necesidades
@@ -215,6 +223,7 @@ const styles = StyleSheet.create({
   },
 
   awesomeButton: {
-    marginBottom: -12,
+    size: 12,
+    marginBottom: 12,
   },
 });
