@@ -1,11 +1,23 @@
 import { View, Text, Button, SectionList, Image, StyleSheet } from 'react-native';
-import * as React from 'react';
-import { StatusBar } from 'expo-status-bar';
+import React, { useState, useEffect } from 'react';
+import { EventRegister } from 'react-native-event-listeners';
 
 export default function Principal({ navigation }) {
+
+    //Theme
+    const [darkMode, setDarkMode] = useState(false)
+
+    useEffect(() => {
+        const listener = EventRegister.addEventListener('ChangeTheme', (data) => {
+            setDarkMode(data)
+        })
+        return () => {
+            //EventRegister.removeAllListeners(listener)
+        }
+    }, [darkMode])
   
     const renderSectionHeader = ({ section }) => (
-      <Text style={styles.sectionHeader}>{section.title}</Text>
+        <Text style={darkMode === true ? styles.sectionHeaderDark : styles.sectionHeader }>{section.title}</Text>
     );
     const renderItem = ({ item }) =>  (
       <View style={styles.itemContainer}>
@@ -41,10 +53,19 @@ const Juegos = [
   const styles = StyleSheet.create({
     sectionHeader: {
       fontSize: 24,
-      backgroundColor: '#e3e3e3',
+      backgroundColor: 'transparent',
       padding: 8,
-      paddingTop: 32,
+      paddingTop: 30,
       textAlign: 'center',
+      color: 'black',
+      },
+    sectionHeaderDark: {
+      fontSize: 24,
+      backgroundColor: 'transparent',
+      padding: 8,
+      paddingTop: 30,
+      textAlign: 'center',
+      color: 'white',
     },
     itemContainer: {
       flexDirection: 'row',

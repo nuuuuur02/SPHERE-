@@ -45,12 +45,12 @@ const HomeScreen = ({ navigation }) => {
             setDarkMode(data)
         })
         return () => {
-            EventRegister.removeAllListeners(listener)
+            //EventRegister.removeAllListeners(listener)
         }
     }, [darkMode])
 
     return (
-        <Container style={darkMode === true ? { backgroundColor: '#393939' } : { backgroundColor: '#fff' } } >
+        <Container style={darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#fff' }} >
       <FlatList
         data={posts}
         renderItem={({ item }) => <PostCard item={item} updatePosts={updatePosts} />}
@@ -62,7 +62,7 @@ const HomeScreen = ({ navigation }) => {
       <FontAwesome5.Button
         name="plus"
         size={22}
-        backgroundColor="#fff"
+        backgroundColor="transparent"
         color="#2e64e5"
         onPress={() => navigation.navigate('AddPostScreen')}
       />

@@ -1,14 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { TextInput, View, Text, StyleSheet } from 'react-native';
 import { db } from '../../../components/ConfigFirebase';
 import { query, collection, addDoc } from "firebase/firestore";
+import { EventRegister } from 'react-native-event-listeners';
 
 const CreateChat = ({ navigation }) => {
     const [nameGroup, onChangeName] = useState('');
     const [description, onChangeDescription] = useState('');
     const [photo, onChangePhoto] = useState('');
     const [users, onChangeUsers] = useState('');
+
+    //Theme
+    const [darkMode, setDarkMode] = useState(false)
+
+    useEffect(() => {
+        const listener = EventRegister.addEventListener('ChangeTheme', (data) => {
+            setDarkMode(data)
+        })
+        return () => {
+            //EventRegister.removeAllListeners(listener)
+        }
+    }, [darkMode])
 
     const AddGroup = () => {
         try {
@@ -26,10 +39,10 @@ const CreateChat = ({ navigation }) => {
         catch (error) {
             console.error('Error al agregar el grupo: ', error);
         }
-    }
+    }   
     
     return (
-        <View style={styles.container}>
+        <View style={darkMode === true ? styles.containerDark : styles.container}>
             <Input property="Nombre" onChangeText={onChangeName} value={nameGroup} />
             <Input property="Descripción" onChangeText={onChangeDescription} value={description} />
             <Input property="Foto" onChangeText={onChangePhoto} value={photo} />
@@ -47,6 +60,7 @@ const CreateChat = ({ navigation }) => {
                     marginBottom: 0,
                     alignItems: 'center',
                     justifyContent: 'center',
+                    backgroundColor: darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#fff' }
                 }}
             />
         </View>
@@ -79,7 +93,14 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'space-between',
-        backgroundColor: '#fff',
+        backgroundColor: 'white',
+        padding: 50,
+        margin: 10,
+    },
+    containerDark: {
+        flex: 1,
+        justifyContent: 'space-between',
+        backgroundColor: '#1c1c1c',
         padding: 50,
         margin: 10,
     },

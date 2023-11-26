@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, } from 'react-native';
 import {
   Container,
@@ -13,6 +13,7 @@ import { storagebd, db } from '../components/ConfigFirebase';
 import { addDoc, collection, Timestamp } from "firebase/firestore";
 import * as ImagePicker from 'expo-image-picker'
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { EventRegister } from 'react-native-event-listeners';
 
 
 const AddPostScreen = ({ navigation }) => {
@@ -166,16 +167,30 @@ const AddPostScreen = ({ navigation }) => {
     setIsButtonDisabled(content === '' && image === null);
   };
 
+    //Theme
+    const [darkMode, setDarkMode] = useState(false)
+
+    useEffect(() => {
+        const listener = EventRegister.addEventListener('ChangeTheme', (data) => {
+            setDarkMode(data)
+        })
+        return () => {
+            //EventRegister.removeAllListeners(listener)
+        }
+    }, [darkMode])
+
   return (
     <Container>
 
       {image != null ? <AddImage source={{ uri: image }} /> : null}
       <InputField
         placeholder="Buen dia"
+        //style={darkMode === true ? { placeholderTextColor: 'white' } : { placeholderTextColor: 'black' }}
         multiline
         numberOfLines={4}
         value={post}
         onChangeText={handleInputChange}
+        style={darkMode === true ? { color: 'white' } : { color: 'black' }}
       />
       <SubmitBtn>
         <SubmitBtnText

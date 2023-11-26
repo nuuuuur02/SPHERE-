@@ -5,11 +5,8 @@
     "\\navigation",
     "\\screens",
     "\\screens\\Drawer",
-    "\\screens\\TobTab\\GrupalChat",
-    "\\screens\\TobTab\\PrivateChat",
-    "\\styles\\GrupalChat",
-    "\\styles\\Theme"
+    "\\styles"
   ],
-  "SelectedNode": "\\components\\PostCard.js",
+  "SelectedNode": "\\styles\\FeedStyles.js",
   "PreviewInSolutionExplorer": false
 }

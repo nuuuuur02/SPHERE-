@@ -140,7 +140,7 @@ const PostCard = ({ item, updatePosts }) => {
   }, [darkMode]  )
 
   return (
-      <Card style={darkMode === true ? { backgroundColor: 'black' } : { backgroundColor: '#f8f8f8' }} >
+      <Card style={darkMode === true ? { backgroundColor: '#202020' } : { backgroundColor: '#f8f8f8' }} >
       <UserInfo>
         <UserImg source={{ uri: item.userImg }} />
         <UserInfoText>

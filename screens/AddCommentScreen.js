@@ -20,6 +20,7 @@ import {
     Divider,
     CardCom
 } from '../styles/FeedStyles';
+import { EventRegister } from 'react-native-event-listeners';
 
 const AddCommentScreen = ({ route }) => {
     const { item } = route.params;
@@ -192,6 +193,18 @@ const AddCommentScreen = ({ route }) => {
         }
     }
 
+    //Theme
+    const [darkMode, setDarkMode] = useState(false)
+
+    useEffect(() => {
+        const listener = EventRegister.addEventListener('ChangeTheme', (data) => {
+            setDarkMode(data)
+        })
+        return () => {
+            EventRegister.removeAllListeners(listener)
+        }
+    }, [darkMode])
+
     return (
         <View style={{ flex: 1 }}>
             <FlatList
@@ -201,15 +214,15 @@ const AddCommentScreen = ({ route }) => {
                     if (index === 0) {
                         // Renderiza el Card principal
                         return (
-                            <Card>
+                            <Card style={darkMode === true ? { backgroundColor: '#202020' } : { backgroundColor: '#f8f8f8' }}>
                                 <UserInfo>
                                     <UserImg source={{ uri: item.userImg }} />
                                     <UserInfoText>
-                                        <UserName>{item.userName}</UserName>
-                                        <PostTime>{moment(item.postTime.toDate()).fromNow()}</PostTime>
+                                        <UserName style={darkMode === true ? { color: 'white' } : { color: 'black' }}>{item.userName}</UserName>
+                                        <PostTime style={darkMode === true ? { color: '#909090' } : { color: '#666' }}>{moment(item.postTime.toDate()).fromNow()}</PostTime>
                                     </UserInfoText>
                                 </UserInfo>
-                                <PostText>{item.post}</PostText>
+                                <PostText style={darkMode === true ? { color: 'white' } : { color: 'black' }}>{item.post}</PostText>
                                 {item.postImg != null ? (
                                     <PostImg
                                         source={{ uri: item.postImg }}
@@ -225,11 +238,11 @@ const AddCommentScreen = ({ route }) => {
                     } else {
                         // Renderiza los comentarios
                         return (
-                            <CardCom>
+                            <CardCom style={darkMode === true ? { backgroundColor: '#202020' } : { backgroundColor: '#f8f8f8' }}>
                                 <UserInfo>
                                     <UserImg source={{ uri: item.user.userImg }} />
                                     <UserInfoText>
-                                        <UserName>{item.user.userName}</UserName>
+                                        <UserName style={darkMode === true ? { color: 'white' } : { color: 'black' }}>{item.user.userName}</UserName>
 
                                     </UserInfoText>
                                     <View style={{ flex: 1 }}></View>
