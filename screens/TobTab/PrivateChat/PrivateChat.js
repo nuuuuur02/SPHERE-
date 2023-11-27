@@ -14,6 +14,7 @@ import {
     MessageText,
     TextSection,
 } from '../../../styles/PrivateChat/MessageStyles';
+import { EventRegister } from 'react-native-event-listeners';
 
 const MessagesScreen = ({ navigation }) => {
 
@@ -37,8 +38,20 @@ const MessagesScreen = ({ navigation }) => {
 
     }
 
+    //Theme
+    const [darkMode, setDarkMode] = useState(false)
+
+    useEffect(() => {
+        const listener = EventRegister.addEventListener('ChangeTheme', (data) => {
+            setDarkMode(data)
+        })
+        return () => {
+            //EventRegister.removeAllListeners(listener)
+        }
+    }, [darkMode])
+
     return (
-        <Container>
+        <Container style={darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#fff' }}>
             <FlatList
                 data={messages}
                 keyExtractor={item=>item.id}
@@ -50,10 +63,10 @@ const MessagesScreen = ({ navigation }) => {
                             </UserImgWrapper>
                             <TextSection>
                                 <UserInfoText>
-                                    <UserName>{item.userName}</UserName>
-                                    <PostTime>{item.messageTime}</PostTime>
+                                    <UserName style={darkMode === true ? { color: 'white' } : { color: 'black' }}>{item.userName}</UserName>
+                                    <PostTime style={darkMode === true ? { color: '#909090' } : { color: '#666' }}>{item.messageTime}</PostTime>
                                 </UserInfoText>
-                                <MessageText>{item.messageText}</MessageText>
+                                <MessageText style={darkMode === true ? { color: '#909090' } : { color: '#333333' }}>{item.messageText}</MessageText>
                             </TextSection>
                         </UserInfo>
                     </Card>

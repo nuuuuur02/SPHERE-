@@ -5,6 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { db } from '../../../components/ConfigFirebase';
 import { doc, updateDoc, getDoc } from "firebase/firestore";
+import { EventRegister } from 'react-native-event-listeners';
 
 const PrivateChatScreen = ({ route }) => {
 
@@ -85,7 +86,7 @@ const PrivateChatScreen = ({ route }) => {
     const renderSend = (props) => {
         return (
             <Send {...props}>
-                <View>
+                <View >
                     <MaterialCommunityIcons
                         name="send-circle"
                         style={{ marginBottom: 2, marginRight: 5 }}
@@ -123,6 +124,18 @@ const PrivateChatScreen = ({ route }) => {
             <FontAwesome name='angle-double-down' size={25} color='#333' />
         );
     }
+
+    //Theme
+    const [darkMode, setDarkMode] = useState(false)
+
+    useEffect(() => {
+        const listener = EventRegister.addEventListener('ChangeTheme', (data) => {
+            setDarkMode(data)
+        })
+        return () => {
+            //EventRegister.removeAllListeners(listener)
+        }
+    }, [darkMode])
 
     return (
         <GiftedChat

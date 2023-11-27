@@ -4,8 +4,7 @@ export const Container = styled.View`
   
   align-items: center;
   
-  background-color: #fff;
-  
+  background-color: #fff;  
 `;
 
 export const Card = styled.View`
@@ -50,7 +49,6 @@ export const UserName = styled.Text`
 
 export const PostTime = styled.Text`
     font-size: 12px;
-    
     color: #666;
 `;
 

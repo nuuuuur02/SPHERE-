@@ -21,6 +21,7 @@ import {
     Divider,
     CardCom
 } from '../styles/FeedStyles';
+import { EventRegister } from 'react-native-event-listeners';
 
 const AddCommentScreen = ({ route }) => {
     const { item } = route.params;
@@ -219,90 +220,105 @@ const AddCommentScreen = ({ route }) => {
         } catch (error) {
           console.error('Error al agregar el comentario:', error);
         }
-      }
-    };
-  
+    }
+
+    //Theme
+    const [darkMode, setDarkMode] = useState(false)
+
+    useEffect(() => {
+        const listener = EventRegister.addEventListener('ChangeTheme', (data) => {
+            setDarkMode(data)
+        })
+        return () => {
+            EventRegister.removeAllListeners(listener)
+        }
+    }, [darkMode])
+
     return (
         <View style={{ flex: 1 }}>
-          <FlatList
-            data={[item, ...comments.slice().reverse()]}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item, index }) => {
-              if (index === 0) {
-                // Renderiza el Card principal
-                return (
-                  <Card>
-                    <UserInfo>
-                      <UserImg source={{ uri: item.userImg }} />
-                      <UserInfoText>
-                        <UserName>{item.userName}</UserName>
-                        <PostTime>{moment(item.postTime.toDate()).fromNow()}</PostTime>
-                      </UserInfoText>
-                    </UserInfo>
-                    <PostText>{item.post}</PostText>
-                    {item.postImg != null ? (
-                      <PostImg
-                        source={{ uri: item.postImg }}
-                        style={{ width: '100%', height: 250 }}
-                        resizeMode="cover"
-                      />
-                    ) : (
-                      <Divider />
-                    )}
-                    <InteractionWrapper></InteractionWrapper>
-                  </Card>
-                );
-              } else {
-                // Renderiza los comentarios
-                
-                return (
-                  <CardCom>
-                    <UserInfo>
-                      <UserImg source={{ uri: item.user.userImg }} />
-                      <UserInfoText>
-                        <UserName>{item.user.userName}</UserName>
-                      </UserInfoText>
-                      <View style={{ flex: 1 }}></View>
-                      <Interaction onPress={() => toggleMenu(index)}>
-                        <Ionicons name="ellipsis-vertical" size={25} color="#333" />
-                      </Interaction>
-                    </UserInfo>
-      
-                    <PostText>{item.comment}</PostText>
-                    {auth.currentUser.displayName != item.user.userName && (
-                      <DropMenuReport
-                        isVisible={openMenus[index]}
-                        onReportPress={() => checkReport(comments.length - index)} // Pasa el índice inverso
-                        onClose={() => toggleMenu(index)}
-                      />
-                    )}
-                  </CardCom>
-                );
-              }
-            }}
-          />
-          <View
-            style={{
-              height: 60,
-              backgroundColor: '#fff',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <TextInput
-              value={comment}
-              onChangeText={handleCommentChange}
-              placeholder="Escribe algún comentario"
-              style={{
-                flex: 1,
-                marginLeft: 20,
-              }}
+            <FlatList
+                data={[item, ...comments.slice().reverse()]} // Combine el item principal con los comentarios
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item, index }) => {
+                    if (index === 0) {
+                        // Renderiza el Card principal
+                        return (
+                            <Card style={darkMode === true ? { backgroundColor: '#202020' } : { backgroundColor: '#f8f8f8' }}>
+                                <UserInfo>
+                                    <UserImg source={{ uri: item.userImg }} />
+                                    <UserInfoText>
+                                        <UserName style={darkMode === true ? { color: 'white' } : { color: 'black' }}>{item.userName}</UserName>
+                                        <PostTime style={darkMode === true ? { color: '#909090' } : { color: '#666' }}>{moment(item.postTime.toDate()).fromNow()}</PostTime>
+                                    </UserInfoText>
+                                </UserInfo>
+                                <PostText style={darkMode === true ? { color: 'white' } : { color: 'black' }}>{item.post}</PostText>
+                                {item.postImg != null ? (
+                                    <PostImg
+                                        source={{ uri: item.postImg }}
+                                        style={{ width: '100%', height: 250 }}
+                                        resizeMode="cover"
+                                    />
+                                ) : (
+                                    <Divider />
+                                )}
+                                <InteractionWrapper></InteractionWrapper>
+                            </Card>
+                        );
+                    } else {
+                        // Renderiza los comentarios
+                        return (
+                            <CardCom style={darkMode === true ? { backgroundColor: '#202020' } : { backgroundColor: '#f8f8f8' }}>
+                                <UserInfo>
+                                    <UserImg source={{ uri: item.user.userImg }} />
+                                    <UserInfoText>
+                                        <UserName style={darkMode === true ? { color: 'white' } : { color: 'black' }}>{item.user.userName}</UserName>
+
+                                    </UserInfoText>
+                                    <View style={{ flex: 1 }}></View>
+                                    <Interaction onPress={() => toggleMenu(index)}>
+                                        <Ionicons name="ellipsis-vertical" size={25} color="#333" />
+                                    </Interaction>
+                                </UserInfo>
+
+                                <PostText>{item.comment}</PostText>
+                                {auth.currentUser.displayName != item.user.userName && (
+                                    <DropMenuReport
+                                        isVisible={openMenus[index]}
+                                        onReportPress={() => checkReport(comments.length - index)} // Pasa el índice inverso
+                                        onClose={() => toggleMenu(index)}
+                                    />
+                                )}
+                            </CardCom>
+
+                        );
+                    }
+                }}
             />
-            <View style={{ marginRight: 20 }}>
-              <Button title="Enviar" onPress={postComment} disabled={isCommentEmpty} />
+            <View style={{
+                height: 60,
+                backgroundColor: '#fff',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+            }}>
+
+                <TextInput
+                    value={comment}
+                    onChangeText={handleCommentChange}
+                    placeholder="Escribe algún comentario"
+                    style={{
+                        flex: 1,
+                        marginLeft: 20
+                    }}
+                />
+                <View style={{ marginRight: 20 }}>
+                    <Button
+                        title="Enviar"
+                        onPress={postComment}
+                        disabled={isCommentEmpty}
+                    />
+                </View>
             </View>
-          </View>
         </View>
       );
       

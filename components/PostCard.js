@@ -22,6 +22,7 @@ import {
   InteractionText,
   Divider,
 } from '../styles/FeedStyles';
+import { EventRegister } from 'react-native-event-listeners';
 
 const PostCard = ({ item, updatePosts }) => {
 
@@ -140,21 +141,32 @@ const PostCard = ({ item, updatePosts }) => {
     }
   };
 
-  
+  //Theme
+  const [darkMode, setDarkMode] = useState(false)
+
+  useEffect(() => {
+      const listener = EventRegister.addEventListener('ChangeTheme', (data) => {
+          setDarkMode(data)
+      })
+      return () => {
+          EventRegister.removeAllListeners(listener)
+      }
+  }, [darkMode]  )
+
   return (
-    <Card>
+      <Card style={darkMode === true ? { backgroundColor: '#202020' } : { backgroundColor: '#f8f8f8' }} >
       <UserInfo>
         <UserImg source={{ uri: item.userImg }} />
         <UserInfoText>
-          <UserName>{item.userName}</UserName>
-          <PostTime>{moment(item.postTime.toDate()).fromNow()}</PostTime>
+          <UserName style={darkMode === true ? { color: 'white' } : { color: 'black' }}>{item.userName}</UserName>
+          <PostTime style={darkMode === true ? { color: '#909090' } : { color: '#666' }} >{moment(item.postTime.toDate()).fromNow()}</PostTime>
         </UserInfoText>
         <View style={{ flex: 1 }}></View>
         <Interaction onPress={handleToggleMenu}>
-          <Ionicons name="ellipsis-vertical" size={25} color="#333" />
+                  <Ionicons name="ellipsis-vertical" size={25} color={darkMode === true ? '#A3A3A3' : '#333' } />
         </Interaction>
       </UserInfo>
-      <PostText>{item.post}</PostText>
+          <PostText style={darkMode === true ? { color: 'white' } : { color: 'black' }}>{item.post}</PostText>
       {item.postImg != null ? (
         <PostImg
           //defaultImageSource={require('../assets/default-img.jpg')}
@@ -171,7 +183,7 @@ const PostCard = ({ item, updatePosts }) => {
 
         <Interaction active={liked} onPress={toggleLike}>
           <Ionicons name={liked ? 'heart' : 'heart-outline'} size={25} color={likeIconColor} />
-          <InteractionText active={liked}>
+                  <InteractionText active={liked} style={darkMode === true ? { color: 'white' } : { color: 'black' }}>
             {likeCount} Like{likeCount !== 1 ? 's' : ''}
           </InteractionText>
         </Interaction>
@@ -180,7 +192,7 @@ const PostCard = ({ item, updatePosts }) => {
 
         <Interaction onPress={() => navigation.navigate('AddCommentScreen', { item })}>
           <Ionicons name="md-chatbubble-outline" size={25} />
-          <InteractionText>
+          <InteractionText style={darkMode === true ? { color: 'white' } : { color: 'black' }}>
             {item.comments ? item.comments.length : 0} {item.comments && item.comments.length !== 1 ? 'Comments' : 'Comment'}
           </InteractionText>
         </Interaction>
