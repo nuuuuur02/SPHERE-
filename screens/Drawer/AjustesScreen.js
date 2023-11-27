@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Switch } from 'react-native';
 import React, { useState, useContext } from 'react';
 import { EventRegister } from 'react-native-event-listeners';
 import themeContext from '../../styles/Theme/themeContext.js';
+import theme from '../../styles/Theme/theme.js';
 import Slider from '@react-native-community/slider';
 
 const AjustesScreen = () => {
@@ -18,6 +19,8 @@ const AjustesScreen = () => {
   const onSlider3ValueChange = (value) => {
     setSfxVolume(value);
   };
+
+  const [darkMode, setDarkMode] = useState(false)
 
   return (
     <View style={styles.container}>

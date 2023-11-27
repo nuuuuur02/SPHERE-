@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect, useEffect } from 'react';
 import { FlatList } from 'react-native';
 import { db, auth } from '../../../components/ConfigFirebase';
 import { query, collection, orderBy, onSnapshot } from "firebase/firestore";
