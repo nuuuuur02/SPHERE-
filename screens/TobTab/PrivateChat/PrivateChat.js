@@ -40,11 +40,7 @@ const MessagesScreen = ({ navigation }) => {
     return (
         <>
             <View>
-                <Text style={{
-                    fontWeight: 'bold',
-                    fontSize: 25,
-                    padding: 15,
-                }} >
+                <Text style={styles.titleText} >
                     Otros expertos
                 </Text>
                 <FlatList
@@ -57,44 +53,26 @@ const MessagesScreen = ({ navigation }) => {
                     }}
                     renderItem={({ item }) => (
                         <TouchableOpacity style={[styles.resource, styles.elevResource]}
-                            onPress={() => navigation.navigate('Private Chat', { item })}>
-                            {/*<Image
-                                source={{
-                                    uri: 'https://centropediatrico.es/wp-content/uploads/2018/05/reconocer-TEA-ninos-600x300.jpg',
-                                }}
-                                style={styles.resourceImage}
-                            />
-                            <View style={styles.headingContainer}>
-                                <Text style={styles.headerText}>
-                                    ¿Cómo reconocer los signos del TEA en niños?
-                                </Text>
-                            </View>*/}
+                            onPress={() => navigation.navigate('Private Chat', { item })}
+                        >
                             <Image
                                 source={{
                                     uri: 'https://centropediatrico.es/wp-content/uploads/2018/05/reconocer-TEA-ninos-600x300.jpg',
                                 }}
                                 style={styles.resourceImage}
-                            >
-                            </Image>
+                            />
                             <Text
-                                style={{
-                                    fontWeight: 'bold',
-                                    fontSize: 18,
-                                }}
+                                style={styles.expertName}
                             >
                                 Change Name
                             </Text>
                             <Text
-                                style={{
-                                    padding: 5,
-                                }}
-                            >Change Description</Text>
+                                style={styles.expertDescription}
+                            >
+                                Change Description
+                            </Text>
                             <View
-                                
-                                style={{
-                                    flexDirection: 'row',
-                                    padding: 15,
-                                }}
+                                style={styles.contactIcons}
                             >
                                 <Feather
                                     name="phone"
@@ -114,13 +92,7 @@ const MessagesScreen = ({ navigation }) => {
                         </TouchableOpacity>
                     )}
                 />
-                <Text
-                    style={{
-                        fontWeight: 'bold',
-                        fontSize: 25,
-                        padding: 15,
-                    }}
-                >
+                <Text style={styles.titleText} >
                     Chats abiertos
                 </Text>
             </View>
@@ -153,19 +125,6 @@ const MessagesScreen = ({ navigation }) => {
 export default MessagesScreen;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1, 
-        alignItems: 'center', 
-        justifyContent: 'center'
-    },
-    headingText: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        paddingHorizontal: 8
-    },
-    container: {
-        padding: 8
-    },
     resource: {
         flex: 1,
         alignItems: 'center',
@@ -190,13 +149,20 @@ const styles = StyleSheet.create({
         width: 75,
         borderRadius: 50,
     },
-    headerText: {
-        color: '#ffffff',
-        margin: 8,
-        marginTop: 15,
-        marginBottom: 15,
+    titleText: {
         fontWeight: 'bold',
-        alignItems: 'center',
-        justifyContent: 'center',
-    }
+        fontSize: 25,
+        padding: 15,
+    },
+    expertName: {
+        fontWeight: 'bold',
+        fontSize: 18,
+    },
+    expertDescription: {
+        padding: 5,
+    },
+    contactIcons: {
+        flexDirection: 'row',
+        padding: 15,
+    },
 });
