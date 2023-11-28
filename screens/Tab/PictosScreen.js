@@ -12,17 +12,17 @@ export default function Principal({ navigation }) {
             setDarkMode(data)
         })
         return () => {
-            //EventRegister.removeAllListeners(listener)
+            EventRegister.removeAllListeners(listener)
         }
     }, [darkMode])
   
     const renderSectionHeader = ({ section }) => (
-        <Text style={darkMode === true ? styles.sectionHeaderDark : styles.sectionHeader }>{section.title}</Text>
+        <Text style={[styles.sectionHeader, darkMode === true ? { color: 'white' } : { color: 'black' }] }>{section.title}</Text>
     );
     const renderItem = ({ item }) =>  (
       <View style={styles.itemContainer}>
         <Image source={item.image} style={styles.itemImage} />
-        <Text style={styles.itemName}>{item.name}</Text>
+        <Text style={[styles.itemName, darkMode === true ? { color: 'white' } : { color: 'black' }]}>{item.name}</Text>
         <Button title="Jugar"
             onPress={() => navigation.navigate('Descripcion', {item : item})}/>
       </View>
@@ -59,14 +59,6 @@ const Juegos = [
       textAlign: 'center',
       color: 'black',
       },
-    sectionHeaderDark: {
-      fontSize: 24,
-      backgroundColor: 'transparent',
-      padding: 8,
-      paddingTop: 30,
-      textAlign: 'center',
-      color: 'white',
-    },
     itemContainer: {
       flexDirection: 'row',
       alignItems: 'center',
