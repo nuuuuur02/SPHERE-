@@ -7,9 +7,10 @@
     "\\screens\\Tab",
     "\\screens\\TobTab",
     "\\screens\\TobTab\\GrupalChat",
-    "\\screens\\TobTab\\PrivateChat"
-    "\\styles"
+    "\\screens\\TobTab\\PrivateChat",
+    "\\styles",
+    "\\styles\\Theme"
   ],
-  "SelectedNode": "\\styles\\FeedStyles.js",
+  "SelectedNode": "\\screens\\Drawer\\AjustesScreen.js",
   "PreviewInSolutionExplorer": false
 }
