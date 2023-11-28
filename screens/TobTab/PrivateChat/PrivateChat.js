@@ -1,9 +1,10 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import { db } from '../../../components/ConfigFirebase';
 import { query, collection, getDocs, orderBy, where } from "firebase/firestore";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
+import { EventRegister } from 'react-native-event-listeners';
 import {
     Container,
     Card,
@@ -16,7 +17,6 @@ import {
     MessageText,
     TextSection,
 } from '../../../styles/PrivateChat/MessageStyles';
-import { EventRegister } from 'react-native-event-listeners';
 
 const MessagesScreen = ({ navigation }) => {
 
