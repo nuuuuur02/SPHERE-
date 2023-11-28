@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import { db } from '../../../components/ConfigFirebase';
 import { query, collection, getDocs, orderBy, where } from "firebase/firestore";
@@ -22,11 +22,12 @@ const MessagesScreen = ({ navigation }) => {
     const [messages, setChats] = useState(null);
     const [professionals, setProfessionals] = useState(null);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         fetchChats();
         getProfessionalUsers();
     }, []);
 
+    // Get every chat in the data base
     const fetchChats = async () => {
         const chats = query((collection(db, "chats")));//, orderBy("messageTime", "asc"));
         getDocs(chats).then(docSnap => {
@@ -38,6 +39,7 @@ const MessagesScreen = ({ navigation }) => {
         })
     }
 
+    // Get every professional user in the data base
     const getProfessionalUsers = async () => {
         const professionalUsers = query((collection(db, "user")), where("isProfessional", "==", true));
         getDocs(professionalUsers).then(docSnap => {
@@ -64,6 +66,8 @@ const MessagesScreen = ({ navigation }) => {
         return expertName.length > 15 ? (expertName.split(' '))[0] : expertName;
     };
 
+
+    // Expert component
     const ExpertItem = ({ item, index, navigation }) => (
         <TouchableOpacity
             style={[
