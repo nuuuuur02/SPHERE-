@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\components",
+    "\\navigation",
+    "\\screens",
+    "\\screens\\Drawer",
+    "\\screens\\Tab",
+    "\\screens\\TobTab",
+    "\\screens\\TobTab\\GrupalChat",
+    "\\screens\\TobTab\\PrivateChat"
+  ],
+  "PreviewInSolutionExplorer": false
+}
