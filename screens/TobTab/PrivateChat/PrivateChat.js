@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, FlatList, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import { db } from '../../../components/ConfigFirebase';
 import { query, collection, getDocs, orderBy } from "firebase/firestore";
 import Ionicons from 'react-native-vector-icons/Ionicons';
