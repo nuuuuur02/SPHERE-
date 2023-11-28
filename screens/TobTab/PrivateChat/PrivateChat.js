@@ -64,68 +64,41 @@ const MessagesScreen = ({ navigation }) => {
         return expertName.length > 15 ? (expertName.split(' '))[0] : expertName;
     };
 
+    const ExpertItem = ({ item, index, navigation }) => (
+        <TouchableOpacity
+            style={[
+                styles.resource,
+                styles.elevResource,
+                { backgroundColor: generateColor(index) },
+            ]}
+            onPress={() => navigation.navigate('Private Chat', { item })}
+        >
+            <Image
+                source={{ uri: item.photoURL }}
+                style={styles.resourceImage}
+            />
+            <Text style={styles.expertName}>{truncateName(item.displayName)}</Text>
+            <Text style={styles.expertDescription}>{item.descriptionProfessional}</Text>
+            <View style={styles.contactIcons}>
+                <Feather name="phone" size={20} style={styles.phoneIcon} />
+                <Ionicons name="md-chatbubble-outline" size={20} style={styles.chatIcon} />
+            </View>
+        </TouchableOpacity>
+    );
+
     return (
         <>
             <View>
-                <Text style={styles.titleText} >
-                    Otros expertos
-                </Text>
+                <Text style={styles.titleText}>Otros expertos</Text>
                 <FlatList
                     data={professionals}
                     keyExtractor={item => item.id}
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
-                    style={{
-                        height: 250,
-                        margin: 15,
-                    }}
-                    renderItem={({ item, index }) => (
-                        <TouchableOpacity
-                            style={[
-                                styles.resource,
-                                styles.elevResource,
-                                { backgroundColor: generateColor(index) },
-                            ]}
-                            onPress={() => navigation.navigate('Private Chat', { item })}
-                        >
-                            <Image
-                                source={{ uri: item.photoURL }}
-                                style={styles.resourceImage}
-                            />
-                            <Text
-                                style={styles.expertName}
-                            >
-                                {truncateName(item.displayName)}
-                            </Text>
-                            <Text
-                                style={styles.expertDescription}
-                            >
-                                {item.descriptionProfessional}
-                            </Text>
-                            <View
-                                style={styles.contactIcons}
-                            >
-                                <Feather
-                                    name="phone"
-                                    size={20}
-                                    style={{
-                                        paddingRight: 20,
-                                    }}
-                                />
-                                <Ionicons
-                                    name="md-chatbubble-outline"
-                                    size={20}
-                                    style={{
-                                        paddingLeft: 20,
-                                    }}
-                                />
-                            </View>
-                        </TouchableOpacity>
-                    )}
+                    style={styles.flatListContainer}
+                    renderItem={({ item, index }) => <ExpertItem item={item} index={index} navigation={navigation} />}
                 />
-                <Text style={styles.titleText} >
-                    Chats abiertos
-                </Text>
+                <Text style={styles.titleText}>Chats abiertos</Text>
             </View>
             <Container>
                 <FlatList
@@ -194,5 +167,15 @@ const styles = StyleSheet.create({
     contactIcons: {
         flexDirection: 'row',
         padding: 15,
+    },
+    phoneIcon: {
+        paddingRight: 20,
+    },
+    chatIcon: {
+        paddingLeft: 20,
+    },
+    flatListContainer: {
+        height: 250,
+        margin: 15,
     },
 });
