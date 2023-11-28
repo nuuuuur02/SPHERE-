@@ -49,8 +49,9 @@ function TobTabGroup() {
     return (
         <TobTab.Navigator>
             <TobTab.Screen name="Comunidad" component={HomeScreen} />
-            <TobTab.Screen name="Chats" component={PrivateChat} />
             <TobTab.Screen name="Grupos" component={GrupalChat} />
+            <TobTab.Screen name="Expertos" component={PrivateChat} />
+            
         </TobTab.Navigator>
     )
 }
