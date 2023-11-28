@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Switch } from 'react-native';
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { EventRegister } from 'react-native-event-listeners';
 import themeContext from '../../styles/Theme/themeContext.js';
 import theme from '../../styles/Theme/theme.js';
@@ -20,12 +20,22 @@ const AjustesScreen = () => {
     setSfxVolume(value);
   };
 
-  const [darkMode, setDarkMode] = useState(false)
+    //Theme
+    const [darkMode, setDarkMode] = useState(false)
+
+    useEffect(() => {
+        const listener = EventRegister.addEventListener('ChangeTheme', (data) => {
+            setDarkMode(data)
+        })
+        return () => {
+            //EventRegister.removeAllListeners(listener)
+        }
+    }, [darkMode])
 
   return (
     <View style={styles.container}>
       <View style={styles.volumeControl}>
-        <Text style={styles.volumeLabel}>Volumen general: {Math.round(generalVolume * 100)}%</Text>
+              <Text style={[styles.volumeLabel, darkMode === true ? { color: 'white' } : { color: 'black' }]} >Volumen general: {Math.round(generalVolume * 100)}%</Text>
         <Slider
           style={styles.slider}
           minimumValue={0}
@@ -38,7 +48,7 @@ const AjustesScreen = () => {
         />
       </View>
       <View style={styles.volumeControl}>
-        <Text style={styles.volumeLabel}>Música: {Math.round(musicVolume * 100)}%</Text>
+        <Text style={[styles.volumeLabel, darkMode === true ? { color: 'white' } : { color: 'black' }]}>Música: {Math.round(musicVolume * 100)}%</Text>
         <Slider
           style={styles.slider}
           minimumValue={0}
@@ -51,7 +61,7 @@ const AjustesScreen = () => {
         />
       </View>
       <View style={styles.volumeControl}>
-        <Text style={styles.volumeLabel}>Efectos de sonido: {Math.round(sfxVolume * 100)}%</Text>
+        <Text style={[styles.volumeLabel, darkMode === true ? { color: 'white' } : { color: 'black' }]}>Efectos de sonido: {Math.round(sfxVolume * 100)}%</Text>
         <Slider
           style={styles.slider}
           minimumValue={0}
@@ -64,7 +74,7 @@ const AjustesScreen = () => {
         />
       </View>
       <View style={{ backgroundColor: theme.backgroundColor }}>
-            <Text style={{ color: theme.color }}>Tema dark</Text>
+              <Text style={[styles.volumeLabel, darkMode === true ? { color: 'white' } : { color: 'black' }]}>Tema dark</Text>
             <Switch
                 value={darkMode}
                 onValueChange={(value) => {

@@ -1,6 +1,7 @@
 {
   "ExpandedNodes": [
     "",
+    "\\components",
     "\\navigation",
     "\\screens",
     "\\screens\\Drawer",
@@ -8,8 +9,6 @@
     "\\screens\\TobTab",
     "\\screens\\TobTab\\GrupalChat",
     "\\screens\\TobTab\\PrivateChat"
-    "\\styles"
   ],
-  "SelectedNode": "\\styles\\FeedStyles.js",
   "PreviewInSolutionExplorer": false
 }
