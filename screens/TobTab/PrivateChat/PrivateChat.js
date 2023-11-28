@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import { db } from '../../../components/ConfigFirebase';
-import { query, collection, getDocs, orderBy } from "firebase/firestore";
+import { query, collection, getDocs, orderBy, where } from "firebase/firestore";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import {
@@ -20,9 +20,11 @@ import {
 const MessagesScreen = ({ navigation }) => {
 
     const [messages, setChats] = useState(null);
+    const [professionals, setProfessionals] = useState(null);
 
     useEffect(() => {
         fetchChats();
+        getProfessionalUsers();
     }, []);
 
     const fetchChats = async () => {
@@ -31,10 +33,20 @@ const MessagesScreen = ({ navigation }) => {
             const everyChat = [];
             docSnap.forEach((doc) => {
                 everyChat.push({ ...doc.data(), id: doc.id })
-                setChats(everyChat)
             })
+            setChats(everyChat)
         })
+    }
 
+    const getProfessionalUsers = async () => {
+        const professionalUsers = query((collection(db, "user")), where("isProfessional", "==", true));
+        getDocs(professionalUsers).then(docSnap => {
+            const everyProfessionalUser = [];
+            docSnap.forEach((doc) => {
+                everyProfessionalUser.push({ ...doc.data(), id: doc.id })
+            })
+            setProfessionals(everyProfessionalUser)
+        })
     }
 
     return (
@@ -44,7 +56,7 @@ const MessagesScreen = ({ navigation }) => {
                     Otros expertos
                 </Text>
                 <FlatList
-                    data={messages}
+                    data={professionals}
                     keyExtractor={item => item.id}
                     horizontal={true}
                     style={{
@@ -56,20 +68,18 @@ const MessagesScreen = ({ navigation }) => {
                             onPress={() => navigation.navigate('Private Chat', { item })}
                         >
                             <Image
-                                source={{
-                                    uri: 'https://centropediatrico.es/wp-content/uploads/2018/05/reconocer-TEA-ninos-600x300.jpg',
-                                }}
+                                source={{ uri: item.photoURL }}
                                 style={styles.resourceImage}
                             />
                             <Text
                                 style={styles.expertName}
                             >
-                                Change Name
+                                {item.displayName}
                             </Text>
                             <Text
                                 style={styles.expertDescription}
                             >
-                                Change Description
+                                {item.descriptionProfessional}
                             </Text>
                             <View
                                 style={styles.contactIcons}
@@ -131,7 +141,7 @@ const styles = StyleSheet.create({
         width: 165,
         height: 220,
         borderRadius: 20,
-        marginLeft: 5,
+        marginLeft: 10,
         color: '#000000'
     },
     elevResource: {
