@@ -13,6 +13,7 @@ import { useLayoutEffect } from "react";
 //Screens
 import PictosScreen from "../screens/Tab/PictosScreen";
 import Descripcion from "../screens/Tab/Descripcion";
+import PINScreen from "../screens/Tab/PINScreen";
 import CalendarioScreen from "../screens/Tab/CalendarioScreen";
 import PerfilScreen from "../screens/Tab/PerfilScreen";
 import AjustesScreen from "../screens/Drawer/AjustesScreen";

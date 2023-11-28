@@ -44,6 +44,7 @@ export default function PerfilScreen({ navigation }) {
             /*<Image source={{ uri: userData.photo }} style={styles.profileImage} />*/ //Esto se te que canviar quan s'arregle lo de la imatge 
             <Image source={require("../../assets/user.png")} style={styles.profileImage} />
           )}
+          <Image source={require("../../assets/user.png")} style={styles.profileImage} />
           <Text style={styles.label}>Nombre:</Text>
           <Text style={styles.text}>{userData.nombre}</Text>
 
@@ -51,11 +52,11 @@ export default function PerfilScreen({ navigation }) {
           <Text style={styles.text}>{userData.email}</Text>
 
           <Text style={styles.label}>Rol:</Text>
-          {isProfessionalEnabled && <Text style={styles.text}>Profesional</Text>}
+          {!isFamiliarEnabled && <Text style={styles.text}>Profesional</Text>}
           {isFamiliarEnabled && <Text style={styles.text}>Familiar</Text>}
 
-          {isProfessionalEnabled && <Text style={styles.label}>Papers publicados:</Text>}
-          {isProfessionalEnabled && <Text style={styles.text}>¿Cómo reconocer los signos del TEA en niños?:</Text>}
+          {!isFamiliarEnabled && <Text style={styles.label}>Papers publicados:</Text>}
+          {!isFamiliarEnabled && <Text style={styles.text}>¿Cómo reconocer los signos del TEA en niños?</Text>}
           
         </View>
       ) : (

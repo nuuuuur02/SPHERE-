@@ -1,27 +1,26 @@
-import React, { useState } from 'react';
-import { View, Text, Button, ScrollView, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Button, ScrollView, Image, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+
 
 const GameDetailScreen = ({ navigation, route }) => {
   const { item } = route.params;
   const [selectedImages, setSelectedImages] = useState([null, null, null]);
   const [selectedButtonIndex, setSelectedButtonIndex] = useState(item.idEstado);
-  const [savedImages, setSavedImages] = useState([null, null, null]);
+    const [savedImages, setSavedImages] = useState([null, null, null]);
 
-  const handleImageClick = (index) => {
-    setSelectedButtonIndex(index);
-    item.idEstado = index;
-  };
+
+ 
 
   const handleRestore = () => {
-    // Restaura el estado anterior de las imágenes (los colores anteriores)
     setSelectedButtonIndex(null);
   };
 
   return (
     <ScrollView contentContainerStyle={styles.scroll}>
       <View style={styles.container}>
+
         <View style={styles.table}>
-          <TouchableOpacity
+        <TouchableOpacity
             style={[
               styles.row,
               selectedButtonIndex === 0 && styles.selectedRow,
@@ -63,7 +62,7 @@ const GameDetailScreen = ({ navigation, route }) => {
         </View>
         <Button
           title="Guardar"
-          onPress={() => navigation.navigate('Descripcion', {item : item})}
+          onPress={() => handleImageClick()}
           disabled={selectedButtonIndex === null}
         />
         <Button title="Restaurar" onPress={handleRestore} />
@@ -100,6 +99,18 @@ const styles = StyleSheet.create({
   },
   selectedRow: {
     backgroundColor: 'gold',
+  },
+  pinModalContainer: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+  },
+  pinInput: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingHorizontal: 10,
   },
 });
 
