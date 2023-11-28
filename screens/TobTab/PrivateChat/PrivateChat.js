@@ -49,6 +49,21 @@ const MessagesScreen = ({ navigation }) => {
         })
     }
 
+    // Genera colores en función de la posición del elemento
+    const generateColor = (index) => {
+        const hue = (index * 50) % 360; // Ajusta el valor según tus preferencias
+        return `hsl(${hue}, 70%, 70%)`; // HSL para tonos claros
+    };
+
+    // Return a sliced name
+    // If the first and second name are too long, return only the first name
+    // Else return the entire name
+    const truncateName = (name) => {
+        const userNameSliced = name.split(' ');
+        const expertName = userNameSliced[0] + ' ' + userNameSliced[1];
+        return expertName.length > 15 ? (expertName.split(' '))[0] : expertName;
+    };
+
     return (
         <>
             <View>
@@ -59,12 +74,18 @@ const MessagesScreen = ({ navigation }) => {
                     data={professionals}
                     keyExtractor={item => item.id}
                     horizontal={true}
+                    showsHorizontalScrollIndicator={false}
                     style={{
                         height: 250,
-                        padding: 15,
+                        margin: 15,
                     }}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity style={[styles.resource, styles.elevResource]}
+                    renderItem={({ item, index }) => (
+                        <TouchableOpacity
+                            style={[
+                                styles.resource,
+                                styles.elevResource,
+                                { backgroundColor: generateColor(index) },
+                            ]}
                             onPress={() => navigation.navigate('Private Chat', { item })}
                         >
                             <Image
@@ -74,7 +95,7 @@ const MessagesScreen = ({ navigation }) => {
                             <Text
                                 style={styles.expertName}
                             >
-                                {item.displayName}
+                                {truncateName(item.displayName)}
                             </Text>
                             <Text
                                 style={styles.expertDescription}
@@ -142,10 +163,9 @@ const styles = StyleSheet.create({
         height: 220,
         borderRadius: 20,
         marginLeft: 10,
-        color: '#000000'
+        color: '#000000',
     },
     elevResource: {
-        backgroundColor: 'white',
         elevation: 5,
         shadowOffset: {
             width: 1,
