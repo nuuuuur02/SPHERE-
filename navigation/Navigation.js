@@ -150,6 +150,7 @@ function StackGroup() {
             />
             <Stack.Screen name="AddPostScreen" component={AddPostScreen} options={optionsAdd} />
             <Stack.Screen name="AddCommentScreen" component={AddCommentScreen} options={optionsAdd} />
+            <Stack.Screen name="PrincipalEvento" component={PrincipalEvento} />
             <Stack.Screen
                 name="Chat"
                 component={ChatScreen}
@@ -273,7 +274,7 @@ function TabGroup() {
         >
             <Tab.Screen name="Home" component={TobTabGroup} options={{ headerShown: false}}  />
             <Tab.Screen name="Pictos" component={PictosScreen} options={{ headerShown: false }} />
-            <Tab.Screen name="Calendario" component={PrincipalEvento} options={{ headerShown: false }} />
+            <Tab.Screen name="Calendario" component={PINScreen} options={{ headerShown: false }} />
             <Tab.Screen name="Perfil" component={PerfilScreen} options={{ headerShown: false }} />
         </Tab.Navigator>
     )
