@@ -274,7 +274,7 @@ function TabGroup() {
         >
             <Tab.Screen name="Home" component={TobTabGroup} options={{ headerShown: false}}  />
             <Tab.Screen name="Pictos" component={PictosScreen} options={{ headerShown: false }} />
-            <Tab.Screen name="Calendario" component={PINScreen} options={{ headerShown: false }} />
+            <Tab.Screen name="Calendario" component={PrincipalEvento} options={{ headerShown: false }} />
             <Tab.Screen name="Perfil" component={PerfilScreen} options={{ headerShown: false }} />
         </Tab.Navigator>
     )
@@ -288,7 +288,7 @@ export default function Navigation() {
             setDarkMode(data)
         })
         return () => {
-            EventRegister.removeAllListeners(listener)
+            //EventRegister.removeAllListeners(listener)
         }
     }, [darkMode])
 

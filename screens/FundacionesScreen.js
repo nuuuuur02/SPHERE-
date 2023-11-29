@@ -8,6 +8,7 @@ import DialogInput from 'react-native-dialog-input';
 import * as Location from 'expo-location';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { EventRegister } from 'react-native-event-listeners';
 
 const FundacionScreen = () => {
   const locationInitial = {
@@ -149,8 +150,20 @@ const FundacionScreen = () => {
     <Icon name="md-search" style={{ ...styles.actionButtonIcon, color: 'white' }} />
   );
 
-  return (
-    <Container>
+    //Theme
+    const [darkMode, setDarkMode] = useState(false)
+
+    useEffect(() => {
+        const listener = EventRegister.addEventListener('ChangeTheme', (data) => {
+            setDarkMode(data)
+        })
+        return () => {
+            //EventRegister.removeAllListeners(listener)
+        }
+    }, [darkMode])
+
+    return (
+        <Container style={darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: 'white' }}>
       <FlatList
         data={fundaciones}
         keyExtractor={(item, index) => index.toString()}

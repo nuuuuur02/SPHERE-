@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Button, SafeAreaView, FlatList, TouchableOpacity, Modal, TextInput, Image, StyleSheet } from 'react-native';
 import { auth, db } from '../../components/ConfigFirebase';  
 import { doc, getDoc } from 'firebase/firestore';
+import { EventRegister } from 'react-native-event-listeners';
 
 const DATA = [
   { id: 1, name: 'Desayunar', image: require('../../assets/Pictos/Desayunar.png'), desc: ['por turnos los jugadores lanzan sus canicas intentando sacar las demás']},
@@ -62,6 +63,18 @@ const Principal = ({ navigation }) => {
     }
   };
 
+    //Theme
+    const [darkMode, setDarkMode] = useState(false)
+
+    useEffect(() => {
+        const listener = EventRegister.addEventListener('ChangeTheme', (data) => {
+            setDarkMode(data)
+        })
+        return () => {
+            //EventRegister.removeAllListeners(listener)
+        }
+    }, [darkMode])
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -76,7 +89,7 @@ const Principal = ({ navigation }) => {
         onRequestClose={() => setIsModalVisible(false)}
       >
         <View style={styles.modalView}>
-          <Text style={styles.text}>Edita el evento:</Text>
+          <Text style={[styles.text, darkMode === true ? { color: 'white' } : { color: 'black' }]}>Edita el evento:</Text>
           <TextInput
             style={styles.textInput}
             onChangeText={(text) => setImputText(text)}

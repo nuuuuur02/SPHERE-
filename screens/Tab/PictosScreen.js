@@ -17,7 +17,7 @@ export default function Principal({ navigation }) {
     }, [darkMode])
   
     const renderSectionHeader = ({ section }) => (
-        <Text style={[styles.sectionHeader, darkMode === true ? { color: 'white' } : { color: 'black' }] }>{section.title}</Text>
+        <Text style={[styles.sectionHeader, darkMode === true ? { color: 'white' } : { color: 'black' }]}>{section.title}</Text>
     );
     const renderItem = ({ item }) =>  (
       <View style={styles.itemContainer}>
