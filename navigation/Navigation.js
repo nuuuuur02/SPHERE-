@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { auth, db } from '../components/ConfigFirebase';  
 
 //defaulSphere
 import { View, Text, Pressable, Image } from 'react-native';
@@ -247,7 +248,7 @@ function TabGroup() {
             headerLeft: () => (
                 <Pressable onPress={() => navigation.openDrawer()}>
                     <Image
-                        source={require("../assets/user.png")}
+                        source={{uri: auth.currentUser?.photoURL}}
                         style={{ width: 40, height: 40, borderRadius: 100, marginLeft: 15 }}
                     />
                 </Pressable>
@@ -274,7 +275,7 @@ function TabGroup() {
         >
             <Tab.Screen name="Home" component={TobTabGroup} options={{ headerShown: false}}  />
             <Tab.Screen name="Pictos" component={PictosScreen} options={{ headerShown: false }} />
-            <Tab.Screen name="Calendario" component={PrincipalEvento} options={{ headerShown: false }} />
+            <Tab.Screen name="Calendario" component={PINScreen} options={{ headerShown: false }} />
             <Tab.Screen name="Perfil" component={PerfilScreen} options={{ headerShown: false }} />
         </Tab.Navigator>
     )
@@ -288,7 +289,7 @@ export default function Navigation() {
             setDarkMode(data)
         })
         return () => {
-            //EventRegister.removeAllListeners(listener)
+            EventRegister.removeAllListeners(listener)
         }
     }, [darkMode])
 
