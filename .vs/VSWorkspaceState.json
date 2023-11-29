@@ -8,7 +8,9 @@
     "\\screens\\Tab",
     "\\screens\\TobTab",
     "\\screens\\TobTab\\GrupalChat",
-    "\\screens\\TobTab\\PrivateChat"
+    "\\screens\\TobTab\\PrivateChat",
+    "\\styles"
   ],
+  "SelectedNode": "\\screens\\TobTab\\GrupalChat\\CreateChat.js",
   "PreviewInSolutionExplorer": false
 }
