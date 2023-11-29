@@ -12,7 +12,7 @@ export default function Principal({ navigation }) {
             setDarkMode(data)
         })
         return () => {
-            EventRegister.removeAllListeners(listener)
+            //EventRegister.removeAllListeners(listener)
         }
     }, [darkMode])
   

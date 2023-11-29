@@ -231,7 +231,7 @@ const AddCommentScreen = ({ route }) => {
                 setDarkMode(data)
             })
             return () => {
-                EventRegister.removeAllListeners(listener)
+                //EventRegister.removeAllListeners(listener)
             }
         }, [darkMode])
 
