@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Switch } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { EventRegister } from 'react-native-event-listeners';
+import themeContext from '../../styles/Theme/themeContext.js';
+import theme from '../../styles/Theme/theme.js';
 import Slider from '@react-native-community/slider';
 
 const AjustesScreen = () => {
@@ -17,10 +20,22 @@ const AjustesScreen = () => {
     setSfxVolume(value);
   };
 
+    //Theme
+    const [darkMode, setDarkMode] = useState(false)
+
+    useEffect(() => {
+        const listener = EventRegister.addEventListener('ChangeTheme', (data) => {
+            setDarkMode(data)
+        })
+        return () => {
+            //EventRegister.removeAllListeners(listener)
+        }
+    }, [darkMode])
+
   return (
     <View style={styles.container}>
       <View style={styles.volumeControl}>
-        <Text style={styles.volumeLabel}>Volumen general: {Math.round(generalVolume * 100)}%</Text>
+              <Text style={[styles.volumeLabel, darkMode === true ? { color: 'white' } : { color: 'black' }]} >Volumen general: {Math.round(generalVolume * 100)}%</Text>
         <Slider
           style={styles.slider}
           minimumValue={0}
@@ -33,7 +48,7 @@ const AjustesScreen = () => {
         />
       </View>
       <View style={styles.volumeControl}>
-        <Text style={styles.volumeLabel}>Música: {Math.round(musicVolume * 100)}%</Text>
+        <Text style={[styles.volumeLabel, darkMode === true ? { color: 'white' } : { color: 'black' }]}>Música: {Math.round(musicVolume * 100)}%</Text>
         <Slider
           style={styles.slider}
           minimumValue={0}
@@ -46,7 +61,7 @@ const AjustesScreen = () => {
         />
       </View>
       <View style={styles.volumeControl}>
-        <Text style={styles.volumeLabel}>Efectos de sonido: {Math.round(sfxVolume * 100)}%</Text>
+        <Text style={[styles.volumeLabel, darkMode === true ? { color: 'white' } : { color: 'black' }]}>Efectos de sonido: {Math.round(sfxVolume * 100)}%</Text>
         <Slider
           style={styles.slider}
           minimumValue={0}
@@ -58,6 +73,16 @@ const AjustesScreen = () => {
           maximumTrackTintColor="#bdc3c7"
         />
       </View>
+      <View style={{ backgroundColor: theme.backgroundColor }}>
+              <Text style={[styles.volumeLabel, darkMode === true ? { color: 'white' } : { color: 'black' }]}>Tema dark</Text>
+            <Switch
+                value={darkMode}
+                onValueChange={(value) => {
+                    setDarkMode(value);
+                    EventRegister.emit('ChangeTheme', value)
+                }}
+            />
+        </View>
     </View>
   );
 };

@@ -13,9 +13,11 @@ import { useLayoutEffect } from "react";
 //Screens
 import PictosScreen from "../screens/Tab/PictosScreen";
 import Descripcion from "../screens/Tab/Descripcion";
+import PINScreen from "../screens/Tab/PINScreen";
 import CalendarioScreen from "../screens/Tab/CalendarioScreen";
 import PerfilScreen from "../screens/Tab/PerfilScreen";
 import AjustesScreen from "../screens/Drawer/AjustesScreen";
+import RecursosScreen from "../screens/Drawer/RecursosScreen";
 
 //diario
 import PrincipalEvento from "../screens/Tab/PrincipalEvento";
@@ -27,6 +29,7 @@ import PrivateChatScreen from "../screens/TobTab/PrivateChat/PrivateChatScreen";
 import GrupalChat from "../screens/TobTab/GrupalChat/GrupalChat";
 import ChatScreen from "../screens/TobTab/GrupalChat/ChatScreen";
 import CreateChat from "../screens/TobTab/GrupalChat/CreateChat";
+import FundacionScreen from "../screens/FundacionesScreen";
 
 import HomeScreen from '../screens/HomeScreen';
 import AddCommentScreen from '../screens/AddCommentScreen';
@@ -35,6 +38,13 @@ import AddPostScreen from '../screens/AddPostScreen';
 //Login/User
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
+
+//Theme
+import { EventRegister } from 'react-native-event-listeners';
+import { useState, useEffect } from 'react';
+import { DarkTheme, DefaultTheme } from "@react-navigation/native";
+import theme from '../styles/Theme/theme.js';
+import themeContext from '../styles/Theme/themeContext.js';
 
 //Icons
 import { FontAwesome } from '@expo/vector-icons';
@@ -47,8 +57,9 @@ function TobTabGroup() {
     return (
         <TobTab.Navigator>
             <TobTab.Screen name="Comunidad" component={HomeScreen} />
-            <TobTab.Screen name="Chats" component={PrivateChat} />
             <TobTab.Screen name="Grupos" component={GrupalChat} />
+            <TobTab.Screen name="Expertos" component={PrivateChat} />
+            
         </TobTab.Navigator>
     )
 }
@@ -64,6 +75,8 @@ function DrawerGroup() {
 
             />
             <Drawer.Screen name="Ajustes" component={AjustesScreen} />
+            <Drawer.Screen name="Recursos" component={RecursosScreen} />
+            <Drawer.Screen name="Fundaciones" component={FundacionScreen} />
         </Drawer.Navigator>
     )
 }
@@ -267,9 +280,22 @@ function TabGroup() {
 }
 
 export default function Navigation() {
+    const [darkMode, setDarkMode] = useState(false)
+
+    useEffect(() => {
+        const listener = EventRegister.addEventListener('ChangeTheme', (data) => {
+            setDarkMode(data)
+        })
+        return () => {
+            EventRegister.removeAllListeners(listener)
+        }
+    }, [darkMode])
+
     return (
-        <NavigationContainer>
-            <DrawerGroup />
-        </NavigationContainer>
+        <themeContext.Provider value={darkMode === true ? theme.dark : theme.light}>
+            <NavigationContainer theme={darkMode === true ? DarkTheme : DefaultTheme}>
+                <DrawerGroup />
+            </NavigationContainer>
+        </themeContext.Provider>
     )
 }

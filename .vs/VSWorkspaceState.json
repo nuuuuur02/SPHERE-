@@ -5,10 +5,10 @@
     "\\navigation",
     "\\screens",
     "\\screens\\Drawer",
+    "\\screens\\Tab",
     "\\screens\\TobTab",
     "\\screens\\TobTab\\GrupalChat",
-    "\\styles"
+    "\\screens\\TobTab\\PrivateChat"
   ],
-  "SelectedNode": "\\App.js",
   "PreviewInSolutionExplorer": false
 }

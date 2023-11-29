@@ -1,15 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { TextInput, View, StyleSheet, Alert, Image } from 'react-native';
 import { db, auth } from '../../../components/ConfigFirebase';
 import { query, collection, addDoc } from "firebase/firestore";
 import { fetchSignInMethodsForEmail } from "firebase/auth";
+import { EventRegister } from 'react-native-event-listeners';
 
 const CreateChat = ({ navigation }) => {
     const [nameGroup, onChangeName] = useState('');
     const [description, onChangeDescription] = useState('');
     const [photo, onChangePhoto] = useState('');
     const [users, onChangeUsers] = useState('');
+
+    //Theme
+    const [darkMode, setDarkMode] = useState(false)
+
+    useEffect(() => {
+        const listener = EventRegister.addEventListener('ChangeTheme', (data) => {
+            setDarkMode(data)
+        })
+        return () => {
+            //EventRegister.removeAllListeners(listener)
+        }
+    }, [darkMode])
 
     const AddGroup = () => {
         try {
@@ -94,7 +107,7 @@ const CreateChat = ({ navigation }) => {
 
     return (
         <View
-            style={styles.container}
+            style={darkMode === true ? styles.containerDark : styles.container}
             behavior='padding'
         >
             <Image
@@ -118,6 +131,7 @@ const CreateChat = ({ navigation }) => {
                         marginTop: 15,
                         alignItems: 'center',
                         justifyContent: 'center',
+                        backgroundColor: darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#fff' },
                     }}
                     />
             </View>
@@ -154,10 +168,18 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
         padding: 50,
         margin: 10,
-        justifyContent: "center",
+    },
+    containerDark: {
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: '#1c1c1c',
+        padding: 50,
+        margin: 10,
         alignItems: 'center',
     },
     logo: {

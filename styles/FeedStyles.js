@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 
 export const Container = styled.View`
-  flex: 1;
+  flex:1;
   align-items: center;
   
-  background-color: #fff;
-  
+  background-color: #fff;  
 `;
 
 export const Card = styled.View`
@@ -50,7 +49,6 @@ export const UserName = styled.Text`
 
 export const PostTime = styled.Text`
     font-size: 12px;
-    
     color: #666;
 `;
 

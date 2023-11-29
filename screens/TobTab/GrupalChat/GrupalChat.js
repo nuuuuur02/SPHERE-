@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect, useEffect } from 'react';
 import { FlatList } from 'react-native';
 import { db, auth } from '../../../components/ConfigFirebase';
 import { query, collection, orderBy, onSnapshot } from "firebase/firestore";
@@ -15,6 +15,7 @@ import {
     MessageText,
     TextSection,
 } from '../../../styles/GrupalChat/MessageStyles';
+import { EventRegister } from 'react-native-event-listeners';
 
 const MessagesScreen = ({ navigation }) => {
 
@@ -47,8 +48,20 @@ const MessagesScreen = ({ navigation }) => {
         return () => unsubscribe();
     }
 
+    //Theme
+    const [darkMode, setDarkMode] = useState(false)
+
+    useEffect(() => {
+        const listener = EventRegister.addEventListener('ChangeTheme', (data) => {
+            setDarkMode(data)
+        })
+        return () => {
+            //EventRegister.removeAllListeners(listener)
+        }
+    }, [darkMode])
+
     return (
-        <Container>
+        <Container style={darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#fff' }}>
             <FlatList
                 data={groups}
                 keyExtractor={item=>item.id}
@@ -60,10 +73,10 @@ const MessagesScreen = ({ navigation }) => {
                             </UserImgWrapper>
                             <TextSection>
                                 <UserInfoText>
-                                    <UserName>{item.userName}</UserName>
-                                    <PostTime>{item.messageTime.toDate().toLocaleString()}</PostTime>
+                                    <UserName style={darkMode === true ? { color: 'white' } : { color: 'black' }}>{item.userName}</UserName>
+                                    <PostTime style={darkMode === true ? { color: '#909090' } : { color: '#666' }}>{item.messageTime.toDate().toLocaleString()}</PostTime>
                                 </UserInfoText>
-                                <MessageText>{item.messageText}</MessageText>
+                                <MessageText style={darkMode === true ? { color: '#909090' } : { color: '#333333' }}>{item.messageText}</MessageText>
                             </TextSection>
                         </UserInfo>
                     </Card>
@@ -72,10 +85,10 @@ const MessagesScreen = ({ navigation }) => {
             <FontAwesome5.Button
                 name="plus"
                 size={22}
-                backgroundColor="#fff"
+                backgroundColor="transparent"
                 color="#2e64e5"
                 onPress={() => navigation.navigate('CreateChat')}
-                style={{ marginBottom: 10 }}
+                style={{ marginBottom: 0 }}
             />
         </Container>
     );

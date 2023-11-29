@@ -11,10 +11,14 @@ const RegisterScreen = ({ navigation }) => {
     const [password, setPassword] = useState('')
     const [repeatPassword, setRepeatPassword] = useState('')
 
-    const [isProfessionalEnabled, setIsProfessionalEnabled] = useState(false);
-    const [isFamiliarEnabled, setIsFamiliarEnabled] = useState(false);
-    const toggleProfesionalSwitch = () => setIsProfessionalEnabled(previousState => !previousState);
-    const toggleFamiliarSwitch = () => setIsFamiliarEnabled(previousState => !previousState);
+    const [isProfessional, setIsProfessional] = useState(false);
+    const [descriptionProfessional, setDescriptionProfessional] = useState('');
+
+    const [isFamiliar, setIsFamiliar] = useState(false);
+    const [pinFamiliar, setPinFamiliar] = useState('');
+
+    const toggleProfesionalSwitch = () => setIsProfessional(previousState => !previousState);
+    const toggleFamiliarSwitch = () => setIsFamiliar(previousState => !previousState);
 
     const AddUser = () => {
 
@@ -31,7 +35,7 @@ const RegisterScreen = ({ navigation }) => {
                     });
                 })
                 .then(() => {
-                    // Add extra parameters to User (is profesional? is familiar?)
+                    // Add extra parameters to User (is professional? is familiar?)
                     AddParametersUser();
                     navigation.navigate('HomeMain');
                 })
@@ -43,13 +47,23 @@ const RegisterScreen = ({ navigation }) => {
         }
     }
 
-    // Add the profesional and/or familiar parameters to User
+    // Add the professional and/or familiar parameters to User
     const AddParametersUser = async () => {
         try {
             const newUser = {
-                professional: isProfessionalEnabled,
-                familiar: isFamiliarEnabled,
+                displayName: nick,
+                photoURL: photo,
+                isProfessional: isProfessional,
+                isFamiliar: isFamiliar,
             };
+
+            if (isProfessional) {
+                newUser.descriptionProfessional = descriptionProfessional;
+            }
+
+            if (isFamiliar) {
+                newUser.pin = pinFamiliar;
+            }
 
             await setDoc(doc(db, "user", auth.currentUser?.uid), newUser);
         }
@@ -120,9 +134,9 @@ const RegisterScreen = ({ navigation }) => {
                         <Text>¿Profesional?</Text>
                         <Switch
                             trackColor={{ false: '#767577', true: '#767577' }}
-                            thumbColor={isProfessionalEnabled ? '#f5dd4b' : '#f4f3f4'}
+                            thumbColor={isProfessional ? '#f5dd4b' : '#f4f3f4'}
                             onValueChange={toggleProfesionalSwitch}
-                            value={isProfessionalEnabled}
+                            value={isProfessional}
                             accessibilityRole={'checkbox'}
                         />
                     </View>
@@ -130,9 +144,9 @@ const RegisterScreen = ({ navigation }) => {
                         <Text>¿Familiar?</Text>
                         <Switch
                             trackColor={{ false: '#767577', true: '#767577' }}
-                            thumbColor={isFamiliarEnabled ? '#f5dd4b' : '#f4f3f4'}
+                            thumbColor={isFamiliar ? '#f5dd4b' : '#f4f3f4'}
                             onValueChange={toggleFamiliarSwitch}
-                            value={isFamiliarEnabled}
+                            value={isFamiliar}
                             accessibilityRole={'checkbox'}
                         />
                     </View>
