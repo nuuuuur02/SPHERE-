@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useLayoutEffect } from 'react';
 import { FlatList, RefreshControl, StyleSheet, Text, View, Image,} from 'react-native';
 import { Container } from '../styles/FeedStyles';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -102,7 +102,7 @@ const FundacionScreen = () => {
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    await fetchFundaciones();
+    await getLocation();
     await fetchFundaciones();
     await arreglarFiltros();
     setRefreshing(false);
@@ -137,13 +137,14 @@ const FundacionScreen = () => {
     const fundacionesDataSortedFilteredColored = await colorearData(fundacionesDataSortedFiltered);
     setFundaciones(fundacionesDataSortedFilteredColored)
   }
-  useEffect(() => {(async () => { 
-    await getLocation();
-    await fetchFundaciones();
-    await arreglarFiltros();
-  })();
+  useLayoutEffect(() => {
+    (async () => {
+      await getLocation();
+      await fetchFundaciones();
+      await arreglarFiltros();
+    })();
+  }, []);
   
-  }, [distanciaMaxima]);
 
   return (
     <Container>
