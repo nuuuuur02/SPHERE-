@@ -41,7 +41,7 @@ export default function Principal({ navigation }) {
             setPinModalVisible(false);
             console.log('pin correcto')
             console.log(pinModalVisible)
-            navigation.navigate('Login'); //Falta canviar que vaja a Principal Evento 
+            navigation.navigate('PrincipalEvento'); 
         } else {
             console.warn('PIN incorrecto');
             console.log(enteredPin)

@@ -23,8 +23,8 @@ export default function PerfilScreen({ navigation }) {
 
         if (userDoc.exists()) {
           const userData = userDoc.data();
-          setIsProfessional(userData.profesional);
-          setIsFamiliar(userData.familiar);
+          setIsProfessional(userData.isProfesional);
+          setIsFamiliar(userData.isFamiliar);
         }
       } else {
         setUserData(null);
