@@ -6,6 +6,7 @@ import PostCard from '../components/PostCard';
 import { db } from '../components/ConfigFirebase';
 import { query, collection, getDocs, orderBy } from "firebase/firestore";
 import { EventRegister } from 'react-native-event-listeners';
+import ActionButton from 'react-native-action-button';
 
 const HomeScreen = ({ navigation }) => {
     const [posts, setPosts] = useState(null);
@@ -51,23 +52,20 @@ const HomeScreen = ({ navigation }) => {
 
     return (
         <Container style={darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#fff' }} >
-      <FlatList
-        data={posts}
-        renderItem={({ item }) => <PostCard item={item} updatePosts={updatePosts} />}
-        keyExtractor={(item) => item.id}
-        showsVerticalScrollIndicator={false}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-      />
+            <FlatList
+                data={posts}
+                renderItem={({ item }) => <PostCard item={item} updatePosts={updatePosts} />}
+                keyExtractor={(item) => item.id}
+                showsVerticalScrollIndicator={false}
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+            />
 
-      <FontAwesome5.Button
-        name="plus"
-        size={22}
-        backgroundColor="transparent"
-        color="#2e64e5"
-        onPress={() => navigation.navigate('AddPostScreen')}
-      />
-    </Container>
-  );
+            <ActionButton
+                buttonColor="#2e64e5"
+                onPress={() => navigation.navigate('AddPostScreen')}
+            ></ActionButton>
+        </Container>
+    );
 };
 
 export default HomeScreen;
