@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useLayoutEffect } from 'react';
 import { FlatList, RefreshControl, StyleSheet, Text, View, Image,} from 'react-native';
 import { Container } from '../styles/FeedStyles';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -39,7 +39,6 @@ const FundacionScreen = () => {
     try {
       const q1 = query((collection(db, "fundaciones")));
       const docSnap = await getDocs(q1);
-      console.log(userPosition)
       const fundacionesData = docSnap.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
       setFundaciones(fundacionesData);
     } catch (error) {
@@ -103,7 +102,9 @@ const FundacionScreen = () => {
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
+    await getLocation();
     await fetchFundaciones();
+    await arreglarFiltros();
     setRefreshing(false);
   }, []);
 
@@ -130,19 +131,20 @@ const FundacionScreen = () => {
     fetchFundaciones();
   };
 
-  arreglarFiltros = async () => {
+  arreglarFiltros = async () => { 
     const fundacionesDataSorted = await filterFundacionesPorDistancia(fundaciones);
     const fundacionesDataSortedFiltered = await fundacionesDataSorted.sort((a, b) => a.distancia - b.distancia);
     const fundacionesDataSortedFilteredColored = await colorearData(fundacionesDataSortedFiltered);
     setFundaciones(fundacionesDataSortedFilteredColored)
   }
-  useEffect(() => {(async () => {
-    await getLocation();
-    await fetchFundaciones();
-    await arreglarFiltros();
-  })();
+  useLayoutEffect(() => {
+    (async () => {
+      await getLocation();
+      await fetchFundaciones();
+      await arreglarFiltros();
+    })();
+  }, []);
   
-  }, [distanciaMaxima]);
 
   return (
     <Container>
