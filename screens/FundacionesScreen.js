@@ -128,7 +128,6 @@ const FundacionScreen = () => {
   const handleAccept = (input) => {
     setDistanciaMaxima(parseInt(input, 10));
     setDialogVisible(false);
-    fetchFundaciones();
   };
 
   arreglarFiltros = async () => { 
@@ -143,7 +142,7 @@ const FundacionScreen = () => {
       await fetchFundaciones();
       await arreglarFiltros();
     })();
-  }, []);
+  }, [distanciaMaxima]);
   
 
   return (
@@ -226,6 +225,6 @@ const styles = StyleSheet.create({
 
   awesomeButton: {
     size: 12,
-    marginBottom: 12,
+    marginBottom: -12,
   },
 });
