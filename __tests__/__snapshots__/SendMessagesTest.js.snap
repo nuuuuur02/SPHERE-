@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  behavior="padding"
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "white",
+      "flex": 1,
+      "justifyContent": "center",
+      "margin": 10,
+      "padding": 50,
+    }
+  }
+>
+  <Image
+    source={
+      {
+        "uri": "https://firebasestorage.googleapis.com/v0/b/niideapepe-45402.appspot.com/o/Images%2FGroups%2FSphereLogo.jpg?alt=media&token=517e5910-c963-47e2-96b3-2343fbb2ff88",
+      }
+    }
+    style={
+      {
+        "height": 150,
+        "resizeMode": "cover",
+        "width": 150,
+      }
+    }
+  />
+  <View>
+    <TextInput
+      onChangeText={[Function]}
+      placeholder="Nombre"
+      style={
+        {
+          "backgroundColor": "white",
+          "borderColor": "#2e64e5",
+          "borderRadius": 70,
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "height": 40,
+          "marginTop": 15,
+          "paddingHorizontal": 15,
+          "paddingVertical": 10,
+          "width": 300,
+        }
+      }
+      value=""
+    />
+    <TextInput
+      onChangeText={[Function]}
+      placeholder="Descripci�n"
+      style={
+        {
+          "backgroundColor": "white",
+          "borderColor": "#2e64e5",
+          "borderRadius": 70,
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "height": 40,
+          "marginTop": 15,
+          "paddingHorizontal": 15,
+          "paddingVertical": 10,
+          "width": 300,
+        }
+      }
+      value=""
+    />
+    <TextInput
+      onChangeText={[Function]}
+      placeholder="Foto"
+      style={
+        {
+          "backgroundColor": "white",
+          "borderColor": "#2e64e5",
+          "borderRadius": 70,
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "height": 40,
+          "marginTop": 15,
+          "paddingHorizontal": 15,
+          "paddingVertical": 10,
+          "width": 300,
+        }
+      }
+      value=""
+    />
+    <TextInput
+      onChangeText={[Function]}
+      placeholder="Usuarios"
+      style={
+        {
+          "backgroundColor": "white",
+          "borderColor": "#2e64e5",
+          "borderRadius": 70,
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "height": 40,
+          "marginTop": 15,
+          "paddingHorizontal": 15,
+          "paddingVertical": 10,
+          "width": 300,
+        }
+      }
+      value=""
+    />
+  </View>
+</View>
+`;
