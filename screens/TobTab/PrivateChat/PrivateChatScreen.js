@@ -1,17 +1,18 @@
-import React, { useState, useEffect, useCallback, useLayoutEffect } from 'react';
+import React, { useState, useCallback, useLayoutEffect } from 'react';
 import { View } from 'react-native';
 import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { db, auth } from '../../../components/ConfigFirebase';
 import { doc, updateDoc, getDoc, Timestamp, onSnapshot } from "firebase/firestore";
-import { EventRegister } from 'react-native-event-listeners';
 
 const PrivateChatScreen = ({ route }) => {
 
-    const { item } = route.params;
+    const { item, newDocId } = route.params;
 
-    const postId = item.id;
+    console.log(newDocId)
+    newDocId = "mlL7u2nPBn25ISrWVPT5"
+    const postId = newDocId;
     const postRef = doc(db, 'chats', postId);
 
     const [messages, setMessages] = useState([]);
@@ -40,6 +41,7 @@ const PrivateChatScreen = ({ route }) => {
             const currentMessages = postData && postData._messages ? postData._messages : [];
 
             _messages = currentMessages.concat(message);
+            messageTime = Timestamp.now().toDate();
 
             await updateDoc(postRef, { _messages, messageTime });
 
@@ -132,18 +134,6 @@ const PrivateChatScreen = ({ route }) => {
             <FontAwesome name='angle-double-down' size={25} color='#333' />
         );
     }
-
-    //Theme
-    const [darkMode, setDarkMode] = useState(false)
-
-    useEffect(() => {
-        const listener = EventRegister.addEventListener('ChangeTheme', (data) => {
-            setDarkMode(data)
-        })
-        return () => {
-            //EventRegister.removeAllListeners(listener)
-        }
-    }, [darkMode])
 
     return (
         <GiftedChat

@@ -1,7 +1,7 @@
 import React, { useState, useLayoutEffect, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
-import { db } from '../../../components/ConfigFirebase';
-import { query, collection, getDocs, orderBy, where } from "firebase/firestore";
+import { db, auth } from '../../../components/ConfigFirebase';
+import { query, collection, getDocs, orderBy, where, setDoc, doc, addDoc } from "firebase/firestore";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import { EventRegister } from 'react-native-event-listeners';
@@ -22,6 +22,7 @@ const MessagesScreen = ({ navigation }) => {
 
     const [messages, setChats] = useState(null);
     const [professionals, setProfessionals] = useState(null);
+    const [newDocId, setNewDocId] = useState(null);
 
     useLayoutEffect(() => {
         fetchChats();
@@ -69,27 +70,36 @@ const MessagesScreen = ({ navigation }) => {
 
 
     // Expert component
-    const ExpertItem = ({ item, index, navigation }) => (
-        <TouchableOpacity
-            style={[
-                styles.resource,
-                styles.elevResource,
-                { backgroundColor: generateColor(index) },
-            ]}
-            onPress={() => navigation.navigate('Private Chat', { item })}
-        >
-            <Image
-                source={{ uri: item.photoURL }}
-                style={styles.resourceImage}
-            />
-            <Text style={styles.expertName}>{truncateName(item.displayName)}</Text>
-            <Text style={styles.expertDescription}>{item.descriptionProfessional}</Text>
-            <View style={styles.contactIcons}>
-                <Feather name="phone" size={20} style={styles.phoneIcon} />
-                <Ionicons name="md-chatbubble-outline" size={20} style={styles.chatIcon} />
-            </View>
-        </TouchableOpacity>
-    );
+    const ExpertItem = ({ item, index, navigation }) => {
+        
+        const handlePress = async () => {
+            await AddChat(item);
+            console.log("Error?", newDocId);
+            navigation.navigate('Private Chat', { item, newDocId });
+        };
+
+        return (
+            <TouchableOpacity
+                style={[
+                    styles.resource,
+                    styles.elevResource,
+                    { backgroundColor: generateColor(index) },
+                ]}
+                onPress={handlePress}
+            >
+                <Image
+                    source={{ uri: item.photoURL }}
+                    style={styles.resourceImage}
+                />
+                <Text style={styles.expertName}>{truncateName(item.displayName)}</Text>
+                <Text style={styles.expertDescription}>{item.descriptionProfessional}</Text>
+                <View style={styles.contactIcons}>
+                    <Feather name="phone" size={20} style={styles.phoneIcon} />
+                    <Ionicons name="md-chatbubble-outline" size={20} style={styles.chatIcon} />
+                </View>
+            </TouchableOpacity>
+        );
+    };
 
     //Theme
     const [darkMode, setDarkMode] = useState(false)
@@ -103,6 +113,34 @@ const MessagesScreen = ({ navigation }) => {
         }
     }, [darkMode])
 
+    AddChat = async (itemExpertUser) => {
+        try {
+
+            // Add the expert user to the chat
+            const actualUsers = [itemExpertUser.email]
+            actualUsers.unshift(auth.currentUser?.email)
+
+            const chats = collection(db, 'chats');
+
+            const newChat = {
+                userName: itemExpertUser.displayName,
+                messageText: itemExpertUser.descriptionProfessional,
+                userImg: itemExpertUser.photoURL,
+                messageTime: new Date(),
+                usersInGroup: actualUsers,
+            };
+
+            // Añadir un nuevo documento a la colección
+            //const docRef = await addDoc(chats, newChat);
+
+            //setNewDocId(docRef.id);
+            setNewDocId(" mlL7u2nPBn25ISrWVPT5 ");
+            //await setDoc(doc(db, "chats", auth.currentUser?.uid), newChat);
+        }
+        catch (error) {
+            console.error('Error al agregar el grupo: ', error);
+        }
+    }
     return (
         <>
             <View>
@@ -121,6 +159,7 @@ const MessagesScreen = ({ navigation }) => {
                 <FlatList
                     data={messages}
                     keyExtractor={item => item.id}
+                    showsVerticalScrollIndicator={false}
                     renderItem={({ item }) => (
                         <Card onPress={() => navigation.navigate('Private Chat', { item })}>
                             <UserInfo>
@@ -130,7 +169,7 @@ const MessagesScreen = ({ navigation }) => {
                                 <TextSection>
                                     <UserInfoText>
                                         <UserName style={darkMode === true ? { color: 'white' } : { color: 'black' }}>{item.userName}</UserName>
-                                        <PostTime style={darkMode === true ? { color: '#909090' } : { color: '#666' }}>{item.messageTime}</PostTime>
+                                        <PostTime style={darkMode === true ? { color: '#909090' } : { color: '#666' }}>{item.messageTime.toDate().toLocaleString()}</PostTime>
                                     </UserInfoText>
                                     <MessageText style={darkMode === true ? { color: '#909090' } : { color: '#333333' }}>{item.messageText}</MessageText>
                                 </TextSection>
