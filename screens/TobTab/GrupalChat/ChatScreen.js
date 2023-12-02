@@ -1,15 +1,10 @@
 import React, { useState, useLayoutEffect, useCallback } from 'react';
 import { View } from 'react-native';
 import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat';
-//const { Bubble, GiftedChat, Send } = require('react-native-gifted-chat');
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-//const MaterialCommunityIcons = require('react-native-vector-icons/MaterialCommunityIcons');
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-//const FontAwesome = require('react-native-vector-icons/FontAwesome');
 import { db, auth } from '../../../components/ConfigFirebase';
-//const { db, auth } = require( '../../../components/ConfigFirebase');
 import { doc, updateDoc, getDoc, Timestamp, onSnapshot } from "firebase/firestore";
-//const { doc, updateDoc, getDoc, Timestamp, onSnapshot } = require( "firebase/firestore");
 
 const ChatScreen = ({ route }) => {
 
