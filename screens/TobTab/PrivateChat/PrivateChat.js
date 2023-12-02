@@ -26,7 +26,6 @@ const MessagesScreen = ({ navigation }) => {
 
     useLayoutEffect(() => {
         fetchChats();
-        getProfessionalUsers();
     }, []);
 
     // Get every chat in the data base
@@ -44,6 +43,7 @@ const MessagesScreen = ({ navigation }) => {
                     everyChat.push({ ...doc.data(), id: doc.id })
                 }
             })
+            getProfessionalUsers(everyChat);
             setChats(everyChat)
         })
 
@@ -51,7 +51,7 @@ const MessagesScreen = ({ navigation }) => {
     }
 
     // Get every professional user in the data base
-    const getProfessionalUsers = async () => {
+    const getProfessionalUsers = async (everyChat) => {
         const professionalUsers = query((collection(db, "user")), where("isProfessional", "==", true));
         const unsubscribe = onSnapshot(professionalUsers, (querySnapshot) => {
             const everyProfessionalUser = [];
@@ -60,10 +60,10 @@ const MessagesScreen = ({ navigation }) => {
             querySnapshot.forEach((doc) => {
 
                 const professionalData = doc.data();
-                const usersInChat = professionalData.usersInChat || [];
+                //const usersInChat = professionalData.usersInGroup || [];
 
-                if (!usersInChat.includes(currentUser)) {
-                    everyProfessionalUser.push({ ...doc.data(), id: doc.id })
+                if (everyChat && Array.isArray(everyChat.usersInGroup) && !everyChat.usersInGroup.includes(professionalData.email)) {
+                    everyProfessionalUser.push({ ...doc.data(), id: doc.id });
                 }
             })
             setProfessionals(everyProfessionalUser)

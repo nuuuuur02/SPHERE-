@@ -10,7 +10,13 @@ const PrivateChatScreen = ({ route }) => {
 
     const { item, newDocId } = route.params;
 
-    const postId = newDocId;
+    if (newDocId) {
+        postId = newDocId;
+    }
+    else {
+        postId = item.id;
+    }
+    
     const postRef = doc(db, 'chats', postId);
 
     const [messages, setMessages] = useState([]);
