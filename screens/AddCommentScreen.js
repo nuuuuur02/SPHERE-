@@ -236,7 +236,7 @@ const AddCommentScreen = ({ route }) => {
   }, [darkMode])
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1 }} backgroundColor={'#ebebeb'}>
       <FlatList
         data={[item, ...comments.slice().reverse()]} // Combine el item principal con los comentarios
         keyExtractor={(item, index) => index.toString()}
@@ -244,7 +244,7 @@ const AddCommentScreen = ({ route }) => {
           if (index === 0) {
             // Renderiza el Card principal
             return (
-              <Card style={darkMode === true ? { backgroundColor: '#202020' } : { backgroundColor: '#f8f8f8' }}>
+              <Card style={darkMode === true ? { backgroundColor: '#202020'} : { backgroundColor: '#f8f8f8' }}>
                 <UserInfo>
                   <UserImg source={{ uri: item.userImg }} />
                   <UserInfoText>
@@ -282,6 +282,7 @@ const AddCommentScreen = ({ route }) => {
                 </UserInfo>
 
                 <PostText>{item.comment}</PostText>
+                
                 {auth.currentUser.displayName != item.user.userName && (
                   <DropMenuReport
                     isVisible={openMenus[index]}
