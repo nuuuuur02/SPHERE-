@@ -11,7 +11,7 @@ describe('ChatScreen', () => {
             user: {
                 _id: 'user1',
                 name: 'John Doe',
-                avatar: 'https://example.com/avatar.jpg',
+                avatar: 'https://picsum.photos/200/300?grayscale',
             },
         };
 
@@ -44,3 +44,5 @@ describe('ChatScreen', () => {
         });
     });
 });
+
+

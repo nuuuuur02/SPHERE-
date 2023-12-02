@@ -7,8 +7,9 @@
     "\\screens\\TobTab",
     "\\screens\\TobTab\\GrupalChat",
     "\\screens\\TobTab\\PrivateChat",
-    "\\__tests__"
+    "\\__tests__",
+    "\\__tests__\\__snapshots__"
   ],
-  "SelectedNode": "\\screens\\TobTab\\GrupalChat\\CreateChat.js",
+  "SelectedNode": "\\__tests__\\SendMessagesTest.js",
   "PreviewInSolutionExplorer": false
 }
