@@ -1,21 +1,35 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback, useLayoutEffect } from 'react';
 import { View } from 'react-native';
 import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { db } from '../../../components/ConfigFirebase';
-import { doc, updateDoc, getDoc } from "firebase/firestore";
-import { EventRegister } from 'react-native-event-listeners';
+import { db, auth } from '../../../components/ConfigFirebase';
+import { doc, updateDoc, getDoc, Timestamp, onSnapshot } from "firebase/firestore";
 
 const PrivateChatScreen = ({ route }) => {
 
-    const { item } = route.params;
+    const { item, newDocId } = route.params;
+
+    if (newDocId) {
+        postId = newDocId;
+    }
+    else {
+        postId = item.id;
+    }
     
+    const postRef = doc(db, 'chats', postId);
+
     const [messages, setMessages] = useState([]);
 
-    useEffect(() => {
-        fetchMessages();
-    }, [item.id]);
+    useLayoutEffect(() => {
+
+        const unsubscribe = onSnapshot(postRef, () => {
+            fetchMessages();
+        });
+
+        return () => unsubscribe();
+
+    }, []);
 
     const truncateName = (name) => {
         const userNameSliced = name.split(' ');
@@ -26,15 +40,14 @@ const PrivateChatScreen = ({ route }) => {
     const postMessage = async (message) => {
 
         try {
-            const postId = item.id;
-            const postRef = doc(db, 'chats', postId);
             const postDoc = await getDoc(postRef);
             const postData = postDoc.data();
             const currentMessages = postData && postData._messages ? postData._messages : [];
 
             _messages = currentMessages.concat(message);
+            messageTime = Timestamp.now().toDate();
 
-            await updateDoc(postRef, { _messages });
+            await updateDoc(postRef, { _messages, messageTime });
 
         } catch (error) {
             console.error('Error al enviar el mensaje: ', error);
@@ -44,8 +57,6 @@ const PrivateChatScreen = ({ route }) => {
     const fetchMessages = async () => {
 
         try {
-            const postId = item.id;
-            const postRef = doc(db, 'chats', postId);
             const postDoc = await getDoc(postRef);
 
             if (postDoc.exists()) {
@@ -62,7 +73,10 @@ const PrivateChatScreen = ({ route }) => {
                         user: {
                             ..._messages.user,
                             name: truncatedUserName,
-                        }
+                        },
+                        image: _messages.image,
+                        sent: _messages.sent,
+                        received: _messages.received,
                     };
                 });
 
@@ -125,27 +139,14 @@ const PrivateChatScreen = ({ route }) => {
         );
     }
 
-    //Theme
-    const [darkMode, setDarkMode] = useState(false)
-
-    useEffect(() => {
-        const listener = EventRegister.addEventListener('ChangeTheme', (data) => {
-            setDarkMode(data)
-        })
-        return () => {
-            //EventRegister.removeAllListeners(listener)
-        }
-    }, [darkMode])
-
     return (
         <GiftedChat
             messages={messages}
             onSend={(messages) => onSend(messages)}
             user={{
-                _id: 1,         // Cambiar id al usuario actual que haya iniciado sesi�n en la base de datos
-                name: "user",   // Cambiar user al usuario actual que haya iniciado sesi�n en la base de datos
-                avatar: "https://firebasestorage.googleapis.com/v0/b/niideapepe-45402.appspot.com/o/Images%2FGroups%2FLiax.jpg?alt=media&token=237b919f-0d72-46c3-a25f-06cc591cba13",
-                                // Cambiar avatar al usuario actual que haya iniciado sesi�n en la base de datos
+                _id: auth.currentUser?.uid,
+                name: auth.currentUser?.displayName,
+                avatar: auth.currentUser?.photoURL,
             }}
             renderBubble={renderBubble}
             alwaysShowSend

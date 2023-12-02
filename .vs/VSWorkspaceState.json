@@ -1,8 +1,6 @@
 {
   "ExpandedNodes": [
     "",
-    "\\components",
-    "\\navigation",
     "\\screens",
     "\\screens\\Drawer",
     "\\screens\\Tab",
@@ -10,5 +8,6 @@
     "\\screens\\TobTab\\GrupalChat",
     "\\screens\\TobTab\\PrivateChat"
   ],
+  "SelectedNode": "\\package.json",
   "PreviewInSolutionExplorer": false
 }
