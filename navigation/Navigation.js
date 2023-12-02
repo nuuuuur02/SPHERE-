@@ -4,7 +4,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { auth, db } from '../components/ConfigFirebase';  
+import { auth, db } from '../components/ConfigFirebase';
+
 
 //defaulSphere
 import { View, Text, Pressable, Image } from 'react-native';
@@ -56,11 +57,25 @@ const TobTab = createMaterialTopTabNavigator();
 
 function TobTabGroup() {
     return (
-        <TobTab.Navigator>
+        <TobTab.Navigator
+            screenOptions={{
+                tabBarStyle: { backgroundColor: '#d9cffb' },
+                tabBarIndicatorStyle: {
+                    backgroundColor: 'black',
+                    borderRadius: 10,
+                },
+                tabBarLabelStyle: {
+                    fontWeight: 'bold',
+                    fontSize: 15,
+                    textTransform: 'capitalize',
+                }
+            }}
+
+        >
             <TobTab.Screen name="Comunidad" component={HomeScreen} />
             <TobTab.Screen name="Grupos" component={GrupalChat} />
             <TobTab.Screen name="Expertos" component={PrivateChat} />
-            
+
         </TobTab.Navigator>
     )
 }
@@ -135,17 +150,12 @@ function StackGroup() {
                 }}
             />
             <Stack.Screen name="HomeMain" component={TabGroup}
-                options=
-                {{
-                    title: 'Sphere',
-                    headerTitleAlign: 'center',
-                    headerTitleStyle: {
-                        color: '#2e64e5',
-                        fontSize: 18,
-                    },
+                options={{
+                    title: '',
                     headerStyle: {
-                        shadowColor: '#fff',
+                        backgroundColor: '#d9cffb',
                         elevation: 0,
+                        shadowOpacity: 0, 
                     },
                 }}
             />
@@ -248,7 +258,7 @@ function TabGroup() {
             headerLeft: () => (
                 <Pressable onPress={() => navigation.openDrawer()}>
                     <Image
-                        source={{uri: auth.currentUser?.photoURL}}
+                        source={{ uri: auth.currentUser?.photoURL }}
                         style={{ width: 40, height: 40, borderRadius: 100, marginLeft: 15 }}
                     />
                 </Pressable>
@@ -260,22 +270,31 @@ function TabGroup() {
         <Tab.Navigator
 
             screenOptions={({ route }) => ({
+                tabBarStyle: {
+                    backgroundColor: '#313131',
+                    borderTopLeftRadius: 25,
+                    borderTopRightRadius: 25,
+                },
                 tabBarShowLabel: false,
+
                 tabBarIcon: ({ color, focused, size }) => {
                     let iconName;
                     switch (route.name) {
                         case "Home": iconName = "home"; break;
-                        case "Pictos": iconName = "picture-o"; break;
-                        case "Calendario": iconName = "calendar"; break;
-                        case "Perfil": iconName = "user"; break;
+                        case "Pictos": iconName = "book"; break;
+                        case "Calendario": iconName = "clock-o"; break;
+                        case "Perfil1": iconName = "map-marker"; break;
+                        case "Perfil": iconName = "user-o"; break;
+                        
                     }
-                    return <FontAwesome name={iconName} color={color} size={size} />
+                    return <FontAwesome name={iconName} color={'white'} size={size} />
                 },
             })}
         >
-            <Tab.Screen name="Home" component={TobTabGroup} options={{ headerShown: false}}  />
+            <Tab.Screen name="Home" component={TobTabGroup} options={{ headerShown: false }} />
             <Tab.Screen name="Pictos" component={PictosScreen} options={{ headerShown: false }} />
             <Tab.Screen name="Calendario" component={PINScreen} options={{ headerShown: false }} />
+            <Tab.Screen name="Perfil1" component={PerfilScreen} options={{ headerShown: false }} />
             <Tab.Screen name="Perfil" component={PerfilScreen} options={{ headerShown: false }} />
         </Tab.Navigator>
     )
