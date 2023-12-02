@@ -1,14 +1,14 @@
 {
   "ExpandedNodes": [
     "",
-    "\\components",
-    "\\navigation",
     "\\screens",
     "\\screens\\Drawer",
     "\\screens\\Tab",
     "\\screens\\TobTab",
     "\\screens\\TobTab\\GrupalChat",
-    "\\screens\\TobTab\\PrivateChat"
+    "\\screens\\TobTab\\PrivateChat",
+    "\\__tests__"
   ],
+  "SelectedNode": "\\screens\\TobTab\\GrupalChat\\CreateChat.js",
   "PreviewInSolutionExplorer": false
 }
