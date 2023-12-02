@@ -66,7 +66,7 @@ const HomeScreen = ({ navigation }) => {
                 onPress={() => navigation.navigate('AddPostScreen')}
                 renderIcon={() => (
                     
-                        <Ionicons name="add" size={25} color="black" />
+                <Ionicons name="add" size={25} color="black" />
                     
                 )}
             />
