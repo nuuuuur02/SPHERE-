@@ -1,7 +1,7 @@
 import React, { useState, useLayoutEffect, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import { db, auth } from '../../../components/ConfigFirebase';
-import { query, collection, getDocs, orderBy, where, setDoc, doc, addDoc } from "firebase/firestore";
+import { query, collection, getDocs, orderBy, where, setDoc, doc, addDoc, onSnapshot } from "firebase/firestore";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import { EventRegister } from 'react-native-event-listeners';
@@ -31,26 +31,45 @@ const MessagesScreen = ({ navigation }) => {
 
     // Get every chat in the data base
     const fetchChats = async () => {
-        const chats = query((collection(db, "chats")));//, orderBy("messageTime", "asc"));
-        getDocs(chats).then(docSnap => {
+        const chats = query(collection(db, "chats"), orderBy("messageTime", "desc"));
+        const unsubscribe = onSnapshot(chats, (querySnapshot) => {
             const everyChat = [];
-            docSnap.forEach((doc) => {
-                everyChat.push({ ...doc.data(), id: doc.id })
+            const currentUser = auth.currentUser?.email;
+
+            querySnapshot.forEach((doc) => {
+                const chatData = doc.data();
+                const usersInChat = chatData.usersInGroup || [];
+
+                if (usersInChat.includes(currentUser)) {
+                    everyChat.push({ ...doc.data(), id: doc.id })
+                }
             })
             setChats(everyChat)
         })
+
+        return () => unsubscribe();
     }
 
     // Get every professional user in the data base
     const getProfessionalUsers = async () => {
         const professionalUsers = query((collection(db, "user")), where("isProfessional", "==", true));
-        getDocs(professionalUsers).then(docSnap => {
+        const unsubscribe = onSnapshot(professionalUsers, (querySnapshot) => {
             const everyProfessionalUser = [];
-            docSnap.forEach((doc) => {
-                everyProfessionalUser.push({ ...doc.data(), id: doc.id })
+            const currentUser = auth.currentUser?.email;
+
+            querySnapshot.forEach((doc) => {
+
+                const professionalData = doc.data();
+                const usersInChat = professionalData.usersInChat || [];
+
+                if (!usersInChat.includes(currentUser)) {
+                    everyProfessionalUser.push({ ...doc.data(), id: doc.id })
+                }
             })
             setProfessionals(everyProfessionalUser)
         })
+
+        return () => unsubscribe();
     }
 
     // Genera colores en función de la posición del elemento
@@ -66,39 +85,6 @@ const MessagesScreen = ({ navigation }) => {
         const userNameSliced = name.split(' ');
         const expertName = userNameSliced[0] + ' ' + userNameSliced[1];
         return expertName.length > 15 ? (expertName.split(' '))[0] : expertName;
-    };
-
-
-    // Expert component
-    const ExpertItem = ({ item, index, navigation }) => {
-        
-        const handlePress = async () => {
-            await AddChat(item);
-            console.log("Error?", newDocId);
-            navigation.navigate('Private Chat', { item, newDocId });
-        };
-
-        return (
-            <TouchableOpacity
-                style={[
-                    styles.resource,
-                    styles.elevResource,
-                    { backgroundColor: generateColor(index) },
-                ]}
-                onPress={handlePress}
-            >
-                <Image
-                    source={{ uri: item.photoURL }}
-                    style={styles.resourceImage}
-                />
-                <Text style={styles.expertName}>{truncateName(item.displayName)}</Text>
-                <Text style={styles.expertDescription}>{item.descriptionProfessional}</Text>
-                <View style={styles.contactIcons}>
-                    <Feather name="phone" size={20} style={styles.phoneIcon} />
-                    <Ionicons name="md-chatbubble-outline" size={20} style={styles.chatIcon} />
-                </View>
-            </TouchableOpacity>
-        );
     };
 
     //Theme
@@ -131,16 +117,57 @@ const MessagesScreen = ({ navigation }) => {
             };
 
             // Añadir un nuevo documento a la colección
-            //const docRef = await addDoc(chats, newChat);
+            const docRef = await addDoc(chats, newChat);
+            console.log("Grupo añadido: ", docRef.id)
+            setNewDocId(docRef.id);
 
             //setNewDocId(docRef.id);
-            setNewDocId(" mlL7u2nPBn25ISrWVPT5 ");
+            //setNewDocId(" mlL7u2nPBn25ISrWVPT5 ");
             //await setDoc(doc(db, "chats", auth.currentUser?.uid), newChat);
         }
         catch (error) {
             console.error('Error al agregar el grupo: ', error);
         }
     }
+
+    // Expert component
+    const ExpertItem = ({ item, index, navigation }) => {
+
+        const handlePress = () => {
+            AddChat(item);
+        };
+
+        if (newDocId) {
+            useEffect(() => {
+                console.log("Error?", newDocId);
+                // Realiza acciones adicionales aquí después de que newDocId se haya actualizado
+                navigation.navigate('Private Chat', { item, newDocId });
+            }, [newDocId]);
+        }
+
+        return (
+            <TouchableOpacity
+                style={[
+                    styles.resource,
+                    styles.elevResource,
+                    { backgroundColor: generateColor(index) },
+                ]}
+                onPress={handlePress}
+            >
+                <Image
+                    source={{ uri: item.photoURL }}
+                    style={styles.resourceImage}
+                />
+                <Text style={styles.expertName}>{truncateName(item.displayName)}</Text>
+                <Text style={styles.expertDescription}>{item.descriptionProfessional}</Text>
+                <View style={styles.contactIcons}>
+                    <Feather name="phone" size={20} style={styles.phoneIcon} />
+                    <Ionicons name="md-chatbubble-outline" size={20} style={styles.chatIcon} />
+                </View>
+            </TouchableOpacity>
+        );
+    };
+
     return (
         <>
             <View>

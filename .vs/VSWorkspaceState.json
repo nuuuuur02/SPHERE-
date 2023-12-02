@@ -1,16 +1,13 @@
 {
   "ExpandedNodes": [
     "",
-    "\\components",
-    "\\navigation",
     "\\screens",
     "\\screens\\Drawer",
     "\\screens\\Tab",
     "\\screens\\TobTab",
     "\\screens\\TobTab\\GrupalChat",
-    "\\screens\\TobTab\\PrivateChat",
-    "\\styles"
+    "\\screens\\TobTab\\PrivateChat"
   ],
-  "SelectedNode": "\\components\\ConfigFirebase.js",
+  "SelectedNode": "\\package.json",
   "PreviewInSolutionExplorer": false
 }

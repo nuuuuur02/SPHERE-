@@ -59,6 +59,7 @@ const RegisterScreen = ({ navigation }) => {
 
             if (isProfessional) {
                 newUser.descriptionProfessional = descriptionProfessional;
+                newUser.email = email;
             }
 
             if (isFamiliar) {
