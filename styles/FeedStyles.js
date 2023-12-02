@@ -11,7 +11,8 @@ export const Card = styled.View`
     background-color: #f8f8f8;
     border-radius: 25px;
     margin-top: 20px;
-    
+    margin-left: 10px;
+    margin-right: 10px;
 `;
 
 export const CardCom = styled.View`
@@ -19,7 +20,8 @@ export const CardCom = styled.View`
     background-color: #f8f8f8;
     margin-top: 20px;
     border-radius: 25px;
-    
+    margin-left: 10px;
+    margin-right: 10px;
 `;
 
 export const UserInfo = styled.View`
