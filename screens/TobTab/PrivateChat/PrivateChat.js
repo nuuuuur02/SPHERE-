@@ -139,8 +139,6 @@ const MessagesScreen = ({ navigation }) => {
 
         if (newDocId) {
             useEffect(() => {
-                console.log("Error?", newDocId);
-                // Realiza acciones adicionales aquí después de que newDocId se haya actualizado
                 navigation.navigate('Private Chat', { item, newDocId });
             }, [newDocId]);
         }
@@ -171,7 +169,7 @@ const MessagesScreen = ({ navigation }) => {
     return (
         <>
             <View>
-                <Text style={styles.titleText}>Otros expertos</Text>
+                <Text style={styles.titleTextOthers}>Otros expertos</Text>
                 <FlatList
                     data={professionals}
                     keyExtractor={item => item.id}
@@ -180,7 +178,7 @@ const MessagesScreen = ({ navigation }) => {
                     style={styles.flatListContainer}
                     renderItem={({ item, index }) => <ExpertItem item={item} index={index} navigation={navigation} />}
                 />
-                <Text style={styles.titleText}>Chats abiertos</Text>
+                <Text style={styles.titleTextOpen}>Chats abiertos</Text>
             </View>
             <Container style={darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#fff' }}>
                 <FlatList
@@ -235,10 +233,19 @@ const styles = StyleSheet.create({
         width: 75,
         borderRadius: 50,
     },
-    titleText: {
+    titleTextOthers: {
         fontWeight: 'bold',
         fontSize: 25,
-        padding: 15,
+        paddingTop: 15,
+        paddingLeft: 15,
+        paddingRight: 15,
+    },
+    titleTextOpen: {
+        fontWeight: 'bold',
+        fontSize: 25,
+        paddingLeft: 15,
+        paddingRight: 15,
+        paddingBottom: 15,
     },
     expertName: {
         fontWeight: 'bold',
@@ -259,6 +266,8 @@ const styles = StyleSheet.create({
     },
     flatListContainer: {
         height: 250,
-        margin: 15,
+        marginTop: 15,
+        marginLeft: 15,
+        marginRight: 15,
     },
 });
