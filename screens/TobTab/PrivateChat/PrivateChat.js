@@ -23,6 +23,7 @@ const MessagesScreen = ({ navigation }) => {
     const [messages, setChats] = useState(null);
     const [professionals, setProfessionals] = useState(null);
     const [newDocId, setNewDocId] = useState(null);
+    const [lastDocId, setLastDocId] = useState(null);
 
     useLayoutEffect(() => {
         fetchChats();
@@ -56,13 +57,15 @@ const MessagesScreen = ({ navigation }) => {
         const unsubscribe = onSnapshot(professionalUsers, (querySnapshot) => {
             const everyProfessionalUser = [];
             const currentUser = auth.currentUser?.email;
+            const professionalEmailsInChats = new Set(everyChat.flatMap(chat => chat.usersInGroup));
 
             querySnapshot.forEach((doc) => {
 
                 const professionalData = doc.data();
-                //const usersInChat = professionalData.usersInGroup || [];
 
-                if (everyChat && Array.isArray(everyChat.usersInGroup) && !everyChat.usersInGroup.includes(professionalData.email)) {
+                //!((everyChat[0].usersInGroup).includes(professionalData.email))
+                if (!professionalEmailsInChats.has(professionalData.email))
+                {
                     everyProfessionalUser.push({ ...doc.data(), id: doc.id });
                 }
             })
@@ -132,8 +135,9 @@ const MessagesScreen = ({ navigation }) => {
             AddChat(item);
         };
 
-        if (newDocId) {
+        if (newDocId != lastDocId) {
             useEffect(() => {
+                setLastDocId(newDocId);
                 navigation.navigate('Private Chat', { item, newDocId });
             }, [newDocId]);
         }
