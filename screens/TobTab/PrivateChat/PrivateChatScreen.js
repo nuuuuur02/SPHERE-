@@ -10,7 +10,6 @@ const PrivateChatScreen = ({ route }) => {
 
     const { item, newDocId } = route.params;
 
-    console.log(newDocId)
     const postId = newDocId;
     const postRef = doc(db, 'chats', postId);
 

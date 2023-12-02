@@ -118,12 +118,7 @@ const MessagesScreen = ({ navigation }) => {
 
             // Añadir un nuevo documento a la colección
             const docRef = await addDoc(chats, newChat);
-            console.log("Grupo añadido: ", docRef.id)
             setNewDocId(docRef.id);
-
-            //setNewDocId(docRef.id);
-            //setNewDocId(" mlL7u2nPBn25ISrWVPT5 ");
-            //await setDoc(doc(db, "chats", auth.currentUser?.uid), newChat);
         }
         catch (error) {
             console.error('Error al agregar el grupo: ', error);
