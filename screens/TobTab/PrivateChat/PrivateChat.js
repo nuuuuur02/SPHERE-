@@ -24,6 +24,7 @@ const MessagesScreen = ({ navigation }) => {
     const [professionals, setProfessionals] = useState(null);
     const [newDocId, setNewDocId] = useState(null);
     const [lastDocId, setLastDocId] = useState(null);
+    const [itemExpertUser, setItemExpertUser] = useState(null);
 
     useLayoutEffect(() => {
         fetchChats();
@@ -121,7 +122,7 @@ const MessagesScreen = ({ navigation }) => {
 
             // Añadir un nuevo documento a la colección
             const docRef = await addDoc(chats, newChat);
-            setNewDocId(docRef.id);
+            await setNewDocId(docRef.id);
         }
         catch (error) {
             console.error('Error al agregar el grupo: ', error);
@@ -131,16 +132,10 @@ const MessagesScreen = ({ navigation }) => {
     // Expert component
     const ExpertItem = ({ item, index, navigation }) => {
 
-        const handlePress = () => {
-            AddChat(item);
+        const handlePress = async () => {
+            setItemExpertUser(item);
+            await AddChat(item);
         };
-
-        if (newDocId != lastDocId) {
-            useEffect(() => {
-                setLastDocId(newDocId);
-                navigation.navigate('Private Chat', { item, newDocId });
-            }, [newDocId]);
-        }
 
         return (
             <TouchableOpacity
@@ -164,6 +159,13 @@ const MessagesScreen = ({ navigation }) => {
             </TouchableOpacity>
         );
     };
+
+    useEffect(() => {
+        if (newDocId != lastDocId && itemExpertUser) {
+            setLastDocId(newDocId);
+            navigation.navigate('Private Chat', { item: itemExpertUser, newDocId });
+        }
+    }, [newDocId]);
 
     return (
         <>
