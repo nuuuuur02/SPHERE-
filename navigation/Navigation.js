@@ -159,8 +159,24 @@ function StackGroup() {
                     },
                 }}
             />
-            <Stack.Screen name="AddPostScreen" component={AddPostScreen} options={optionsAdd} />
-            <Stack.Screen name="AddCommentScreen" component={AddCommentScreen} options={optionsAdd} />
+            <Stack.Screen name="AddPostScreen" component={AddPostScreen}  options={{
+                    optionsAdd,
+                    title: '',
+                    headerStyle: {
+                        backgroundColor: '#d9cffb',
+                        elevation: 0,
+                        shadowOpacity: 0, 
+                    },
+                }} />
+            <Stack.Screen name="AddCommentScreen" component={AddCommentScreen} options={{
+                    optionsAdd,
+                    title: '',
+                    headerStyle: {
+                        backgroundColor: '#d9cffb',
+                        elevation: 0,
+                        shadowOpacity: 0, 
+                    },
+                }} />
             <Stack.Screen name="PrincipalEvento" component={PrincipalEvento} />
             <Stack.Screen
                 name="Chat"
