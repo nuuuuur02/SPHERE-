@@ -9,24 +9,26 @@ export const Container = styled.View`
 
 export const Card = styled.View`
     background-color: #f8f8f8;
-    width: 100%;
+    border-radius: 25px;
     margin-top: 20px;
-    
+    margin-left: 10px;
+    margin-right: 10px;
 `;
 
 export const CardCom = styled.View`
     
     background-color: #f8f8f8;
-    width: 100%;
     margin-top: 20px;
-    
-    
+    border-radius: 25px;
+    margin-left: 10px;
+    margin-right: 10px;
 `;
 
 export const UserInfo = styled.View`
     flex-direction: row;
     justify-content: flex-start;
     padding: 15px;
+    
 `;
 
 export const UserImg = styled.Image`
@@ -42,7 +44,7 @@ export const UserInfoText = styled.View`
 `;
 
 export const UserName = styled.Text`
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
     
 `;
@@ -53,11 +55,12 @@ export const PostTime = styled.Text`
 `;
 
 export const PostText = styled.Text`
-    font-size: 14px;
+    font-size: 13px;
   
-    padding-left: 15px;
+   
     padding-right: 15px;
     margin-bottom: 15px;
+    padding-left: 75px;
 `;
 
 export const PostImg = styled.Image`
@@ -76,9 +79,10 @@ export const Divider = styled.View`
 
 export const InteractionWrapper = styled.View`
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: flex-end; 
     padding: 15px;
-    width: 100%;
+    width: 95%; 
+    align-self: stretch;
 `;
 
 export const Interaction = styled.TouchableOpacity`
