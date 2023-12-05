@@ -6,15 +6,16 @@ import {
   AddImage,
   SubmitBtn,
   SubmitBtnText,
+  Card,
 } from '../styles/AddPost';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { storagebd, db ,auth} from '../components/ConfigFirebase';
+import { storagebd, db, auth } from '../components/ConfigFirebase';
 import { addDoc, collection, Timestamp } from "firebase/firestore";
 import * as ImagePicker from 'expo-image-picker'
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { EventRegister } from 'react-native-event-listeners';
-
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const AddPostScreen = ({ navigation }) => {
   const [image, setImage] = useState(null);
@@ -167,31 +168,33 @@ const AddPostScreen = ({ navigation }) => {
     setIsButtonDisabled(content === '' && image === null);
   };
 
-    //Theme
-    const [darkMode, setDarkMode] = useState(false)
+  //Theme
+  const [darkMode, setDarkMode] = useState(false)
 
-    useEffect(() => {
-        const listener = EventRegister.addEventListener('ChangeTheme', (data) => {
-            setDarkMode(data)
-        })
-        return () => {
-            //EventRegister.removeAllListeners(listener)
-        }
-    }, [darkMode])
+  useEffect(() => {
+    const listener = EventRegister.addEventListener('ChangeTheme', (data) => {
+      setDarkMode(data)
+    })
+    return () => {
+      //EventRegister.removeAllListeners(listener)
+    }
+  }, [darkMode])
 
   return (
     <Container>
-
-      {image != null ? <AddImage source={{ uri: image }} /> : null}
-      <InputField
-        placeholder="Buen dia"
-        //style={darkMode === true ? { placeholderTextColor: 'white' } : { placeholderTextColor: 'black' }}
-        multiline
-        numberOfLines={4}
-        value={post}
-        onChangeText={handleInputChange}
-        style={darkMode === true ? { color: 'white' } : { color: 'black' }}
-      />
+      
+        {image != null ? <AddImage source={{ uri: image }}  /> : null}
+        <InputField
+          placeholder="Buen dia"
+          //style={darkMode === true ? { placeholderTextColor: 'white' } : { placeholderTextColor: 'black' }}
+          multiline
+          numberOfLines={4}
+          value={post}
+          onChangeText={handleInputChange}
+          style={darkMode === true ? { color: 'white' } : { color: 'black' }}
+          
+        />
+    
       <SubmitBtn>
         <SubmitBtnText
           onPress={() => {
@@ -205,7 +208,13 @@ const AddPostScreen = ({ navigation }) => {
         </SubmitBtnText>
       </SubmitBtn>
 
-      <ActionButton buttonColor="#2e64e5">
+      <ActionButton buttonColor="#d9cffb"
+        onPress={() => navigation.navigate('AddPostScreen')}
+        renderIcon={() => (
+
+          <Ionicons name="add" size={25} color="black" />
+
+        )}>
 
         <ActionButton.Item
           buttonColor="#9b59b6"

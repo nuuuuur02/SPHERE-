@@ -23,8 +23,8 @@ export default function PerfilScreen({ navigation }) {
 
         if (userDoc.exists()) {
           const userData = userDoc.data();
-          setIsProfessional(userData.profesional);
-          setIsFamiliar(userData.familiar);
+          setIsProfessional(userData.isProfesional);
+          setIsFamiliar(userData.isFamiliar);
         }
       } else {
         setUserData(null);
@@ -41,10 +41,9 @@ export default function PerfilScreen({ navigation }) {
       {userData ? (
         <View style={styles.formContainer}>
           {userData.photo && (
-            /*<Image source={{ uri: userData.photo }} style={styles.profileImage} />*/ //Esto se te que canviar quan s'arregle lo de la imatge 
-            <Image source={require("../../assets/user.png")} style={styles.profileImage} />
+            <Image source={{ uri: userData.photo }} style={styles.profileImage} /> //Esto se te que canviar quan s'arregle lo de la imatge 
+            /*<Image source={require("../../assets/user.png")} style={styles.profileImage} />*/
           )}
-          <Image source={require("../../assets/user.png")} style={styles.profileImage} />
           <Text style={styles.label}>Nombre:</Text>
           <Text style={styles.text}>{userData.nombre}</Text>
 

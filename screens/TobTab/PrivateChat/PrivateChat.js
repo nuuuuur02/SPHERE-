@@ -76,9 +76,9 @@ const MessagesScreen = ({ navigation }) => {
         return () => unsubscribe();
     }
 
-    // Genera colores en función de la posición del elemento
+    // Genera colores en funciï¿½n de la posiciï¿½n del elemento
     const generateColor = (index) => {
-        const hue = (index * 50) % 360; // Ajusta el valor según tus preferencias
+        const hue = (index * 50) % 360; // Ajusta el valor segï¿½n tus preferencias
         return `hsl(${hue}, 70%, 70%)`; // HSL para tonos claros
     };
 

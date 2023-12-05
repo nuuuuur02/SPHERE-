@@ -6,7 +6,9 @@ import { db } from '../components/ConfigFirebase';
 import { query, collection, getDocs } from "firebase/firestore";
 import DialogInput from 'react-native-dialog-input';
 import * as Location from 'expo-location';
-
+import ActionButton from 'react-native-action-button';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { EventRegister } from 'react-native-event-listeners';
 
 const FundacionScreen = () => {
   const locationInitial = {
@@ -144,9 +146,24 @@ const FundacionScreen = () => {
     })();
   }, [distanciaMaxima]);
   
+  const renderIcon = () => (
+    <Icon name="md-search" style={{ ...styles.actionButtonIcon, color: 'white' }} />
+  );
 
-  return (
-    <Container>
+    //Theme
+    const [darkMode, setDarkMode] = useState(false)
+
+    useEffect(() => {
+        const listener = EventRegister.addEventListener('ChangeTheme', (data) => {
+            setDarkMode(data)
+        })
+        return () => {
+            //EventRegister.removeAllListeners(listener)
+        }
+    }, [darkMode])
+
+    return (
+        <Container style={darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: 'white' }}>
       <FlatList
         data={fundaciones}
         keyExtractor={(item, index) => index.toString()}
@@ -154,14 +171,13 @@ const FundacionScreen = () => {
         showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       />
-      <FontAwesome5.Button
-        style={styles.awesomeButton}
-        name="sort-up"
-        size={33}
-        backgroundColor="#fff"
-        color="#2e64e5"
-        onPress={showDialog}
+      <ActionButton
+        buttonColor="#2e64e5"
+        onPress={() => showDialog()}
+        renderIcon={renderIcon}
       />
+            
+            
       <DialogInput
         isDialogVisible={isDialogVisible}
         title={"Cambiar Distancia Máxima"}

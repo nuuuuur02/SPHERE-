@@ -31,7 +31,7 @@ const PostCard = ({ item, updatePosts }) => {
   const initialLikeCount = Array.isArray(item.likes) ? item.likes.length : 0;
   const [likeCount, setLikeCount] = useState(initialLikeCount);
   const [liked, setLiked] = useState(item.liked);
-  const likeIconColor = liked ? '#2e64e5' : '#333';
+  const likeIconColor = liked ? '#F96324' : '#333';
   const navigation = useNavigation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -154,7 +154,7 @@ const PostCard = ({ item, updatePosts }) => {
   }, [darkMode]  )
 
   return (
-      <Card style={darkMode === true ? { backgroundColor: '#202020' } : { backgroundColor: '#f8f8f8' }} >
+      <Card style={darkMode === true ? { backgroundColor: '#202020' } : { backgroundColor: '#f9f9f9' }} >
       <UserInfo>
         <UserImg source={{ uri: item.userImg }} />
         <UserInfoText>
@@ -179,12 +179,12 @@ const PostCard = ({ item, updatePosts }) => {
       )}
       {/*<PostImg source ={require ('../assets/posts/post-img-2.jpg')}/>*/}
 
-      <InteractionWrapper>
+      <InteractionWrapper >
 
-        <Interaction active={liked} onPress={toggleLike}>
+        <Interaction active={liked} onPress={toggleLike} style={{ backgroundColor: liked ? '#f9f9f9' : 'transparent', padding: 5, borderRadius: 5 }}>
           <Ionicons name={liked ? 'heart' : 'heart-outline'} size={25} color={likeIconColor} />
                   <InteractionText active={liked} style={darkMode === true ? { color: 'white' } : { color: 'black' }}>
-            {likeCount} Like{likeCount !== 1 ? 's' : ''}
+            {likeCount} {likeCount !== 1 ? '' : ''}
           </InteractionText>
         </Interaction>
 
@@ -193,8 +193,13 @@ const PostCard = ({ item, updatePosts }) => {
         <Interaction onPress={() => navigation.navigate('AddCommentScreen', { item })}>
           <Ionicons name="md-chatbubble-outline" size={25} />
           <InteractionText style={darkMode === true ? { color: 'white' } : { color: 'black' }}>
-            {item.comments ? item.comments.length : 0} {item.comments && item.comments.length !== 1 ? 'Comments' : 'Comment'}
+            {item.comments ? item.comments.length : 0} {item.comments && item.comments.length !== 1 ? '' : ''}
           </InteractionText>
+        </Interaction>
+
+        <Interaction >
+          <Ionicons name="md-paper-plane-outline" size={24} />
+          
         </Interaction>
 
       </InteractionWrapper>

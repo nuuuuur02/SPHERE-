@@ -6,7 +6,9 @@ import PostCard from '../components/PostCard';
 import { db } from '../components/ConfigFirebase';
 import { query, collection, getDocs, orderBy } from "firebase/firestore";
 import { EventRegister } from 'react-native-event-listeners';
-
+import ActionButton from 'react-native-action-button';
+import Icon from 'react-native-vector-icons/Ionicons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 const HomeScreen = ({ navigation }) => {
     const [posts, setPosts] = useState(null);
     const [refreshing, setRefreshing] = useState(false);
@@ -50,24 +52,26 @@ const HomeScreen = ({ navigation }) => {
     }, [darkMode])
 
     return (
-        <Container style={darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#fff' }} >
-      <FlatList
-        data={posts}
-        renderItem={({ item }) => <PostCard item={item} updatePosts={updatePosts} />}
-        keyExtractor={(item) => item.id}
-        showsVerticalScrollIndicator={false}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-      />
+        <Container style={darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#ebebeb' }} >
+            <FlatList
+                data={posts}
+                renderItem={({ item }) => <PostCard item={item} updatePosts={updatePosts} />}
+                keyExtractor={(item) => item.id}
+                showsVerticalScrollIndicator={false}
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+            />
 
-      <FontAwesome5.Button
-        name="plus"
-        size={22}
-        backgroundColor="transparent"
-        color="#2e64e5"
-        onPress={() => navigation.navigate('AddPostScreen')}
-      />
-    </Container>
-  );
+            <ActionButton
+                buttonColor="#d9cffb"
+                onPress={() => navigation.navigate('AddPostScreen')}
+                renderIcon={() => (
+                    
+                <Ionicons name="add" size={25} color="black" />
+                    
+                )}
+            />
+        </Container>
+    );
 };
 
 export default HomeScreen;

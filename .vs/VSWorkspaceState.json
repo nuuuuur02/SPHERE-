@@ -6,8 +6,14 @@
     "\\screens\\Tab",
     "\\screens\\TobTab",
     "\\screens\\TobTab\\GrupalChat",
-    "\\screens\\TobTab\\PrivateChat"
+    "\\screens\\TobTab\\PrivateChat",
+    "\\__tests__",
+    "\\__tests__\\__snapshots__"
   ],
+<<<<<<< HEAD
   "SelectedNode": "\\package.json",
+=======
+  "SelectedNode": "\\__tests__\\SendMessagesTest.js",
+>>>>>>> InstalaciónYFuncionamientoTesting
   "PreviewInSolutionExplorer": false
 }
