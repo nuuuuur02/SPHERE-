@@ -11,143 +11,143 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { EventRegister } from 'react-native-event-listeners';
 
 const FundacionScreen = () => {
-  const locationInitial = {
-    latitude: 0,
-    longitude: 0,
-  }
-  const [fundaciones, setFundaciones] = useState(null);
-  const [refreshing, setRefreshing] = useState(false);
-  const [distanciaMaxima, setDistanciaMaxima] = useState(10000000000); // Define la distancia máxima permitida en kilómetros
-  const [isDialogVisible, setDialogVisible] = useState(false);
-  const [userPosition, setUserPosition] = useState(locationInitial);
-  const [color, setColor] = useState('blue');
-
-  const getColor = (index) => {
-    if (index % 3 === 0) {
-      return { backgroundColor: 'lightblue' }
-    } else if (index % 3 === 1) {
-      return { backgroundColor: 'lightyellow' }
-    } else {
-      return { backgroundColor: 'lightpink' }
+    const locationInitial = {
+        latitude: 0,
+        longitude: 0,
     }
-  }
+    const [fundaciones, setFundaciones] = useState(null);
+    const [refreshing, setRefreshing] = useState(false);
+    const [distanciaMaxima, setDistanciaMaxima] = useState(10000000000); // Define la distancia máxima permitida en kilómetros
+    const [isDialogVisible, setDialogVisible] = useState(false);
+    const [userPosition, setUserPosition] = useState(locationInitial);
+    const [color, setColor] = useState('blue');
 
-  const getLocation = async () => {
-    let location = await Location.getCurrentPositionAsync({});
-    setUserPosition(location)
-  }
-  
-  const fetchFundaciones = async () => {
-    try {
-      const q1 = query((collection(db, "fundaciones")));
-      const docSnap = await getDocs(q1);
-      const fundacionesData = docSnap.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-      setFundaciones(fundacionesData);
-    } catch (error) {
-      console.error("Error fetching news:", error);
+    const getColor = (index) => {
+        if (index % 3 === 0) {
+            return { backgroundColor: 'lightblue' }
+        } else if (index % 3 === 1) {
+            return { backgroundColor: 'lightyellow' }
+        } else {
+            return { backgroundColor: 'lightpink' }
+        }
     }
-  };
 
-  const colorearData = (fundacionesDataSortedFiltered) => {
-    for (let index = 0; index < fundacionesDataSortedFiltered.length; index++) {
-      let color;
-  
-      // Establecer el color basado en el índice
-      if (index % 3 === 0) {
-        color = 'pink';
-      } else if (index % 3 === 1) {
-        color = 'yellow';
-      } else {
-        color = 'blue';
-      }
-        fundacionesDataSortedFiltered[index].backgroundColor = color;
-
-      return fundacionesDataSortedFiltered;
+    const getLocation = async () => {
+        let location = await Location.getCurrentPositionAsync({});
+        setUserPosition(location)
     }
-  };
-  
-  const calcularDistanciaHaversine = (coordenadas1, coordenadas2) => {
-    const R = 6371; // Radio de la Tierra en kilómetros
-    const lat1 = coordenadas1.latitude;
-    const lon1 = coordenadas1.longitude;
-    const lat2 = coordenadas2.latitude;
-    const lon2 = coordenadas2.longitude;
 
-    const dLat = (lat2 - lat1) * (Math.PI / 180);
-    const dLon = (lon2 - lon1) * (Math.PI / 180);
+    const fetchFundaciones = async () => {
+        try {
+            const q1 = query((collection(db, "fundaciones")));
+            const docSnap = await getDocs(q1);
+            const fundacionesData = docSnap.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+            setFundaciones(fundacionesData);
+        } catch (error) {
+            console.error("Error fetching news:", error);
+        }
+    };
 
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const colorearData = (fundacionesDataSortedFiltered) => {
+        for (let index = 0; index < fundacionesDataSortedFiltered.length; index++) {
+            let color;
 
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distancia = R * c;
+            // Establecer el color basado en el índice
+            if (index % 3 === 0) {
+                color = 'pink';
+            } else if (index % 3 === 1) {
+                color = 'yellow';
+            } else {
+                color = 'blue';
+            }
+            fundacionesDataSortedFiltered[index].backgroundColor = color;
 
-    return distancia;
-  };
+            return fundacionesDataSortedFiltered;
+        }
+    };
 
-  const filterFundacionesPorDistancia = async (fundacionesData) => {
-    // Reemplaza con las coordenadas de tu ubicación actual    
-    await getLocation();
-    console.log(userPosition.coords);
-    const ubicacionActual = userPosition.coords;
-    const fundacionesFiltradas = fundacionesData.filter((fundacion) => {
-      const distancia = calcularDistanciaHaversine(
-        ubicacionActual, 
-        fundacion.ubicacion
-      );
-      fundacion.distancia = distancia;
-      return distancia <= distanciaMaxima;
-    });
-    return fundacionesFiltradas;
-  };
+    const calcularDistanciaHaversine = (coordenadas1, coordenadas2) => {
+        const R = 6371; // Radio de la Tierra en kilómetros
+        const lat1 = coordenadas1.latitude;
+        const lon1 = coordenadas1.longitude;
+        const lat2 = coordenadas2.latitude;
+        const lon2 = coordenadas2.longitude;
 
-  const onRefresh = useCallback(async () => {
-    setRefreshing(true);
-    await getLocation();
-    await fetchFundaciones();
-    await arreglarFiltros();
-    setRefreshing(false);
-  }, []);
+        const dLat = (lat2 - lat1) * (Math.PI / 180);
+        const dLon = (lon2 - lon1) * (Math.PI / 180);
 
-  const renderItem = ({ item, index }) => (
-    <View style={[styles.newsCard, getColor(index)]}>
-      <Text style={styles.newsTitle}>{item.ciudad}</Text>
-      <Image source={{ uri: item.urlToImage }} style={{ width: 200, height: 200, alignSelf: 'center' }} />
-      <Text style={styles.newsTitle}>{item.nombre}</Text>
-      <Text style={styles.newsContent}>{item.descripcion}</Text>
-    </View>
-  );
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
 
-  const showDialog = () => {
-    setDialogVisible(true);
-  };
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const distancia = R * c;
 
-  const handleCancel = () => {
-    setDialogVisible(false);
-  };
+        return distancia;
+    };
 
-  const handleAccept = (input) => {
-    setDistanciaMaxima(parseInt(input, 10));
-    setDialogVisible(false);
-  };
+    const filterFundacionesPorDistancia = async (fundacionesData) => {
+        // Reemplaza con las coordenadas de tu ubicación actual    
+        await getLocation();
+        console.log(userPosition.coords);
+        const ubicacionActual = userPosition.coords;
+        const fundacionesFiltradas = fundacionesData.filter((fundacion) => {
+            const distancia = calcularDistanciaHaversine(
+                ubicacionActual,
+                fundacion.ubicacion
+            );
+            fundacion.distancia = distancia;
+            return distancia <= distanciaMaxima;
+        });
+        return fundacionesFiltradas;
+    };
 
-  arreglarFiltros = async () => { 
-    const fundacionesDataSorted = await filterFundacionesPorDistancia(fundaciones);
-    const fundacionesDataSortedFiltered = await fundacionesDataSorted.sort((a, b) => a.distancia - b.distancia);
-    const fundacionesDataSortedFilteredColored = await colorearData(fundacionesDataSortedFiltered);
-    setFundaciones(fundacionesDataSortedFilteredColored)
-  }
-  useLayoutEffect(() => {
-    (async () => {
-      await getLocation();
-      await fetchFundaciones();
-      await arreglarFiltros();
-    })();
-  }, [distanciaMaxima]);
-  
-  const renderIcon = () => (
-    <Icon name="md-search" style={{ ...styles.actionButtonIcon, color: 'white' }} />
+    const onRefresh = useCallback(async () => {
+        setRefreshing(true);
+        await getLocation();
+        await fetchFundaciones();
+        await arreglarFiltros();
+        setRefreshing(false);
+    }, []);
+
+    const renderItem = ({ item, index }) => (
+        <View style={[styles.newsCard, getColor(index)]}>
+            <Text style={styles.newsTitle}>{item.ciudad}</Text>
+            <Image source={{ uri: item.urlToImage }} style={{ width: 200, height: 200, alignSelf: 'center' }} />
+            <Text style={styles.newsTitle}>{item.nombre}</Text>
+            <Text style={styles.newsContent}>{item.descripcion}</Text>
+        </View>
+    );
+
+    const showDialog = () => {
+        setDialogVisible(true);
+    };
+
+    const handleCancel = () => {
+        setDialogVisible(false);
+    };
+
+    const handleAccept = (input) => {
+        setDistanciaMaxima(parseInt(input, 10));
+        setDialogVisible(false);
+    };
+
+    arreglarFiltros = async () => {
+        const fundacionesDataSorted = await filterFundacionesPorDistancia(fundaciones);
+        const fundacionesDataSortedFiltered = await fundacionesDataSorted.sort((a, b) => a.distancia - b.distancia);
+        const fundacionesDataSortedFilteredColored = await colorearData(fundacionesDataSortedFiltered);
+        setFundaciones(fundacionesDataSortedFilteredColored)
+    }
+    useLayoutEffect(() => {
+        (async () => {
+            await getLocation();
+            await fetchFundaciones();
+            await arreglarFiltros();
+        })();
+    }, [distanciaMaxima]);
+
+    const renderIcon = () => (
+        <Icon name="md-search" size={20} style={{ ...styles.actionButtonIcon, color: 'black' }} />
   );
 
     //Theme
@@ -172,9 +172,10 @@ const FundacionScreen = () => {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       />
       <ActionButton
-        buttonColor="#2e64e5"
+        buttonColor="#d9cffb"
         onPress={() => showDialog()}
         renderIcon={renderIcon}
+        style={{ position: 'absolute', bottom: 40, right: 0 }}
       />
             
             

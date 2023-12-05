@@ -104,7 +104,7 @@ const Principal = ({ navigation }) => {
         </View>
       </Modal>
 
-      <TouchableOpacity onPress={onAddItem} style={styles.touchableAdd}>
+      <TouchableOpacity onPress={onAddItem} style={styles.touchableAdd}> 
         <Text style={styles.text}>Añadir evento</Text>
       </TouchableOpacity>
 
@@ -184,6 +184,7 @@ const styles = StyleSheet.create({
   },
   touchableAdd: {
     backgroundColor: 'blue',
+    color: 'white',
     alignItems: 'center',
     alignSelf: 'center',
     marginTop: 20,

@@ -86,13 +86,10 @@ const Drawer = createDrawerNavigator();
 
 function DrawerGroup() {
     return (
-        <Drawer.Navigator /*screenOptions={{ headerShown: false }}*/>
-            <Drawer.Screen name="Home" component={StackGroup} options={{ headerShown: false }}
-
-            />
-            <Drawer.Screen name="Ajustes" component={AjustesScreen} />
+        <Drawer.Navigator>
+            <Drawer.Screen name="Home" component={StackGroup} options={{ headerShown: false }} />
             <Drawer.Screen name="Recursos" component={RecursosScreen} />
-            <Drawer.Screen name="Fundaciones" component={FundacionScreen} />
+            <Drawer.Screen name="Ajustes" component={AjustesScreen} />
         </Drawer.Navigator>
     )
 }
@@ -118,21 +115,8 @@ function StackGroup() {
     }
 
     return (
-        <Stack.Navigator initialRouteName="Login">
-            <Stack.Screen name="Register" component={RegisterScreen}
-                options=
-                {{
-                    title: 'Sphere',
-                    headerTitleAlign: 'center',
-                    headerTitleStyle: {
-                        color: '#2e64e5',
-                        fontSize: 18,
-                    },
-                    headerStyle: {
-                        shadowColor: '#fff',
-                        elevation: 0,
-                    },
-                }}
+        <Stack.Navigator initialRouteName="Login" >
+            <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }}
             />
             <Stack.Screen name="Login" component={LoginScreen}
                 options=
@@ -284,34 +268,95 @@ function TabGroup() {
 
     return (
         <Tab.Navigator
-
-            screenOptions={({ route }) => ({
+            screenOptions={{
+                showLabel: false,
                 tabBarStyle: {
+                    position: 'absolute',
                     backgroundColor: '#313131',
                     borderTopLeftRadius: 25,
                     borderTopRightRadius: 25,
                 },
                 tabBarShowLabel: false,
+                headerShown: false,
 
-                tabBarIcon: ({ color, focused, size }) => {
-                    let iconName;
-                    switch (route.name) {
-                        case "Home": iconName = "home"; break;
-                        case "Pictos": iconName = "book"; break;
-                        case "Calendario": iconName = "clock-o"; break;
-                        case "Perfil1": iconName = "map-marker"; break;
-                        case "Perfil": iconName = "user-o"; break;
-                        
-                    }
-                    return <FontAwesome name={iconName} color={'white'} size={size} />
-                },
-            })}
+            }}
         >
-            <Tab.Screen name="Home" component={TobTabGroup} options={{ headerShown: false }} />
-            <Tab.Screen name="Pictos" component={PictosScreen} options={{ headerShown: false }} />
-            <Tab.Screen name="Calendario" component={PINScreen} options={{ headerShown: false }} />
-            <Tab.Screen name="Perfil1" component={PerfilScreen} options={{ headerShown: false }} />
-            <Tab.Screen name="Perfil" component={PerfilScreen} options={{ headerShown: false }} />
+            <Tab.Screen name="Home" component={TobTabGroup} options={{
+                tabBarIcon: ({ focused }) => (
+                    <View>
+                        <Image
+                            source={require('../assets/iconos/iconoHome.png')}
+                            resizeMode='contain'
+                            style={{
+                                width: 25,
+                                height: 25,
+                                tintColor: focused ? '#d9cffb' : 'white'
+                            }}
+                        />
+                    </View>
+                ),
+            }} />
+            <Tab.Screen name="Pictos" component={PictosScreen} options={{
+                tabBarIcon: ({ focused }) => (
+                    <View>
+                        <Image
+                            source={require('../assets/iconos/iconoArticulos.png')}
+                            resizeMode='contain'
+                            style={{
+                                width: 25,
+                                height: 25,
+                                tintColor: focused ? '#d9cffb' : 'white'
+                            }}
+                        />
+                    </View>
+                ),
+
+            }} />
+            <Tab.Screen name="Calendario" component={PrincipalEvento} options={{
+                tabBarIcon: ({ focused }) => (
+                    <View>
+                        <Image
+                            source={require('../assets/iconos/iconoReloj.png')}
+                            resizeMode='contain'
+                            style={{
+                                width: 25,
+                                height: 25,
+                                tintColor: focused ? '#d9cffb' : 'white'
+                            }}
+                        />
+                    </View>
+                ),
+            }} />
+            <Tab.Screen name="Fundaciones" component={FundacionScreen} options={{
+                tabBarIcon: ({ focused }) => (
+                    <View>
+                        <Image
+                            source={require('../assets/iconos/iconoUbi.png')}
+                            resizeMode='contain'
+                            style={{
+                                width: 25,
+                                height: 25,
+                                tintColor: focused ? '#d9cffb' : 'white'
+                            }}
+                        />
+                    </View>
+                ),
+            }} />
+            <Tab.Screen name="Perfil" component={PerfilScreen} options={{
+                tabBarIcon: ({ focused }) => (
+                    <View>
+                        <Image
+                            source={require('../assets/iconos/iconoPerfil.png')}
+                            resizeMode='contain'
+                            style={{
+                                width: 25,
+                                height: 25,
+                                tintColor: focused ? '#d9cffb' : 'white'
+                            }}
+                        />
+                    </View>
+                ),
+            }} />
         </Tab.Navigator>
     )
 }

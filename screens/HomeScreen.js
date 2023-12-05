@@ -69,6 +69,7 @@ const HomeScreen = ({ navigation }) => {
                 <Ionicons name="add" size={25} color="black" />
                     
                 )}
+                style={{ position: 'absolute', bottom: 40, right: 0 }}
             />
         </Container>
     );

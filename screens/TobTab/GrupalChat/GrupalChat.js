@@ -86,6 +86,7 @@ const MessagesScreen = ({ navigation }) => {
             <ActionButton
                 buttonColor="#2e64e5"
                 onPress={() => navigation.navigate('CreateChat')}
+                style={{ position: 'absolute', bottom: 40, right: 0 }}
             ></ActionButton>
         </Container>
     );

@@ -1,19 +1,15 @@
 {
   "ExpandedNodes": [
     "",
+    "\\assets",
+    "\\navigation",
     "\\screens",
     "\\screens\\Drawer",
     "\\screens\\Tab",
     "\\screens\\TobTab",
     "\\screens\\TobTab\\GrupalChat",
-    "\\screens\\TobTab\\PrivateChat",
-    "\\__tests__",
-    "\\__tests__\\__snapshots__"
+    "\\__tests__"
   ],
-<<<<<<< HEAD
-  "SelectedNode": "\\package.json",
-=======
-  "SelectedNode": "\\__tests__\\SendMessagesTest.js",
->>>>>>> InstalaciónYFuncionamientoTesting
+  "SelectedNode": "\\screens\\TobTab\\GrupalChat\\GrupalChat.js",
   "PreviewInSolutionExplorer": false
 }
