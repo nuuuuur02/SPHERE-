@@ -55,11 +55,11 @@ const RegisterScreen = ({ navigation }) => {
                 photoURL: photo,
                 isProfessional: isProfessional,
                 isFamiliar: isFamiliar,
+                email = email,
             };
 
             if (isProfessional) {
                 newUser.descriptionProfessional = descriptionProfessional;
-                newUser.email = email;
             }
 
             if (isFamiliar) {
