@@ -25,10 +25,37 @@ const MessagesScreen = ({ navigation }) => {
     const [newDocId, setNewDocId] = useState(null);
     const [lastDocId, setLastDocId] = useState(null);
     const [itemExpertUser, setItemExpertUser] = useState(null);
+    const [currentUser, setCurrentUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useLayoutEffect(() => {
         fetchChats();
     }, []);
+
+    useEffect(() => {
+        LoadCurrentUser();
+    }, []);
+
+    const LoadCurrentUser = async () => {
+        const userCollection = collection(db, "user");
+        let userData = null;
+
+        while (userData === null) {
+            const querySnapshot = await getDocs(query(userCollection, where("email", "==", auth.currentUser?.email)));
+
+            if (!querySnapshot.empty) {
+                querySnapshot.forEach((doc) => {
+                    userData = doc.data();
+                });
+            }
+
+            // Pequeño retardo para no sobrecargar la solicitud
+            await new Promise(resolve => setTimeout(resolve, 500));
+        }
+
+        setCurrentUser(userData);
+        setLoading(false);
+    }
 
     // Get every chat in the data base
     const fetchChats = async () => {
@@ -113,9 +140,11 @@ const MessagesScreen = ({ navigation }) => {
             const chats = collection(db, 'chats');
 
             const newChat = {
-                userName: itemExpertUser.displayName,
+                userName: currentUser.displayName,
+                professionalName: itemExpertUser.displayName,
                 messageText: itemExpertUser.descriptionProfessional,
-                userImg: itemExpertUser.photoURL,
+                userImg: currentUser.photoURL,
+                professionalImg: itemExpertUser.photoURL,
                 messageTime: new Date(),
                 usersInGroup: actualUsers,
             };
@@ -169,41 +198,47 @@ const MessagesScreen = ({ navigation }) => {
 
     return (
         <>
-            <View>
-                <Text style={styles.titleTextOthers}>Otros expertos</Text>
-                <FlatList
-                    data={professionals}
-                    keyExtractor={item => item.id}
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}
-                    style={styles.flatListContainer}
-                    renderItem={({ item, index }) => <ExpertItem item={item} index={index} navigation={navigation} />}
-                />
-                <Text style={styles.titleTextOpen}>Chats abiertos</Text>
-            </View>
-            <Container style={darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#fff' }}>
-                <FlatList
-                    data={messages}
-                    keyExtractor={item => item.id}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={({ item }) => (
-                        <Card onPress={() => navigation.navigate('Private Chat', { item })}>
-                            <UserInfo>
-                                <UserImgWrapper>
-                                    <UserImg source={{ uri: item.userImg }} />
-                                </UserImgWrapper>
-                                <TextSection>
-                                    <UserInfoText>
-                                        <UserName style={darkMode === true ? { color: 'white' } : { color: 'black' }}>{item.userName}</UserName>
-                                        <PostTime style={darkMode === true ? { color: '#909090' } : { color: '#666' }}>{item.messageTime.toDate().toLocaleString()}</PostTime>
-                                    </UserInfoText>
-                                    <MessageText style={darkMode === true ? { color: '#909090' } : { color: '#333333' }}>{item.messageText}</MessageText>
-                                </TextSection>
-                            </UserInfo>
-                        </Card>
-                    )}
-                />
-            </Container>
+            {loading ? (
+                <Text>Loading...</Text> // Render a loading indicator when loading
+            ) : (
+                <>
+                    <View>
+                        <Text style={styles.titleTextOthers}>Otros expertos</Text>
+                        <FlatList
+                            data={professionals}
+                            keyExtractor={item => item.id}
+                            horizontal={true}
+                            showsHorizontalScrollIndicator={false}
+                            style={styles.flatListContainer}
+                            renderItem={({ item, index }) => <ExpertItem item={item} index={index} navigation={navigation} />}
+                        />
+                        <Text style={styles.titleTextOpen}>Chats abiertos</Text>
+                    </View>
+                    <Container style={darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#fff' }}>
+                        <FlatList
+                            data={messages}
+                            keyExtractor={item => item.id}
+                            showsVerticalScrollIndicator={false}
+                            renderItem={({ item }) => (
+                                <Card onPress={() => navigation.navigate('Private Chat', { item })}>
+                                    <UserInfo>
+                                        <UserImgWrapper>
+                                            <UserImg source={{ uri: currentUser.isProfessional ? item.userImg : item.professionalImg }} />
+                                        </UserImgWrapper>
+                                        <TextSection>
+                                            <UserInfoText>
+                                                <UserName style={darkMode === true ? { color: 'white' } : { color: 'black' }}>{currentUser.isProfessional ? item.userName : item.professionalName}</UserName>
+                                                <PostTime style={darkMode === true ? { color: '#909090' } : { color: '#666' }}>{item.messageTime.toDate().toLocaleString()}</PostTime>
+                                            </UserInfoText>
+                                            <MessageText style={darkMode === true ? { color: '#909090' } : { color: '#333333' }}>{item.messageText}</MessageText>
+                                        </TextSection>
+                                    </UserInfo>
+                                </Card>
+                            )}
+                        />
+                     </Container>
+                </>
+            )}
         </>
     );
 };
