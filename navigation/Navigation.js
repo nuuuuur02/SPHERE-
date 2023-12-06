@@ -139,28 +139,28 @@ function StackGroup() {
                     headerStyle: {
                         backgroundColor: '#d9cffb',
                         elevation: 0,
-                        shadowOpacity: 0, 
+                        shadowOpacity: 0,
                     },
                 }}
             />
-            <Stack.Screen name="AddPostScreen" component={AddPostScreen}  options={{
-                    optionsAdd,
-                    title: '',
-                    headerStyle: {
-                        backgroundColor: '#d9cffb',
-                        elevation: 0,
-                        shadowOpacity: 0, 
-                    },
-                }} />
+            <Stack.Screen name="AddPostScreen" component={AddPostScreen} options={{
+                optionsAdd,
+                title: '',
+                headerStyle: {
+                    backgroundColor: '#d9cffb',
+                    elevation: 0,
+                    shadowOpacity: 0,
+                },
+            }} />
             <Stack.Screen name="AddCommentScreen" component={AddCommentScreen} options={{
-                    optionsAdd,
-                    title: '',
-                    headerStyle: {
-                        backgroundColor: '#d9cffb',
-                        elevation: 0,
-                        shadowOpacity: 0, 
-                    },
-                }} />
+                optionsAdd,
+                title: '',
+                headerStyle: {
+                    backgroundColor: '#d9cffb',
+                    elevation: 0,
+                    shadowOpacity: 0,
+                },
+            }} />
             <Stack.Screen name="PrincipalEvento" component={PrincipalEvento} />
             <Stack.Screen
                 name="Chat"
@@ -342,21 +342,27 @@ function TabGroup() {
                     </View>
                 ),
             }} />
-            <Tab.Screen name="Perfil" component={PerfilScreen} options={{
-                tabBarIcon: ({ focused }) => (
-                    <View>
-                        <Image
-                            source={require('../assets/iconos/iconoPerfil.png')}
-                            resizeMode='contain'
-                            style={{
-                                width: 25,
-                                height: 25,
-                                tintColor: focused ? '#d9cffb' : 'white'
-                            }}
-                        />
-                    </View>
-                ),
-            }} />
+            <Tab.Screen
+                name="Perfil"
+                component={PerfilScreen}
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <View>
+                            <Image
+                                source={require('../assets/iconos/iconoPerfil.png')}
+                                resizeMode='contain'
+                                style={{
+                                    width: 25,
+                                    height: 25,
+                                    tintColor: focused ? '#d9cffb' : 'white'
+                                }}
+                            />
+                        </View>
+                    ),
+                }}
+                
+                
+            />
         </Tab.Navigator>
     )
 }

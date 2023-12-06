@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import { auth, db } from '../../components/ConfigFirebase';  
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { auth, db } from '../../components/ConfigFirebase';
 import { doc, getDoc } from 'firebase/firestore';
+import { format } from 'date-fns';
+import {
+  CardDiary,
+  CardDiaryCom,
+  DiaryText,
+  AddDiaryBar,
+  NoteButton,
+} from '../../styles/FeedStyles';
+import { FontAwesome } from '@expo/vector-icons';
 
 export default function PerfilScreen({ navigation }) {
   const [userData, setUserData] = useState(null);
   const [isProfessionalEnabled, setIsProfessional] = useState(false);
   const [isFamiliarEnabled, setIsFamiliar] = useState(false);
+  const [diaryCards, setDiaryCards] = useState([]);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -25,79 +35,53 @@ export default function PerfilScreen({ navigation }) {
           const userData = userDoc.data();
           setIsProfessional(userData.isProfesional);
           setIsFamiliar(userData.isFamiliar);
+
+          // Obtén las tarjetas del diario y guárdalas en el estado
+          setDiaryCards(userData.diaryCards || []);
         }
       } else {
         setUserData(null);
         setIsProfessional(false);
         setIsFamiliar(false);
+        setDiaryCards([]);
       }
     });
 
     return () => unsubscribe();
   }, []);
 
+  const renderItem = ({ item }) => (
+    <CardDiaryCom style={{ flex: 1 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingLeft: 25, paddingRight: 25, paddingTop: 15 }}>
+        <Text>{format(item.diaryTime.toDate(), 'dd/MM/yyyy HH:mm')}</Text>
+        <TouchableOpacity onPress={() => console.log('Editar')}>
+          <FontAwesome name="pencil" size={20} color="black" />
+        </TouchableOpacity>
+      </View>
+      <View>
+        <DiaryText>{item.diaryText}</DiaryText>
+      </View>
+    </CardDiaryCom>
+  );
+
   return (
-    <View style={styles.container}>
-      {userData ? (
-        <View style={styles.formContainer}>
-          {userData.photo && (
-            <Image source={{ uri: userData.photo }} style={styles.profileImage} /> //Esto se te que canviar quan s'arregle lo de la imatge 
-            /*<Image source={require("../../assets/user.png")} style={styles.profileImage} />*/
-          )}
-          <Text style={styles.label}>Nombre:</Text>
-          <Text style={styles.text}>{userData.nombre}</Text>
+    <View style={{ flex: 1, backgroundColor: '#EBEBEB' }}>
+      <CardDiary style={{ marginTop: 240, backgroundColor: '#fff' }}>
+        <AddDiaryBar>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center' }}>Diario</Text>
+          <NoteButton onPress={() => console.log('Botón Derecha Presionadoooo')}>
+            <Text>AÑADIR NOTA</Text>
+          </NoteButton>
+        </AddDiaryBar>
 
-          <Text style={styles.label}>Email:</Text>
-          <Text style={styles.text}>{userData.email}</Text>
-
-          <Text style={styles.label}>Rol:</Text>
-          {!isFamiliarEnabled && <Text style={styles.text}>Profesional</Text>}
-          {isFamiliarEnabled && <Text style={styles.text}>Familiar</Text>}
-
-          {!isFamiliarEnabled && <Text style={styles.label}>Papers publicados:</Text>}
-          {!isFamiliarEnabled && <Text style={styles.text}>¿Cómo reconocer los signos del TEA en niños?</Text>}
-          
-        </View>
-      ) : (
-        <Text>Loading...</Text>
-      )}
+        {/* Renderiza las tarjetas del diario */}
+        <FlatList
+          data={diaryCards}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+          contentContainerStyle={{ paddingBottom: 50 }}
+        />
+      </CardDiary>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  formContainer: {
-    width: '80%',
-    padding: 20,
-    borderRadius: 10,
-    backgroundColor: '#fff',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.27,
-    shadowRadius: 4.65,
-    elevation: 6,
-  },
-  profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    marginBottom: 20,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  text: {
-    fontSize: 14,
-    marginBottom: 15,
-  },
-});
