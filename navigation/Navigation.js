@@ -25,6 +25,7 @@ import RecursosScreen from "../screens/Drawer/RecursosScreen";
 import PrincipalEvento from "../screens/Tab/PrincipalEvento";
 import DescripcionEvento from "../screens/Tab/DescripcionEvento"
 import Diario from "../screens/Tab/Diario"
+import AddDiaryScreen from "../screens/Tab/AddDiaryScreen.js";
 
 import PrivateChat from "../screens/TobTab/PrivateChat/PrivateChat";
 import PrivateChatScreen from "../screens/TobTab/PrivateChat/PrivateChatScreen";
@@ -139,28 +140,28 @@ function StackGroup() {
                     headerStyle: {
                         backgroundColor: '#d9cffb',
                         elevation: 0,
-                        shadowOpacity: 0, 
+                        shadowOpacity: 0,
                     },
                 }}
             />
-            <Stack.Screen name="AddPostScreen" component={AddPostScreen}  options={{
-                    optionsAdd,
-                    title: '',
-                    headerStyle: {
-                        backgroundColor: '#d9cffb',
-                        elevation: 0,
-                        shadowOpacity: 0, 
-                    },
-                }} />
+            <Stack.Screen name="AddPostScreen" component={AddPostScreen} options={{
+                optionsAdd,
+                title: '',
+                headerStyle: {
+                    backgroundColor: '#d9cffb',
+                    elevation: 0,
+                    shadowOpacity: 0,
+                },
+            }} />
             <Stack.Screen name="AddCommentScreen" component={AddCommentScreen} options={{
-                    optionsAdd,
-                    title: '',
-                    headerStyle: {
-                        backgroundColor: '#d9cffb',
-                        elevation: 0,
-                        shadowOpacity: 0, 
-                    },
-                }} />
+                optionsAdd,
+                title: '',
+                headerStyle: {
+                    backgroundColor: '#d9cffb',
+                    elevation: 0,
+                    shadowOpacity: 0,
+                },
+            }} />
             <Stack.Screen name="PrincipalEvento" component={PrincipalEvento} />
             <Stack.Screen
                 name="Chat"
@@ -188,6 +189,19 @@ function StackGroup() {
             <Stack.Screen
                 name="Diario"
                 component={Diario}
+            />
+            <Stack.Screen
+                name="AddDiaryScreen"
+                component={AddDiaryScreen}
+                options={{
+                    optionsAdd,
+                    title: '',
+                    headerStyle: {
+                        backgroundColor: '#d9cffb',
+                        elevation: 0,
+                        shadowOpacity: 0,
+                    },
+                }}
             />
         </Stack.Navigator>
     )
@@ -342,21 +356,27 @@ function TabGroup() {
                     </View>
                 ),
             }} />
-            <Tab.Screen name="Perfil" component={PerfilScreen} options={{
-                tabBarIcon: ({ focused }) => (
-                    <View>
-                        <Image
-                            source={require('../assets/iconos/iconoPerfil.png')}
-                            resizeMode='contain'
-                            style={{
-                                width: 25,
-                                height: 25,
-                                tintColor: focused ? '#d9cffb' : 'white'
-                            }}
-                        />
-                    </View>
-                ),
-            }} />
+            <Tab.Screen
+                name="Perfil"
+                component={PerfilScreen}
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <View>
+                            <Image
+                                source={require('../assets/iconos/iconoPerfil.png')}
+                                resizeMode='contain'
+                                style={{
+                                    width: 25,
+                                    height: 25,
+                                    tintColor: focused ? '#d9cffb' : 'white'
+                                }}
+                            />
+                        </View>
+                    ),
+                }}
+                
+                
+            />
         </Tab.Navigator>
     )
 }

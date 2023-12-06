@@ -17,11 +17,36 @@ export const Card = styled.View`
 
 export const CardCom = styled.View`
     
-    background-color: #f8f8f8;
+    background-color:  #f8f8f8;
     margin-top: 20px;
     border-radius: 25px;
     margin-left: 10px;
     margin-right: 10px;
+`;
+
+export const CardDiary = styled.View`
+    flex: 1;    
+    background-color:  #f8f8f8;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    margin-top: 10px;
+
+`;
+
+export const CardAddDiary = styled.View`
+    flex: 1;    
+    background-color:  #f8f8f8;
+
+
+`;
+
+export const CardDiaryCom = styled.View`
+    background-color: #DACEFC;
+    border-radius: 25px;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    
 `;
 
 export const UserInfo = styled.View`
@@ -46,7 +71,13 @@ export const UserInfoText = styled.View`
 export const UserName = styled.Text`
     font-size: 16px;
     font-weight: bold;
-    
+`;
+
+export const UserNameDiary = styled.Text`
+    font-size: 20px;
+    font-weight: bold;
+    align-self: center;
+    margin-top: 10px;
 `;
 
 export const PostTime = styled.Text`
@@ -56,17 +87,36 @@ export const PostTime = styled.Text`
 
 export const PostText = styled.Text`
     font-size: 13px;
-  
-   
     padding-right: 15px;
     margin-bottom: 15px;
     padding-left: 75px;
+`;
+
+export const DiaryText = styled.Text`
+    font-size: 13px;
+    padding-right: 15px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-left: 25px;
+    padding-right: 25px;
 `;
 
 export const PostImg = styled.Image`
     width: 100%;
     height: 250px;
     /* margin-top: 15px; */
+`;
+
+export const UserImgDiary = styled.Image`
+    margin-top: 40px;
+    align-self: center;
+    width: 125px;
+    height: 125px;
+    border-radius: 25px;
+`;
+
+export const userFeelingImg = styled.Image`
+    
 `;
 
 export const Divider = styled.View`
@@ -100,4 +150,40 @@ export const InteractionText = styled.Text`
     color: ${props => props.active ? '#2e64e5' : '#333'};
     margin-top: 5px;
     margin-left: 5px;
+`;
+
+export const AddDiaryBar = styled.View`
+    flexDirection: row;
+    justifyContent: space-between;
+    paddingHorizontal: 16px;
+    paddingVertical: 8px;
+    margin-top: 20px;
+`;
+
+export const NoteButton = styled.TouchableOpacity`
+  
+  height: 40px;
+  width: 140px;
+  borderRadius: 20px;
+  backgroundColor: #FFD37E;
+  justifyContent: center;
+  alignItems: center;
+`;
+
+export const InputField = styled.TextInput`
+    margin-left: 30px;
+    font-size: 24px;
+    width:90%;
+    margin-bottom: 15px;
+    margin-top: 15px;
+`;
+
+export const FeelButton = styled.TouchableOpacity`
+  
+  height: 40px;
+  width: 40px;
+  borderRadius: 20px;
+  backgroundColor: #ebebeb;
+  justifyContent: center;
+  alignItems: center;
 `;
