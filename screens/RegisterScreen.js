@@ -55,7 +55,7 @@ const RegisterScreen = ({ navigation }) => {
                 photoURL: photo,
                 isProfessional: isProfessional,
                 isFamiliar: isFamiliar,
-                email = email,
+                email: email,
             };
 
             if (isProfessional) {
