@@ -25,6 +25,7 @@ import RecursosScreen from "../screens/Drawer/RecursosScreen";
 import PrincipalEvento from "../screens/Tab/PrincipalEvento";
 import DescripcionEvento from "../screens/Tab/DescripcionEvento"
 import Diario from "../screens/Tab/Diario"
+import AddDiaryScreen from "../screens/Tab/AddDiaryScreen.js";
 
 import PrivateChat from "../screens/TobTab/PrivateChat/PrivateChat";
 import PrivateChatScreen from "../screens/TobTab/PrivateChat/PrivateChatScreen";
@@ -188,6 +189,19 @@ function StackGroup() {
             <Stack.Screen
                 name="Diario"
                 component={Diario}
+            />
+            <Stack.Screen
+                name="AddDiaryScreen"
+                component={AddDiaryScreen}
+                options={{
+                    optionsAdd,
+                    title: '',
+                    headerStyle: {
+                        backgroundColor: '#d9cffb',
+                        elevation: 0,
+                        shadowOpacity: 0,
+                    },
+                }}
             />
         </Stack.Navigator>
     )

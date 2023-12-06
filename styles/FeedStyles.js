@@ -17,7 +17,7 @@ export const Card = styled.View`
 
 export const CardCom = styled.View`
     
-    background-color: grey;
+    background-color:  #f8f8f8;
     margin-top: 20px;
     border-radius: 25px;
     margin-left: 10px;
@@ -26,10 +26,17 @@ export const CardCom = styled.View`
 
 export const CardDiary = styled.View`
     flex: 1;    
-    background-color: f8f8f8;
+    background-color:  #f8f8f8;
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
     margin-top: 10px;
+
+`;
+
+export const CardAddDiary = styled.View`
+    flex: 1;    
+    background-color:  #f8f8f8;
+
 
 `;
 
@@ -159,6 +166,24 @@ export const NoteButton = styled.TouchableOpacity`
   width: 140px;
   borderRadius: 20px;
   backgroundColor: #FFD37E;
+  justifyContent: center;
+  alignItems: center;
+`;
+
+export const InputField = styled.TextInput`
+    margin-left: 30px;
+    font-size: 24px;
+    width:90%;
+    margin-bottom: 15px;
+    margin-top: 15px;
+`;
+
+export const FeelButton = styled.TouchableOpacity`
+  
+  height: 40px;
+  width: 40px;
+  borderRadius: 20px;
+  backgroundColor: #ebebeb;
   justifyContent: center;
   alignItems: center;
 `;

@@ -14,8 +14,11 @@ import {
   userFeelingImg,
 } from '../../styles/FeedStyles';
 import { FontAwesome } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function PerfilScreen({ navigation }) {
+
+  
   const [userData, setUserData] = useState(null);
   const [isProfessionalEnabled, setIsProfessional] = useState(false);
   const [isFamiliarEnabled, setIsFamiliar] = useState(false);
@@ -88,7 +91,7 @@ export default function PerfilScreen({ navigation }) {
       <CardDiary style={{ marginTop: 35, backgroundColor: '#fff' }}>
         <AddDiaryBar>
           <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center' }}>Diario</Text>
-          <NoteButton onPress={() => console.log('Botón Derecha Presionadoooo')}>
+          <NoteButton onPress={() => navigation.navigate('AddDiaryScreen')}>
             <Text>AÑADIR NOTA</Text>
           </NoteButton>
         </AddDiaryBar>
