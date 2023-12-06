@@ -66,6 +66,13 @@ export const UserName = styled.Text`
     font-weight: bold;
 `;
 
+export const UserNameDiary = styled.Text`
+    font-size: 20px;
+    font-weight: bold;
+    align-self: center;
+    margin-top: 10px;
+`;
+
 export const PostTime = styled.Text`
     font-size: 12px;
     color: #666;
@@ -91,6 +98,18 @@ export const PostImg = styled.Image`
     width: 100%;
     height: 250px;
     /* margin-top: 15px; */
+`;
+
+export const UserImgDiary = styled.Image`
+    margin-top: 40px;
+    align-self: center;
+    width: 125px;
+    height: 125px;
+    border-radius: 25px;
+`;
+
+export const userFeelingImg = styled.Image`
+    
 `;
 
 export const Divider = styled.View`

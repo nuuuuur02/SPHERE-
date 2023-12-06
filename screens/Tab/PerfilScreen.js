@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity,Image } from 'react-native';
 import { auth, db } from '../../components/ConfigFirebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { format } from 'date-fns';
@@ -9,6 +9,9 @@ import {
   DiaryText,
   AddDiaryBar,
   NoteButton,
+  UserImgDiary,
+  UserNameDiary,
+  userFeelingImg,
 } from '../../styles/FeedStyles';
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -61,12 +64,28 @@ export default function PerfilScreen({ navigation }) {
       <View>
         <DiaryText>{item.diaryText}</DiaryText>
       </View>
+
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <DiaryText>Hoy me siento: </DiaryText>
+      <Image
+        source={require('../../assets/iconos/caritacontenta.png')}
+        
+      />
+      </View>
+
     </CardDiaryCom>
   );
 
   return (
     <View style={{ flex: 1, backgroundColor: '#EBEBEB' }}>
-      <CardDiary style={{ marginTop: 240, backgroundColor: '#fff' }}>
+
+      <UserImgDiary source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYqLHetw4u8ODXWqrunrcK_YeLbyQayrxfYVZrvyYiMw&s' }} />
+      <UserNameDiary>{auth.currentUser.displayName}</UserNameDiary>
+
+
+
+
+      <CardDiary style={{ marginTop: 35, backgroundColor: '#fff' }}>
         <AddDiaryBar>
           <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center' }}>Diario</Text>
           <NoteButton onPress={() => console.log('Botón Derecha Presionadoooo')}>
