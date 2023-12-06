@@ -30,17 +30,30 @@ const MessagesScreen = ({ navigation }) => {
 
     useLayoutEffect(() => {
         fetchChats();
+    }, []);
+
+    useEffect(() => {
         LoadCurrentUser();
     }, []);
 
     const LoadCurrentUser = async () => {
         const userCollection = collection(db, "user");
-        const querySnapshot = await getDocs(query(userCollection, where("email", "==", auth.currentUser?.email)));
+        let userData = null;
 
-        querySnapshot.forEach((doc) => {
-            setCurrentUser(doc.data());
-        });
+        while (userData === null) {
+            const querySnapshot = await getDocs(query(userCollection, where("email", "==", auth.currentUser?.email)));
 
+            if (!querySnapshot.empty) {
+                querySnapshot.forEach((doc) => {
+                    userData = doc.data();
+                });
+            }
+
+            // Pequeño retardo para no sobrecargar la solicitud
+            await new Promise(resolve => setTimeout(resolve, 500));
+        }
+
+        setCurrentUser(userData);
         setLoading(false);
     }
 
