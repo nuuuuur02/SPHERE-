@@ -66,6 +66,7 @@ const MessagesScreen = ({ navigation }) => {
             <FlatList
                 data={groups}
                 keyExtractor={item => item.id}
+                contentContainerStyle={{ paddingBottom: 50 }}
                 renderItem={({ item }) => (
                     <Card onPress={() => navigation.navigate('Chat', { item })}>
                         <UserInfo>

@@ -219,6 +219,7 @@ const MessagesScreen = ({ navigation }) => {
                             data={messages}
                             keyExtractor={item => item.id}
                             showsVerticalScrollIndicator={false}
+                            contentContainerStyle={{ paddingBottom: 50 }}
                             renderItem={({ item }) => (
                                 <Card onPress={() => navigation.navigate('Private Chat', { item })}>
                                     <UserInfo>
