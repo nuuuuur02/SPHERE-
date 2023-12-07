@@ -26,6 +26,7 @@ import PrincipalEvento from "../screens/Tab/PrincipalEvento";
 import DescripcionEvento from "../screens/Tab/DescripcionEvento"
 import Diario from "../screens/Tab/Diario"
 import AddDiaryScreen from "../screens/Tab/AddDiaryScreen.js";
+import EditDiaryScreen from "../screens/Tab/EditDiaryScreen.js";
 
 import PrivateChat from "../screens/TobTab/PrivateChat/PrivateChat";
 import PrivateChatScreen from "../screens/TobTab/PrivateChat/PrivateChatScreen";
@@ -193,6 +194,20 @@ function StackGroup() {
             <Stack.Screen
                 name="AddDiaryScreen"
                 component={AddDiaryScreen}
+                options={{
+                    optionsAdd,
+                    title: '',
+                    headerStyle: {
+                        backgroundColor: '#d9cffb',
+                        elevation: 0,
+                        shadowOpacity: 0,
+                    },
+                }}
+            />
+
+            <Stack.Screen
+                name="EditDiaryScreen"
+                component={EditDiaryScreen}
                 options={{
                     optionsAdd,
                     title: '',
@@ -374,8 +389,8 @@ function TabGroup() {
                         </View>
                     ),
                 }}
-                
-                
+
+
             />
         </Tab.Navigator>
     )

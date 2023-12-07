@@ -77,7 +77,7 @@ const AddDiaryScreen = ({ navigation, route }) => {
             diaryCards: updatedDiaryCards,
           });
   
-          console.log('Entrada de diario guardada exitosamente');
+          
   
           route.params.loadUserData();
           navigation.goBack();
@@ -89,20 +89,7 @@ const AddDiaryScreen = ({ navigation, route }) => {
       }
     };
   
-    useEffect(() => {
-      const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
-        setSelectedButton(null);
-      });
-  
-      const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-        setSelectedButton(selectedButton);
-      });
-  
-      return () => {
-        keyboardDidShowListener.remove();
-        keyboardDidHideListener.remove();
-      };
-    }, [selectedButton]);
+    
 
   return (
     <KeyboardAvoidingView
@@ -136,7 +123,7 @@ const AddDiaryScreen = ({ navigation, route }) => {
             </FeelButton>
           ))}
         </View>
-        <View style={{ position: 'absolute', bottom: 0, right: 0, alignSelf: 'flex-end', padding: 30 }}>
+        <View style={{  bottom: 0, right: 0, alignSelf: 'flex-end', padding: 30 }}>
           <NoteButton onPress={() => saveDiaryEntry(inputText, selectedButton)}>
             <Text>¡HECHO!</Text>
           </NoteButton>

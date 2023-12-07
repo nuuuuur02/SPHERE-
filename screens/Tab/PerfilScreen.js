@@ -15,8 +15,7 @@ import {
   UserNameDiary,
 } from '../../styles/FeedStyles';
 
-
-export default function PerfilScreen({ navigation }) {
+const PerfilScreen = ({ navigation }) => {
   const [userData, setUserData] = useState(null);
   const [isProfessionalEnabled, setIsProfessional] = useState(false);
   const [isFamiliarEnabled, setIsFamiliar] = useState(false);
@@ -41,6 +40,8 @@ export default function PerfilScreen({ navigation }) {
         setIsProfessional(userData.isProfesional);
         setIsFamiliar(userData.isFamiliar);
         setDiaryCards(userData.diaryCards || []);
+
+        
       }
     }
   };
@@ -72,14 +73,14 @@ export default function PerfilScreen({ navigation }) {
         feelingImageSource = require('../../assets/iconos/caritatriste.png');
         break;
       default:
-        feelingImageSource = null; // Manejar el caso por defecto o establecerlo en una imagen predeterminada
+        feelingImageSource = null;
     }
 
     return (
       <CardDiaryCom style={{ flex: 1 }}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingLeft: 25, paddingRight: 25, paddingTop: 15 }}>
           <Text>{format(item.diaryTime.toDate(), 'dd/MM/yyyy HH:mm')}</Text>
-          <TouchableOpacity onPress={() => console.log('Editar')}>
+          <TouchableOpacity onPress={() => navigation.navigate('EditDiaryScreen', { diaryToEdit: item.diaryText, feelingToEdit:item.feeling })}>
             <FontAwesome name="pencil" size={20} color="black" />
           </TouchableOpacity>
         </View>
@@ -92,7 +93,6 @@ export default function PerfilScreen({ navigation }) {
           {feelingImageSource && (
             <Image
               source={feelingImageSource}
-              
             />
           )}
         </View>
@@ -120,4 +120,6 @@ export default function PerfilScreen({ navigation }) {
       </CardDiary>
     </View>
   );
-}
+};
+
+export default PerfilScreen;
