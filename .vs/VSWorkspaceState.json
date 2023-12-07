@@ -1,15 +1,13 @@
 {
   "ExpandedNodes": [
     "",
-    "\\assets",
     "\\navigation",
     "\\screens",
     "\\screens\\Drawer",
     "\\screens\\Tab",
     "\\screens\\TobTab",
-    "\\screens\\TobTab\\GrupalChat",
-    "\\__tests__"
+    "\\screens\\TobTab\\GrupalChat"
   ],
-  "SelectedNode": "\\screens\\TobTab\\GrupalChat\\GrupalChat.js",
+  "SelectedNode": "\\screens\\RecursosPictosScreen.js",
   "PreviewInSolutionExplorer": false
 }

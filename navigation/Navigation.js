@@ -15,11 +15,11 @@ import { useLayoutEffect } from "react";
 //Screens
 import PictosScreen from "../screens/Tab/PictosScreen";
 import Descripcion from "../screens/Tab/Descripcion";
-import PINScreen from "../screens/Tab/PINScreen";
-import CalendarioScreen from "../screens/Tab/CalendarioScreen";
 import PerfilScreen from "../screens/Tab/PerfilScreen";
 import AjustesScreen from "../screens/Drawer/AjustesScreen";
 import RecursosScreen from "../screens/Drawer/RecursosScreen";
+import RecursosPictosScreen from "../screens/RecursosPictosScreen";
+
 
 //diario
 import PrincipalEvento from "../screens/Tab/PrincipalEvento";
@@ -296,7 +296,7 @@ function TabGroup() {
                     </View>
                 ),
             }} />
-            <Tab.Screen name="Pictos" component={PictosScreen} options={{
+            <Tab.Screen name="Pictos" component={RecursosPictosScreen} options={{
                 tabBarIcon: ({ focused }) => (
                     <View>
                         <Image

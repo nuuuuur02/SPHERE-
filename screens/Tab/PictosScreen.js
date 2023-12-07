@@ -41,7 +41,6 @@ export default function Principal({ navigation }) {
 
 const Juegos = [ 
   {
-      title: 'Juegos',
       data: [
         { name: 'Juego 1', image: require('../../assets/Pictos/juego1.png'), desc: ['Este juego trata de jugar con canicas', 'No se necesita material para este juego', 'El tiempo medio de este juego es de 10 minutos', 'El numero de jugadores puede ser cualquiera', 'El juego empieza con un circulo en el centro y canicas dentro de el', 'por turnos los jugadores lanzan sus canicas intentado sacar las demás', 'quien saque más canicas gana']},
         { name: 'Juego 2', image: require('../../assets/Pictos/juego2.png'), desc: ['Este juego trata de jugar a perseguirse', 'No se necesita material para este juego', 'El tiempo medio de este juego es de 20 minutos', 'El numero de jugadores tiene que ser como minimo de 2', 'El juego empieza con uno de los jugadores como el perseguidor', 'cada vez que el perseguidor alcanze a otro jugador este se convierte en el perseguidor', 'El ultimo perseguidor pierde :C']},
