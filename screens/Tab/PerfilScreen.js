@@ -102,7 +102,7 @@ const PerfilScreen = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#EBEBEB' }}>
-      <UserImgDiary source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYqLHetw4u8ODXWqrunrcK_YeLbyQayrxfYVZrvyYiMw&s' }} />
+      <UserImgDiary source={{ uri: auth.currentUser.photoURL }} />
       <UserNameDiary>{auth.currentUser.displayName}</UserNameDiary>
       <CardDiary style={{ marginTop: 35, backgroundColor: '#fff' }}>
         <AddDiaryBar>
