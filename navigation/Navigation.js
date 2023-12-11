@@ -67,7 +67,6 @@ function TobTabGroup() {
                     textTransform: 'capitalize',
                 }
             }}
-
         >
             <TobTab.Screen name="Comunidad" component={HomeScreen} />
             <TobTab.Screen name="Grupos" component={GrupalChat} />
@@ -112,7 +111,8 @@ function StackGroup() {
     }
 
     return (
-        <Stack.Navigator initialRouteName="Login" >
+        <Stack.Navigator initialRouteName="Login"
+        >
             <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }}
             />
             <Stack.Screen name="Login" component={LoginScreen}
@@ -135,8 +135,7 @@ function StackGroup() {
                     title: '',
                     headerStyle: {
                         backgroundColor: '#d9cffb',
-                        elevation: 0,
-                        shadowOpacity: 0,
+                        height: 5
                     },
                 }}
             />
