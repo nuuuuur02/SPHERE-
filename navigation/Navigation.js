@@ -15,11 +15,10 @@ import { useLayoutEffect } from "react";
 //Screens
 import PictosScreen from "../screens/Tab/PictosScreen";
 import Descripcion from "../screens/Tab/Descripcion";
-import PINScreen from "../screens/Tab/PINScreen";
-import CalendarioScreen from "../screens/Tab/CalendarioScreen";
 import PerfilScreen from "../screens/Tab/PerfilScreen";
 import AjustesScreen from "../screens/Drawer/AjustesScreen";
-import RecursosScreen from "../screens/Drawer/RecursosScreen";
+import RecursosPictosScreen from "../screens/RecursosPictosScreen";
+import JuegosScreen from "../screens/Tab/JuegosScreen";
 
 //diario
 import PrincipalEvento from "../screens/Tab/PrincipalEvento";
@@ -49,10 +48,6 @@ import { useState, useEffect } from 'react';
 import { DarkTheme, DefaultTheme } from "@react-navigation/native";
 import theme from '../styles/Theme/theme.js';
 import themeContext from '../styles/Theme/themeContext.js';
-
-//Icons
-import { FontAwesome } from '@expo/vector-icons';
-import Principal from "../screens/Tab/PictosScreen";
 
 //TopTab
 const TobTab = createMaterialTopTabNavigator();
@@ -90,8 +85,8 @@ function DrawerGroup() {
     return (
         <Drawer.Navigator>
             <Drawer.Screen name="Home" component={StackGroup} options={{ headerShown: false }} />
-            <Drawer.Screen name="Recursos" component={RecursosScreen} />
             <Drawer.Screen name="Ajustes" component={AjustesScreen} />
+             <Drawer.Screen name="PictosDra" component={PictosScreen} />
         </Drawer.Navigator>
     )
 }
@@ -319,13 +314,13 @@ function TabGroup() {
                             style={{
                                 width: 25,
                                 height: 25,
-                                tintColor: focused ? '#d9cffb' : 'white'
+                                tintColor: focused ? '#ECCB8D' : 'white'
                             }}
                         />
                     </View>
                 ),
             }} />
-            <Tab.Screen name="Pictos" component={PictosScreen} options={{
+            <Tab.Screen name="Pictos" component={RecursosPictosScreen} options={{
                 tabBarIcon: ({ focused }) => (
                     <View>
                         <Image
@@ -334,7 +329,7 @@ function TabGroup() {
                             style={{
                                 width: 25,
                                 height: 25,
-                                tintColor: focused ? '#d9cffb' : 'white'
+                                tintColor: focused ? '#ECCB8D' : 'white'
                             }}
                         />
                     </View>
@@ -350,7 +345,7 @@ function TabGroup() {
                             style={{
                                 width: 25,
                                 height: 25,
-                                tintColor: focused ? '#d9cffb' : 'white'
+                                tintColor: focused ? '#ECCB8D' : 'white'
                             }}
                         />
                     </View>
@@ -365,7 +360,7 @@ function TabGroup() {
                             style={{
                                 width: 25,
                                 height: 25,
-                                tintColor: focused ? '#d9cffb' : 'white'
+                                tintColor: focused ? '#ECCB8D' : 'white'
                             }}
                         />
                     </View>
@@ -383,7 +378,7 @@ function TabGroup() {
                                 style={{
                                     width: 25,
                                     height: 25,
-                                    tintColor: focused ? '#d9cffb' : 'white'
+                                    tintColor: focused ? '#ECCB8D' : 'white'
                                 }}
                             />
                         </View>
