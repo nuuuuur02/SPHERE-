@@ -132,8 +132,8 @@ function StackGroup() {
                     title: '',
                     headerStyle: {
                         backgroundColor: '#d9cffb',
-                        height: 5
                     },
+                    headerShown: false,
                 }}
             />
             <Stack.Screen name="AddPostScreen" component={AddPostScreen} options={{
@@ -270,7 +270,7 @@ function StackGroup() {
 const Tab = createBottomTabNavigator();
 
 function TabGroup() {
-
+/*
     const navigation = useNavigation();
 
     useLayoutEffect(() => {
@@ -285,7 +285,7 @@ function TabGroup() {
             ),
         });
     }, []);
-
+*/
     return (
         <Tab.Navigator
             screenOptions={{
@@ -297,7 +297,7 @@ function TabGroup() {
                     borderTopRightRadius: 25,
                 },
                 tabBarShowLabel: false,
-                headerShown: false,
+                //headerShown: false,
 
             }}
         >
@@ -312,9 +312,14 @@ function TabGroup() {
                                 height: 25,
                                 tintColor: focused ? '#ECCB8D' : 'white'
                             }}
+
                         />
                     </View>
                 ),
+                title: '',
+                headerStyle: {
+                    backgroundColor: '#d9cffb',
+                },
             }} />
             <Tab.Screen name="Recursos" component={RecursosPictosScreen} options={{
                 tabBarIcon: ({ focused }) => (
@@ -330,7 +335,7 @@ function TabGroup() {
                         />
                     </View>
                 ),
-
+                title: '',
             }} />
             <Tab.Screen name="Calendario" component={PrincipalEvento} options={{
                 tabBarIcon: ({ focused }) => (
@@ -346,6 +351,7 @@ function TabGroup() {
                         />
                     </View>
                 ),
+                title: '',
             }} />
             <Tab.Screen name="Fundaciones" component={FundacionScreen} options={{
                 tabBarIcon: ({ focused }) => (
@@ -361,6 +367,7 @@ function TabGroup() {
                         />
                     </View>
                 ),
+                title: '',
             }} />
             <Tab.Screen
                 name="Perfil"
@@ -379,6 +386,10 @@ function TabGroup() {
                             />
                         </View>
                     ),
+                    title: '',
+                    headerStyle: {
+                        backgroundColor: '#EBEBEB',
+                    },
                 }}
 
 
