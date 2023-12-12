@@ -10,7 +10,7 @@ import ResourcesArticulos from '../components/ResourcesArticulos'
 const RecursosPictosScreen = () => {
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false} >
+        <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: 'white'}}>
             <View>
                 <TouchableOpacity>
                     <View style={styles.tituloFlecha}>

@@ -336,6 +336,9 @@ function TabGroup() {
                     </View>
                 ),
                 title: '',
+                headerStyle: {
+                    shadowColor: '#ffffff',
+                },
             }} />
             <Tab.Screen name="Calendario" component={PrincipalEvento} options={{
                 tabBarIcon: ({ focused }) => (
@@ -389,6 +392,7 @@ function TabGroup() {
                     title: '',
                     headerStyle: {
                         backgroundColor: '#EBEBEB',
+                        shadowColor: '#ffffff',
                     },
                 }}
 
