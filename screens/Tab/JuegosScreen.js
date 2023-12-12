@@ -1,8 +1,10 @@
-import { View, Text, SectionList, StyleSheet, TouchableOpacity  } from 'react-native';
+import { View, Text, SectionList, StyleSheet, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { EventRegister } from 'react-native-event-listeners';
+import { useNavigation } from '@react-navigation/native';
 
-export default function Principal({ navigation }) {
+export default function Principal() {
+    const navigation = useNavigation();
 
     //Theme
     const [darkMode, setDarkMode] = useState(false)
@@ -39,7 +41,6 @@ export default function Principal({ navigation }) {
     );
 }
 
-
 const Juegos = [
     {
         data: [
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
         color: '#000000',
         backgroundColor: '#DACEFC',
         padding: 15
-        
+
     },
     detailContainer: {
         flexDirection: 'row',
