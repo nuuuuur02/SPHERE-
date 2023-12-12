@@ -8,17 +8,15 @@ import { auth, db } from '../components/ConfigFirebase';
 
 
 //defaulSphere
-import { View, Text, Pressable, Image } from 'react-native';
+import { View, Pressable, Image } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { useLayoutEffect } from "react";
 
 //Screens
-import PictosScreen from "../screens/Tab/PictosScreen";
 import Descripcion from "../screens/Tab/Descripcion";
 import PerfilScreen from "../screens/Tab/PerfilScreen";
 import AjustesScreen from "../screens/Drawer/AjustesScreen";
 import RecursosPictosScreen from "../screens/RecursosPictosScreen";
-import JuegosScreen from "../screens/Tab/JuegosScreen";
 
 //diario
 import PrincipalEvento from "../screens/Tab/PrincipalEvento";
@@ -85,7 +83,6 @@ function DrawerGroup() {
         <Drawer.Navigator>
             <Drawer.Screen name="Home" component={StackGroup} options={{ headerShown: false }} />
             <Drawer.Screen name="Ajustes" component={AjustesScreen} />
-             <Drawer.Screen name="PictosDra" component={PictosScreen} />
         </Drawer.Navigator>
     )
 }
@@ -319,7 +316,7 @@ function TabGroup() {
                     </View>
                 ),
             }} />
-            <Tab.Screen name="Pictos" component={RecursosPictosScreen} options={{
+            <Tab.Screen name="Recursos" component={RecursosPictosScreen} options={{
                 tabBarIcon: ({ focused }) => (
                     <View>
                         <Image

@@ -1,8 +1,6 @@
 ﻿import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
 
-import PictosScreen from './Tab/PictosScreen';
 import JuegosScreen from './Tab/JuegosScreen';
 
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
