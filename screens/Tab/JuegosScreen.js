@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
         marginBottom: 45
     },
     itemContainer: {
-        width: 360,
         height: 70,
         borderRadius: 20,
         margin: 8,

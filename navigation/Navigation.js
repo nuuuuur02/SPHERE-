@@ -47,6 +47,9 @@ import { DarkTheme, DefaultTheme } from "@react-navigation/native";
 import theme from '../styles/Theme/theme.js';
 import themeContext from '../styles/Theme/themeContext.js';
 
+//fuentes
+import { useFonts } from 'expo-font';
+
 //TopTab
 const TobTab = createMaterialTopTabNavigator();
 
@@ -414,10 +417,17 @@ export default function Navigation() {
         }
     }, [darkMode])
 
+    const [fontsLoaded] = useFonts({
+        GeneralSans: require("../assets/fonts/GeneralSans-Medium.ttf"),
+        GeneralSansSemibold: require("../assets/fonts/GeneralSans-Semibold.ttf"),
+        rara: require("../assets/fonts/Zodiak-BoldItalic.ttf"),
+    });
+    if (!fontsLoaded) return null;
+
     return (
         <themeContext.Provider value={darkMode === true ? theme.dark : theme.light}>
             <NavigationContainer theme={darkMode === true ? DarkTheme : DefaultTheme}>
-                <DrawerGroup />
+                <DrawerGroup/>
             </NavigationContainer>
         </themeContext.Provider>
     )
