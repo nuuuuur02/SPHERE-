@@ -75,7 +75,7 @@ const MessagesScreen = ({ navigation }) => {
                             </UserImgWrapper>
                             <TextSection>
                                 <UserInfoText>
-                                    <UserName style={darkMode === true ? { color: 'white' } : { color: 'black' }}>{user.isProfessional ? item.userName : item.professionalName}</UserName>
+                                    <UserName style={darkMode === true ? { color: 'white' } : { color: 'black' }}>{item.userName}</UserName>
                                     <PostTime style={darkMode === true ? { color: '#909090' } : { color: '#666' }}>{item.messageTime.toDate().toLocaleString()}</PostTime>
                                 </UserInfoText>
                                 <MessageText style={darkMode === true ? { color: '#909090' } : { color: '#333333' }}>{item.messageText}</MessageText>
