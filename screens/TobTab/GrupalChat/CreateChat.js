@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+锘縤mport React, { useState, useEffect } from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { TextInput, View, StyleSheet, Alert, Image } from 'react-native';
 import { db, auth } from '../../../components/ConfigFirebase';
@@ -62,13 +62,13 @@ const CreateChat = ({ navigation }) => {
                 Alert.alert("Foto incorrecta.", "La foto tiene que ser un enlace.")
             }
         } else if (nameGroup == '') {
-            Alert.alert("Nombre del grupo vac韔.", "Un grupo debe tener un nombre.")
+            Alert.alert("Nombre del grupo vac铆o.", "Un grupo debe tener un nombre.")
         } else if (description == '') {
-            Alert.alert("Descripci髇 del grupo vac韆.", "Un grupo debe tener una descripci髇.")
+            Alert.alert("Descripci贸n del grupo vac铆a.", "Un grupo debe tener una descripci贸n.")
         } else if (photo == '') {
-            Alert.alert("Foto del grupo vac韆.", "Un grupo debe tener una foto.")
+            Alert.alert("Foto del grupo vac铆a.", "Un grupo debe tener una foto.")
         } else if (users == '') {
-            Alert.alert("Lista de usuarios vac韆.", "Un grupo debe tener al menos 1 usuario en la lista.")
+            Alert.alert("Lista de usuarios vac铆a.", "Un grupo debe tener al menos 1 usuario en la lista.")
         } else {
             Alert.alert("Datos del grupo incorrectos.", "Por favor, introduce los datos correctamente.")
         }
@@ -93,7 +93,7 @@ const CreateChat = ({ navigation }) => {
             }));
 
             if (results.includes(false)) {
-                Alert.alert("Usuarios incorrectos.", "Aseg鷕ate de que los correos de los usuarios introducidos son correctos y existen en la aplicaci髇.");
+                Alert.alert("Usuarios incorrectos.", "Aseg煤rate de que los correos de los usuarios introducidos son correctos y existen en la aplicaci贸n.");
                 return false;
             } else {
                 return true;
@@ -116,7 +116,7 @@ const CreateChat = ({ navigation }) => {
             />
             <View>
                 <Input property="Nombre" onChangeText={onChangeName} value={nameGroup} />
-                <Input property="Descripci髇" onChangeText={onChangeDescription} value={description} />
+                <Input property="Descripci贸n" onChangeText={onChangeDescription} value={description} />
                 <Input property="Foto" onChangeText={onChangePhoto} value={photo} />
                 <Input property="Usuarios" onChangeText={onChangeUsers} value={users} />
                 <FontAwesome5.Button
