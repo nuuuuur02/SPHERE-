@@ -18,6 +18,7 @@ import PerfilScreen from "../screens/Tab/PerfilScreen";
 import AjustesScreen from "../screens/Drawer/AjustesScreen";
 import RecursosPictosScreen from "../screens/RecursosPictosScreen";
 import ArticulosScreen from "../screens/AriticulosScreen";
+import VideosScreen from "../screens/VideosScreen";
 
 //diario
 import PrincipalEvento from "../screens/Tab/PrincipalEvento";
@@ -74,7 +75,6 @@ function TobTabGroup() {
             <TobTab.Screen name="Comunidad" component={HomeScreen} />
             <TobTab.Screen name="Grupos" component={GrupalChat} />
             <TobTab.Screen name="Expertos" component={PrivateChat} />
-            <TobTab.Screen name="Arts" component={SearchArticulo} />
         </TobTab.Navigator>
     )
 }
@@ -215,6 +215,14 @@ function StackGroup() {
                 }}
             />
             <Stack.Screen name="ArticulosScreen" component={ArticulosScreen}
+                options={{
+                    title: '',
+                    headerStyle: {
+                        shadowColor: '#ffffff',
+                    },
+                }}
+            />
+            <Stack.Screen name="VideosScreen" component={VideosScreen}
                 options={{
                     title: '',
                     headerStyle: {

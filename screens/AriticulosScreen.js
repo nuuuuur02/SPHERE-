@@ -68,7 +68,7 @@ const SearchArticulo = () => {
             <ScrollView>
                 <View style={{ height: 60 }}></View>
                 {renderItem()}
-                <View style={{ height: 50 }}></View>
+                {/* <View style={{ height: 50 }}></View>*/}
             </ScrollView>
         </View>
     );

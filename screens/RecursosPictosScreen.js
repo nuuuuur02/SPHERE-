@@ -15,7 +15,7 @@ const RecursosPictosScreen = () => {
         <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: 'white'}}>
             <View>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('ArticulosScreen')}
+                    onPress={() => navigation.navigate('VideosScreen')}
                 >
                     <View style={styles.tituloFlecha}>
                         <Text style={styles.headingText}>Vídeos</Text>
