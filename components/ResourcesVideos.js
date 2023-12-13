@@ -15,7 +15,7 @@ export default function ResourcesList() {
                         source={{ uri: 'https://img.youtube.com/vi/NBxhzcDCH5g/maxresdefault.jpg' }}
                         style={styles.resourceImageVid}
                     />
-                    <Text style={styles.headerText}>
+                    <Text style={styles.headerText} numberOfLines={3} ellipsizeMode="tail">
                         Trastorno del Espectro Autista (TEA): Síntomas y criterios
                     </Text>
                     <Text style={styles.DateText}>
@@ -30,7 +30,7 @@ export default function ResourcesList() {
                         source={{ uri: 'https://img.youtube.com/vi/FXDt0VRfGeY/maxresdefault.jpg' }}
                         style={styles.resourceImageVid}
                     />
-                    <Text style={styles.headerText}>
+                    <Text style={styles.headerText} numberOfLines={3} ellipsizeMode="tail">
                         El Autismo. Claves para padres, educadores y profesionales.
                     </Text>
                     <Text style={styles.DateText}>
@@ -45,7 +45,7 @@ export default function ResourcesList() {
                         source={{ uri: 'https://img.youtube.com/vi/0-X2gqto7Z4/sddefault.jpg' }}
                         style={styles.resourceImageVid}
                     />
-                    <Text style={styles.headerText}>
+                    <Text style={styles.headerText} numberOfLines={3} ellipsizeMode="tail">
                         Así es como un niño con autismo percibe el mundo
                     </Text>
                     <Text />
@@ -61,8 +61,8 @@ export default function ResourcesList() {
                         source={{ uri: 'https://img.youtube.com/vi/_R4lWNpsmno/maxresdefault.jpg' }}
                         style={styles.resourceImageVid}
                     />
-                    <Text style={styles.headerText}>
-                        10 rasgos del AUTISMO INFANTIL - Identifica los PRIMEROS SIGNOS de TEA
+                    <Text style={styles.headerText} numberOfLines={3} ellipsizeMode="tail">
+                        10 rasgos del AUTISMO INFANTIL - Identifica los PRIMEROS SIGNOS de TEA visibles
                     </Text>
                     <Text style={styles.DateText}>
                         23 noviembre 2023

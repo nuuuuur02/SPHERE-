@@ -1,5 +1,6 @@
 ﻿import React from 'react'
 import { ScrollView } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 import JuegosScreen from './Tab/JuegosScreen';
 
@@ -8,11 +9,14 @@ import ResourcesVideos from '../components/ResourcesVideos'
 import ResourcesArticulos from '../components/ResourcesArticulos'
 
 const RecursosPictosScreen = () => {
+    const navigation = useNavigation();
 
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: 'white'}}>
             <View>
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('ArticulosScreen')}
+                >
                     <View style={styles.tituloFlecha}>
                         <Text style={styles.headingText}>Vídeos</Text>
                         <Image
@@ -25,7 +29,9 @@ const RecursosPictosScreen = () => {
                 <ResourcesVideos />
             </View>
             <View>
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('ArticulosScreen')}
+                >
                     <View style={styles.tituloFlecha}>
                         <Text style={styles.headingText}>Artículos</Text>
                         <Image
