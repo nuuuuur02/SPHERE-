@@ -175,7 +175,7 @@ const PrivateChatScreen = ({ route }) => {
             scrollToBottom
             scrollToBottomComponent={scrollToBottomComponent}
             renderUsernameOnMessage={true}
-            renderUsername={renderUsername}
+            //renderUsername={renderUsername}
             placeholder={''}
             renderAvatarOnTop={true}
             timeFormat={"H:ss"}
