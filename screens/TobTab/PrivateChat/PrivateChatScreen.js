@@ -127,9 +127,11 @@ const PrivateChatScreen = ({ route }) => {
                 wrapperStyle={{
                     right: {
                         backgroundColor: '#B7C1FF',
+                        padding: 15,
                     },
                     left: {
                         backgroundColor: '#F9F9F9',
+                        padding: 15,
                     }
                 }}
                 textStyle={{
