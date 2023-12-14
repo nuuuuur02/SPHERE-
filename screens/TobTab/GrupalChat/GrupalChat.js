@@ -37,7 +37,7 @@ const MessagesScreen = ({ navigation }) => {
                 const groupData = doc.data();
                 const usersInGroup = groupData.usersInGroup || [];
 
-                // Comprueba si el usuario actual est� en el grupo
+                // Comprueba si el usuario actual está en el grupo
                 if (usersInGroup.includes(currentUser)) {
                     everyGroup.push({ ...groupData, id: doc.id });
                 }

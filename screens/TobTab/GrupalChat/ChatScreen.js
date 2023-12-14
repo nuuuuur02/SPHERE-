@@ -1,5 +1,5 @@
 import React, { useState, useLayoutEffect, useCallback } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -95,12 +95,17 @@ const ChatScreen = ({ route }) => {
         return (
             <Send {...props}>
                 <View>
-                    <MaterialCommunityIcons
-                        name="send-circle"
-                        style={{ marginBottom: 2, marginRight: 5 }}
-                        size={45}
-                        color="#2e64e5"
-                    />
+                    <Text
+                        style={{
+                            marginBottom: 10,
+                            marginRight: 5,
+                            fontSize: 15,
+                            color: "#725AB9",
+                            fontWeight: 'bold',
+                        }}
+                    >
+                        Enviar
+                    </Text>
                 </View>
             </Send>
         );
@@ -112,16 +117,19 @@ const ChatScreen = ({ route }) => {
                 {...props}
                 wrapperStyle={{
                     right: {
-                        backgroundColor: '#2e64e5',
+                        backgroundColor: '#B7C1FF',
                     },
                     left: {
-                        backgroundColor: '#dddddd',
+                        backgroundColor: '#F9F9F9',
                     }
                 }}
                 textStyle={{
                     right: {
-                        color: '#fff',
+                        color: 'black',
                     },
+                }}
+                timeTextStyle={{
+                    right: { color: 'grey' }
                 }}
             />
         );
@@ -131,6 +139,16 @@ const ChatScreen = ({ route }) => {
         return (
             <FontAwesome name='angle-double-down' size={25} color='#333' />
         );
+    }
+
+    const renderUsername = () => {
+        return (
+            <Text>Hola</Text>
+        );
+    }
+
+    const renderMessage = () => {
+
     }
 
     return (
@@ -148,6 +166,10 @@ const ChatScreen = ({ route }) => {
             scrollToBottom
             scrollToBottomComponent={scrollToBottomComponent}
             renderUsernameOnMessage={true}
+            //renderUsername={renderUsername}
+            placeholder={''}
+            //renderMessage={renderMessage}
+            renderAvatarOnTop={true}
         />
     );
 };

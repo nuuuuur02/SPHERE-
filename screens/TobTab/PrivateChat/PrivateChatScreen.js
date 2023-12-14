@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useLayoutEffect } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -101,12 +101,17 @@ const PrivateChatScreen = ({ route }) => {
         return (
             <Send {...props}>
                 <View >
-                    <MaterialCommunityIcons
-                        name="send-circle"
-                        style={{ marginBottom: 2, marginRight: 5 }}
-                        size={45}
-                        color="#2e64e5"
-                    />
+                    <Text
+                        style={{
+                            marginBottom: 10,
+                            marginRight: 5,
+                            fontSize: 15,
+                            color: "#725AB9",
+                            fontWeight: 'bold',
+                        }}
+                    >
+                        Enviar
+                    </Text>
                 </View>
             </Send>
         );
@@ -118,10 +123,10 @@ const PrivateChatScreen = ({ route }) => {
                 {...props}
                 wrapperStyle={{
                     right: {
-                        backgroundColor: '#2e64e5',
+                        backgroundColor: '#B7C1FF',
                     },
                     left: {
-                        backgroundColor: '#dddddd',
+                        backgroundColor: '#F9F9F9',
                     }
                 }}
                 textStyle={{
@@ -154,6 +159,7 @@ const PrivateChatScreen = ({ route }) => {
             scrollToBottom
             scrollToBottomComponent={scrollToBottomComponent}
             renderUsernameOnMessage={true}
+            placeholder={''}
         />
     );
 };
