@@ -17,6 +17,9 @@ import Descripcion from "../screens/Tab/Descripcion";
 import PerfilScreen from "../screens/Tab/PerfilScreen";
 import AjustesScreen from "../screens/Drawer/AjustesScreen";
 import RecursosPictosScreen from "../screens/RecursosPictosScreen";
+import ArticulosScreen from "../screens/AriticulosScreen";
+import VideosScreen from "../screens/VideosScreen";
+import AllJuegosScreen from "../screens/AllJuegosScreen";
 
 //diario
 import PrincipalEvento from "../screens/Tab/PrincipalEvento";
@@ -49,6 +52,7 @@ import themeContext from '../styles/Theme/themeContext.js';
 
 //fuentes
 import { useFonts } from 'expo-font';
+import SearchArticulo from "../screens/AriticulosScreen";
 
 //TopTab
 const TobTab = createMaterialTopTabNavigator();
@@ -72,7 +76,6 @@ function TobTabGroup() {
             <TobTab.Screen name="Comunidad" component={HomeScreen} />
             <TobTab.Screen name="Grupos" component={GrupalChat} />
             <TobTab.Screen name="Expertos" component={PrivateChat} />
-
         </TobTab.Navigator>
     )
 }
@@ -209,6 +212,30 @@ function StackGroup() {
                         backgroundColor: '#d9cffb',
                         elevation: 0,
                         shadowOpacity: 0,
+                    },
+                }}
+            />
+            <Stack.Screen name="ArticulosScreen" component={ArticulosScreen}
+                options={{
+                    title: '',
+                    headerStyle: {
+                        shadowColor: '#ffffff',
+                    },
+                }}
+            />
+            <Stack.Screen name="VideosScreen" component={VideosScreen}
+                options={{
+                    title: '',
+                    headerStyle: {
+                        shadowColor: '#ffffff',
+                    },
+                }}
+            />
+            <Stack.Screen name="AllJuegosScreen" component={AllJuegosScreen}
+                options={{
+                    title: '',
+                    headerStyle: {
+                        shadowColor: '#ffffff',
                     },
                 }}
             />
