@@ -2,8 +2,7 @@
   "ExpandedNodes": [
     "",
     "\\assets",
-    "\\assets\\fonts",
-    "\\components",
+    "\\assets\\iconos",
     "\\navigation",
     "\\screens",
     "\\screens\\Drawer",
@@ -12,6 +11,6 @@
     "\\screens\\TobTab\\GrupalChat",
     "\\screens\\TobTab\\PrivateChat"
   ],
-  "SelectedNode": "\\screens\\TobTab\\GrupalChat\\GrupalChat.js",
+  "SelectedNode": "\\screens\\AriticulosScreen.js",
   "PreviewInSolutionExplorer": false
 }

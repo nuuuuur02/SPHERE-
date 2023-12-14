@@ -44,7 +44,9 @@ const RecursosPictosScreen = () => {
                 <ResourcesArticulos />
             </View>
             <View>
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('AllJuegosScreen')}
+                >
                     <View style={styles.tituloFlecha}>
                         <Text style={styles.headingText}>Juegos</Text>
                         <Image

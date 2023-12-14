@@ -19,6 +19,7 @@ import AjustesScreen from "../screens/Drawer/AjustesScreen";
 import RecursosPictosScreen from "../screens/RecursosPictosScreen";
 import ArticulosScreen from "../screens/AriticulosScreen";
 import VideosScreen from "../screens/VideosScreen";
+import AllJuegosScreen from "../screens/AllJuegosScreen";
 
 //diario
 import PrincipalEvento from "../screens/Tab/PrincipalEvento";
@@ -223,6 +224,14 @@ function StackGroup() {
                 }}
             />
             <Stack.Screen name="VideosScreen" component={VideosScreen}
+                options={{
+                    title: '',
+                    headerStyle: {
+                        shadowColor: '#ffffff',
+                    },
+                }}
+            />
+            <Stack.Screen name="AllJuegosScreen" component={AllJuegosScreen}
                 options={{
                     title: '',
                     headerStyle: {
