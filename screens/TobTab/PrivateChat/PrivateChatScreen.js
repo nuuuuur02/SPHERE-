@@ -107,7 +107,9 @@ const PrivateChatScreen = ({ route }) => {
                     <Text
                         style={{
                             marginBottom: 10,
-                            marginRight: 5,
+                            marginTop: 10,
+                            marginRight: 20,
+                            marginLeft: 20,
                             fontSize: 15,
                             color: "#725AB9",
                             fontWeight: 'bold',
