@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, useLayoutEffect } from 'react';
-import { FlatList, RefreshControl, StyleSheet, Text, View, Image,} from 'react-native';
+import { FlatList, RefreshControl, StyleSheet, Text, View, Image} from 'react-native';
 import { Container } from '../styles/FeedStyles';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { db } from '../components/ConfigFirebase';
 import { query, collection, getDocs } from "firebase/firestore";
 import DialogInput from 'react-native-dialog-input';
@@ -9,6 +8,8 @@ import * as Location from 'expo-location';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { EventRegister } from 'react-native-event-listeners';
+import { SearchBar } from 'react-native-elements';
+import { black } from 'color-name';
 
 const FundacionScreen = () => {
     const locationInitial = {
@@ -21,6 +22,7 @@ const FundacionScreen = () => {
     const [isDialogVisible, setDialogVisible] = useState(false);
     const [userPosition, setUserPosition] = useState(locationInitial);
     const [color, setColor] = useState('blue');
+    const [searchText, setSearchText] = useState('');
 
     const getColor = (index) => {
         if (index % 3 === 0) {
@@ -112,10 +114,10 @@ const FundacionScreen = () => {
 
     const renderItem = ({ item, index }) => (
         <View style={[styles.newsCard, getColor(index)]}>
-            <Text style={styles.newsTitle}>{item.ciudad}</Text>
-            <Image source={{ uri: item.urlToImage }} style={{ width: 200, height: 200, alignSelf: 'center' }} />
+            <Icon name = "location-outline" size={40}></Icon>
             <Text style={styles.newsTitle}>{item.nombre}</Text>
-            <Text style={styles.newsContent}>{item.descripcion}</Text>
+            <Text style={styles.newsTitle}>{item.ciudad}</Text>
+            <Text style={styles.newsContent}>ver en mapa</Text>
         </View>
     );
 
@@ -163,7 +165,19 @@ const FundacionScreen = () => {
     }, [darkMode])
 
     return (
-        <Container style={darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: 'white' }}>
+
+    <Container style={darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: 'white' }}>
+
+      <Text style={styles.titulo}>Fundaciones</Text>
+
+      <SearchBar
+      placeholder="Buscar fundaciones..."
+      onChangeText={(text) => setSearchText(text)}
+      value={searchText}
+      inputStyle={styles.inputStyle}
+      containerStyle={styles.searchBarContainer}
+    />
+
       <FlatList
         data={fundaciones}
         keyExtractor={(item, index) => index.toString()}
@@ -197,6 +211,22 @@ export default FundacionScreen;
 
 const styles = StyleSheet.create({
   // Define estilos para NewsCard según tus necesidades
+  titulo: {
+    fontSize:30,
+    fontWeight: 'bold',
+    textAlign: 'right'
+  },
+  searchBarContainer: {
+    borderColor:'black',
+    borderRadius: 20,
+    width: '95%',
+  },
+  inputStyle: {
+    backgroundColor: 'black',
+    fontSize: 16,
+    borderRadius: 20,
+    paddingLeft: 5,
+  },
   newsCard: {
     borderWidth: 3,
     borderColor: '#000',
