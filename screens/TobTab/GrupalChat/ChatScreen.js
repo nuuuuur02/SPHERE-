@@ -141,11 +141,15 @@ const ChatScreen = ({ route }) => {
         );
     }
 
-    const renderUsername = () => {
+    const renderUsername = (user) => {
         return (
-            <Text>Hola</Text>
+            <View>
+                <Text>
+                    Hola
+                </Text>
+            </View>
         );
-    }
+    };
 
     const renderMessage = () => {
 
@@ -166,10 +170,11 @@ const ChatScreen = ({ route }) => {
             scrollToBottom
             scrollToBottomComponent={scrollToBottomComponent}
             renderUsernameOnMessage={true}
-            //renderUsername={renderUsername}
+            renderUsername={renderUsername}
             placeholder={''}
             //renderMessage={renderMessage}
             renderAvatarOnTop={true}
+            timeFormat={"H:ss"}
         />
     );
 };
