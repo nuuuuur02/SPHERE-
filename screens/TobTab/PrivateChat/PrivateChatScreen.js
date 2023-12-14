@@ -170,6 +170,14 @@ const PrivateChatScreen = ({ route }) => {
         );
     };
 
+    const renderDay = () => {
+
+    }
+
+    const renderInputToolbar = () => {
+
+    }
+
     return (
         <GiftedChat
             messages={messages}
@@ -189,6 +197,8 @@ const PrivateChatScreen = ({ route }) => {
             placeholder={''}
             renderAvatarOnTop={true}
             timeFormat={"H:ss"}
+            renderDay={renderDay}
+            renderInputToolbar={renderInputToolbar}
         />
     );
 };
