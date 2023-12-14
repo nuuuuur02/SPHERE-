@@ -163,10 +163,6 @@ const ChatScreen = ({ route }) => {
         );
     };
 
-    const renderMessage = () => {
-
-    }
-
     return (
         <GiftedChat
             messages={messages}
@@ -184,7 +180,6 @@ const ChatScreen = ({ route }) => {
             renderUsernameOnMessage={true}
             renderUsername={renderUsername}
             placeholder={''}
-            //renderMessage={renderMessage}
             renderAvatarOnTop={true}
             timeFormat={"H:ss"}
         />
