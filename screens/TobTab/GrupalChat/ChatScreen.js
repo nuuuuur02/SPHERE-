@@ -25,10 +25,13 @@ const ChatScreen = ({ route }) => {
 
     }, []);
 
+    // Return a sliced name
+    // If the first and second name are too long, return only the first name
+    // Else return the entire name
     const truncateName = (name) => {
         const userNameSliced = name.split(' ');
-        const firstName = userNameSliced[0];
-        return firstName.length > 10 ? firstName.slice(0, 10) + "..." : firstName;
+        const expertName = userNameSliced[0] + ' ' + userNameSliced[1];
+        return expertName.length > 15 ? (expertName.split(' '))[0] : expertName;
     };
 
     const postMessage = async (message) => {
