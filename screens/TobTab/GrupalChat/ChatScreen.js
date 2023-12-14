@@ -132,7 +132,8 @@ const ChatScreen = ({ route }) => {
                     },
                 }}
                 timeTextStyle={{
-                    right: { color: 'grey' }
+                    right: { color: '#727272' },
+                    left: { color: '#727272' }
                 }}
             />
         );
@@ -147,7 +148,13 @@ const ChatScreen = ({ route }) => {
     const renderUsername = (user) => {
         return (
             <View>
-                <Text>
+                <Text
+                    style={{
+                        color: '#725AB9',
+                        marginLeft: 10,
+                        marginBottom: 5,
+                        marginTop: -4,
+                    }}>
                     {user.name}
                 </Text>
             </View>
