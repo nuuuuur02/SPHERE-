@@ -134,8 +134,11 @@ const PrivateChatScreen = ({ route }) => {
                 }}
                 textStyle={{
                     right: {
-                        color: '#fff',
+                        color: 'black',
                     },
+                }}
+                timeTextStyle={{
+                    right: { color: 'grey' }
                 }}
             />
         );
@@ -146,6 +149,16 @@ const PrivateChatScreen = ({ route }) => {
             <FontAwesome name='angle-double-down' size={25} color='#333' />
         );
     }
+
+    const renderUsername = (user) => {
+        return (
+            <View>
+                <Text>
+                    Hola
+                </Text>
+            </View>
+        );
+    };
 
     return (
         <GiftedChat
@@ -162,7 +175,10 @@ const PrivateChatScreen = ({ route }) => {
             scrollToBottom
             scrollToBottomComponent={scrollToBottomComponent}
             renderUsernameOnMessage={true}
+            renderUsername={renderUsername}
             placeholder={''}
+            renderAvatarOnTop={true}
+            timeFormat={"H:ss"}
         />
     );
 };
