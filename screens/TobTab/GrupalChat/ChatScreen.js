@@ -1,6 +1,6 @@
 import React, { useState, useLayoutEffect, useCallback } from 'react';
 import { View, Text } from 'react-native';
-import { Bubble, GiftedChat, Send, Day } from 'react-native-gifted-chat';
+import { Bubble, GiftedChat, Send, Day, InputToolbar } from 'react-native-gifted-chat';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { db, auth } from '../../../components/ConfigFirebase';
@@ -12,7 +12,7 @@ const ChatScreen = ({ route }) => {
 
     const postId = item.id;
     const postRef = doc(db, 'groups', postId);
-    
+
     const [messages, setMessages] = useState([]);
 
     useLayoutEffect(() => {
@@ -169,8 +169,8 @@ const ChatScreen = ({ route }) => {
         return <Day {...props} textStyle={{ color: '#111111' }} />
     }
 
-    const renderInputToolbar = () => {
-
+    const renderInputToolbar = (props) => {
+        return <InputToolbar  {...props} style={{ margin: 5 }} />
     }
 
     return (
@@ -193,9 +193,9 @@ const ChatScreen = ({ route }) => {
             renderAvatarOnTop={true}
             timeFormat={"H:ss"}
             renderDay={renderDay}
-            //renderInputToolbar={renderInputToolbar}
-            //bottomOffset
-            //textInputStyle={{ backgroundColor: 'red' }}
+            renderInputToolbar={renderInputToolbar}
+        //bottomOffset
+        //textInputStyle={{ backgroundColor: 'red' }}
         />
     );
 };
