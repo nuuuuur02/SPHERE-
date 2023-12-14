@@ -148,7 +148,7 @@ const ChatScreen = ({ route }) => {
         return (
             <View>
                 <Text>
-                    Hola
+                    {user.name}
                 </Text>
             </View>
         );
@@ -173,7 +173,7 @@ const ChatScreen = ({ route }) => {
             scrollToBottom
             scrollToBottomComponent={scrollToBottomComponent}
             renderUsernameOnMessage={true}
-            //renderUsername={renderUsername}
+            renderUsername={renderUsername}
             placeholder={''}
             //renderMessage={renderMessage}
             renderAvatarOnTop={true}
