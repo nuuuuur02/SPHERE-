@@ -97,16 +97,13 @@ const ChatScreen = ({ route }) => {
     const renderSend = (props) => {
         return (
             <Send {...props}>
-                <View>
+                <View style={{ alignItems: 'center' }}>
                     <Text
                         style={{
-                            marginBottom: 10,
-                            marginTop: 10,
-                            marginRight: 20,
-                            marginLeft: 20,
                             fontSize: 15,
                             color: "#725AB9",
                             fontWeight: 'bold',
+                            alignItems: 'center',
                         }}
                     >
                         Enviar
@@ -158,6 +155,7 @@ const ChatScreen = ({ route }) => {
                         marginLeft: 10,
                         marginBottom: 5,
                         marginTop: -4,
+                        fontWeight: 'bold',
                     }}>
                     {user.name}
                 </Text>
@@ -200,7 +198,10 @@ const ChatScreen = ({ route }) => {
             renderDay={renderDay}
             renderInputToolbar={renderInputToolbar}
             minInputToolbarHeight={90}
-        //textInputStyle={{ backgroundColor: 'red' }}
+            textInputStyle={{
+                marginBottom: 10,
+                marginTop: 10,
+            }}
         />
     );
 };

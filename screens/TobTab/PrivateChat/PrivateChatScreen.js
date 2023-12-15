@@ -103,16 +103,13 @@ const PrivateChatScreen = ({ route }) => {
     const renderSend = (props) => {
         return (
             <Send {...props}>
-                <View >
+                <View style={{ alignItems: 'center' }}>
                     <Text
                         style={{
-                            marginBottom: 10,
-                            marginTop: 10,
-                            marginRight: 20,
-                            marginLeft: 20,
                             fontSize: 15,
                             color: "#725AB9",
                             fontWeight: 'bold',
+                            alignItems: 'center',
                         }}
                     >
                         Enviar
@@ -138,7 +135,10 @@ const PrivateChatScreen = ({ route }) => {
                 }}
                 textStyle={{
                     right: {
-                        color: 'black',
+                        color: '#111111',
+                    },
+                    left: {
+                        color: '#111111',
                     },
                 }}
                 timeTextStyle={{
@@ -158,12 +158,14 @@ const PrivateChatScreen = ({ route }) => {
     const renderUsername = (user) => {
         return (
             <View>
-                <Text style={{
-                    color: '#725AB9',
-                    marginLeft: 10,
-                    marginBottom: 5,
-                    marginTop: -4,
-                }}>
+                <Text
+                    style={{
+                        color: '#725AB9',
+                        marginLeft: 10,
+                        marginBottom: 5,
+                        marginTop: -4,
+                        fontWeight: 'bold',
+                    }}>
                     {user.name}
                 </Text>
             </View>
@@ -176,7 +178,8 @@ const PrivateChatScreen = ({ route }) => {
 
     const renderInputToolbar = (props) => {
         return <InputToolbar  {...props} containerStyle={{
-            marginBottom: 20,
+            marginBottom: 10,
+            marginTop: 10,
             marginLeft: 20,
             marginRight: 20,
             borderRadius: 20,
@@ -205,6 +208,10 @@ const PrivateChatScreen = ({ route }) => {
             renderDay={renderDay}
             renderInputToolbar={renderInputToolbar}
             minInputToolbarHeight={90}
+            textInputStyle={{
+                marginBottom: 10,
+                marginTop: 10,
+            }}
         />
     );
 };
