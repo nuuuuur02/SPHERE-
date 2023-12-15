@@ -62,6 +62,39 @@ const MessagesScreen = ({ navigation }) => {
         }
     }, [darkMode])
 
+    const fetchMessages = async () => {
+
+        try {
+            const postDoc = await getDoc(postRef);
+
+            if (postDoc.exists()) {
+                const postData = postDoc.data();
+                const postMessages = postData && postData._messages ? postData._messages : [];
+
+                const messages = postMessages.map((message) => {
+                    const _messages = message;
+                    const truncatedUserName = truncateName(_messages.user.name);
+                    return {
+                        _id: _messages._id,
+                        text: _messages.text,
+                        createdAt: new Date(_messages.createdAt.seconds * 1000),
+                        user: {
+                            ..._messages.user,
+                            name: truncatedUserName,
+                        },
+                        image: _messages.image,
+                        sent: _messages.sent,
+                        received: _messages.received,
+                    };
+                });
+
+                setMessages(messages.slice().reverse())
+            }
+        } catch (error) {
+            console.error('Error al cargar los mensajes: ', error);
+        }
+    }
+
     return (
         <Container style={darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#fff' }}>
             <FlatList

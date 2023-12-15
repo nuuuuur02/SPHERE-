@@ -1,10 +1,16 @@
 {
   "ExpandedNodes": [
     "",
+    "\\assets",
+    "\\assets\\iconos",
+    "\\navigation",
     "\\screens",
     "\\screens\\TobTab",
     "\\screens\\TobTab\\GrupalChat",
-    "\\screens\\TobTab\\PrivateChat"
+    "\\screens\\TobTab\\PrivateChat",
+    "\\styles",
+    "\\styles\\GrupalChat"
   ],
+  "SelectedNode": "\\screens\\TobTab\\GrupalChat\\ChatScreen.js",
   "PreviewInSolutionExplorer": false
 }
