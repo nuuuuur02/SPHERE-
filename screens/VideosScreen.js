@@ -19,9 +19,10 @@ const SearchArticulo = () => {
 
     // Función para renderizar los elementos en grupos de dos
     const renderItem = () => {
-        const filteredData = data.filter(elemento =>
-            elemento.nombre.toLowerCase().includes(searchText.toLowerCase())
-        );
+        const filteredData = data.filter(elemento => {
+            const nombreLowerCase = elemento.nombre.toLowerCase();
+            return nombreLowerCase.includes(searchText.toLowerCase());
+        });
 
         return filteredData.map((elemento, index) => (
             <TouchableOpacity

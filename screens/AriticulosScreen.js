@@ -15,24 +15,25 @@ const SearchArticulo = () => {
         { id: 2, nombre: '¿Qué son los trastornos del espectro autista?', time: '18 octubre 2023', link: 'https://www.cdc.gov/ncbddd/spanish/autism/facts.html' },
         { id: 3, nombre: 'Tratamientos para los niños con TEA', time: '10 octubre 2023', link: 'https://effectivehealthcare.ahrq.gov/products/autism-update/espanol' },
         { id: 4, nombre: '10 consejos para padres de niños con TEA', time: '29 septiembre 2023', link: 'https://www.neuroxtimular.com/10-consejos-para-padres-de-ninos-con-tea/' },
-        { id: 5, nombre: 'Elemento 3', time: '23 novimebre 2023' },
+       /* { id: 5, nombre: 'Elemento 3', time: '23 novimebre 2023' },
         { id: 6, nombre: 'Elemento 4', time: '23 novimebre 2023' },
         { id: 5, nombre: 'Elemento 3', time: '23 novimebre 2023' },
         { id: 6, nombre: 'Elemento 4', time: '23 novimebre 2023' },
         { id: 5, nombre: 'Elemento 3', time: '23 novimebre 2023' },
-        { id: 6, nombre: 'Elemento 4', time: '23 novimebre 2023' },
+        { id: 6, nombre: 'Elemento 4', time: '23 novimebre 2023' },*/
     ];
 
     // Función para renderizar los elementos en grupos de dos
     const renderItem = () => {
-        const filteredData = data.filter(elemento =>
-            elemento.nombre.toLowerCase().includes(searchText.toLowerCase())
-        );
+        const filteredData = data.filter(elemento => {
+            const nombreLowerCase = elemento.nombre.toLowerCase();
+            return nombreLowerCase.includes(searchText.toLowerCase());
+        });
 
-        return data.map((elemento, index) => {
+        return filteredData.map((elemento, index) => {
             if (index % 2 === 0) {
                 // Si el índice es par, renderiza un grupo de dos elementos
-                const elementoSiguiente = data[index + 1];
+                const elementoSiguiente = filteredData[index + 1];
                 return (
                     <View key={index} style={styles.grupoContainer}>
                         <TouchableOpacity style={styles.itemContainer}
