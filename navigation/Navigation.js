@@ -8,7 +8,7 @@ import { auth, db } from '../components/ConfigFirebase';
 
 
 //defaulSphere
-import { View, Pressable, Image } from 'react-native';
+import { View, Pressable, Image, Text } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { useLayoutEffect } from "react";
 
@@ -107,6 +107,8 @@ function StackGroup() {
         ),
     }
 
+    const navigation = useNavigation();
+
     return (
         <Stack.Navigator initialRouteName="Login"
         >
@@ -160,6 +162,45 @@ function StackGroup() {
                 component={ChatScreen}
                 options={({ route }) => ({
                     title: route.params.item.userName,
+                    headerTitleStyle: {
+                        textAlignVertical: "center",
+                        fontSize: 20,
+                    },
+                    headerLeft: () =>
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                            }}
+                        >
+                            <Pressable onPress={() => navigation.goBack()}>
+                                <Image
+                                    source={require("../assets/iconos/flechaBack.png")}
+                                    style={{ width: 30, height: 30 }}
+                                />
+                            </Pressable>
+                            <Image
+                                source={{
+                                    uri: route.params.item.userImg,
+                                }}
+                                style={{
+                                    width: 50,
+                                    height: 50,
+                                    borderRadius: 50,
+                                    marginLeft: 15,
+                                    marginRight: 15,
+                                }}
+                            />
+                            <Text
+                                style={{
+                                    color: "#B7C1FF",
+                                    fontSize: 60,
+                                }}
+                            />
+                        </View>,
+                    headerStyle: {
+                        backgroundColor: "#B7C1FF",
+                    },
                 })}
             />
             <Stack.Screen name="CreateChat" component={CreateChat} />
@@ -270,22 +311,22 @@ function StackGroup() {
 const Tab = createBottomTabNavigator();
 
 function TabGroup() {
-/*
-    const navigation = useNavigation();
-
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            headerLeft: () => (
-                <Pressable onPress={() => navigation.openDrawer()}>
-                    <Image
-                        source={{ uri: auth.currentUser?.photoURL }}
-                        style={{ width: 40, height: 40, borderRadius: 100, marginLeft: 15 }}
-                    />
-                </Pressable>
-            ),
-        });
-    }, []);
-*/
+    /*
+        const navigation = useNavigation();
+    
+        useLayoutEffect(() => {
+            navigation.setOptions({
+                headerLeft: () => (
+                    <Pressable onPress={() => navigation.openDrawer()}>
+                        <Image
+                            source={{ uri: auth.currentUser?.photoURL }}
+                            style={{ width: 40, height: 40, borderRadius: 100, marginLeft: 15 }}
+                        />
+                    </Pressable>
+                ),
+            });
+        }, []);
+    */
     return (
         <Tab.Navigator
             screenOptions={{
