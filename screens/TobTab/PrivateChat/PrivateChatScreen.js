@@ -178,8 +178,7 @@ const PrivateChatScreen = ({ route }) => {
 
     const renderInputToolbar = (props) => {
         return <InputToolbar  {...props} containerStyle={{
-            marginBottom: 10,
-            marginTop: 10,
+            marginBottom: 20,
             marginLeft: 20,
             marginRight: 20,
             borderRadius: 20,

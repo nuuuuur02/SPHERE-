@@ -47,7 +47,7 @@ const ChatScreen = ({ route }) => {
             await updateDoc(postRef, { _messages, messageTime });
 
         } catch (error) {
-            console.error('Error al agregar el comentario: ', error);
+            console.error('Error al enviar el mensaje: ', error);
         }
     }
 
@@ -80,7 +80,7 @@ const ChatScreen = ({ route }) => {
                 setMessages(messages.slice().reverse())
             }
         } catch (error) {
-            console.error('Error al cargar los comentarios: ', error);
+            console.error('Error al cargar los mensajes: ', error);
         }
     }
 
@@ -129,7 +129,10 @@ const ChatScreen = ({ route }) => {
                 }}
                 textStyle={{
                     right: {
-                        color: 'black',
+                        color: '#111111',
+                    },
+                    left: {
+                        color: '#111111',
                     },
                 }}
                 timeTextStyle={{
