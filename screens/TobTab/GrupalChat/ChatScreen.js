@@ -170,7 +170,12 @@ const ChatScreen = ({ route }) => {
     }
 
     const renderInputToolbar = (props) => {
-        return <InputToolbar  {...props} style={{ margin: 5 }} />
+        return <InputToolbar  {...props} containerStyle={{
+            marginBottom: 20,
+            marginLeft: 20,
+            marginRight: 20,
+            borderRadius: 20,
+        }} />
     }
 
     return (
@@ -194,7 +199,7 @@ const ChatScreen = ({ route }) => {
             timeFormat={"H:ss"}
             renderDay={renderDay}
             renderInputToolbar={renderInputToolbar}
-        //bottomOffset
+            minInputToolbarHeight={90}
         //textInputStyle={{ backgroundColor: 'red' }}
         />
     );
