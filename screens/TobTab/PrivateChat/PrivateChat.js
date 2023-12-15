@@ -229,7 +229,7 @@ const MessagesScreen = ({ navigation }) => {
                                         <TextSection>
                                             <UserInfoText>
                                                 <UserName style={darkMode === true ? { color: 'white' } : { color: 'black' }}>{currentUser.isProfessional ? item.userName : item.professionalName}</UserName>
-                                                <PostTime style={darkMode === true ? { color: '#909090' } : { color: '#666' }}>{item.messageTime.toDate().toLocaleString()}</PostTime>
+                                                {/*<PostTime style={darkMode === true ? { color: '#909090' } : { color: '#666' }}>{item.messageTime.toDate().toLocaleString()}</PostTime>*/}
                                             </UserInfoText>
                                             <MessageText style={darkMode === true ? { color: '#909090' } : { color: '#333333' }}>{item.messageText}</MessageText>
                                         </TextSection>

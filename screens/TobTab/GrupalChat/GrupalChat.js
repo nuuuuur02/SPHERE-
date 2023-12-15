@@ -1,5 +1,5 @@
 import React, { useState, useLayoutEffect, useEffect } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, View, Text } from 'react-native';
 import { db, auth } from '../../../components/ConfigFirebase';
 import { query, collection, orderBy, onSnapshot } from "firebase/firestore";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -21,6 +21,7 @@ import { EventRegister } from 'react-native-event-listeners';
 const MessagesScreen = ({ navigation }) => {
 
     const [groups, setGroups] = useState(null);
+    const [newMessage, setNewMessage] = useState(false);
 
     useLayoutEffect(() => {
         fetchPosts();
@@ -69,16 +70,43 @@ const MessagesScreen = ({ navigation }) => {
                 contentContainerStyle={{ paddingBottom: 50 }}
                 renderItem={({ item }) => (
                     <Card onPress={() => navigation.navigate('Chat', { item })}>
-                        <UserInfo>
+                        <UserInfo style={{ marginTop: 15 }}>
                             <UserImgWrapper>
                                 <UserImg source={{ uri: item.userImg }} />
                             </UserImgWrapper>
                             <TextSection>
                                 <UserInfoText>
                                     <UserName style={darkMode === true ? { color: 'white' } : { color: 'black' }}>{item.userName}</UserName>
-                                    <PostTime style={darkMode === true ? { color: '#909090' } : { color: '#666' }}>{item.messageTime.toDate().toLocaleString()}</PostTime>
+                                    {/*<PostTime style={darkMode === true ? { color: '#909090' } : { color: '#666' }}>{item.messageTime.toDate().toLocaleString()}</PostTime>*/}
                                 </UserInfoText>
-                                <MessageText style={darkMode === true ? { color: '#909090' } : { color: '#333333' }}>{item.messageText}</MessageText>
+                                <View
+                                    style={{
+                                        flexDirection: "row",
+                                        justifyContent: 'space-between',
+                                    }}>
+                                    <MessageText style={{
+                                        marginBottom: 15,
+
+                                    }}
+                                        numberOfLines={2}
+                                        ellipsizeMode='tail'
+                                    >
+                                        {item.messageText}
+                                    </MessageText>
+                                    {newMessage ? (
+                                        <View style={{
+                                            height: 30,
+                                            width: 30,
+                                            backgroundColor: '#FFD37E',
+                                            borderRadius: 15,
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            marginBottom: 10,
+                                            marginTop: -12.5,
+                                        }}
+                                        />
+                                    ) : (<></>)}
+                                </View>
                             </TextSection>
                         </UserInfo>
                     </Card>

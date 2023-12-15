@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { auth, db } from '../components/ConfigFirebase';
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 
 //defaulSphere
@@ -109,6 +110,33 @@ function StackGroup() {
 
     const navigation = useNavigation();
 
+    useEffect(() => {
+        LoadCurrentUser();
+    }, []);
+
+    const [currentUser, setCurrentUser] = useState(null);
+
+    const LoadCurrentUser = async () => {
+        const userCollection = collection(db, "user");
+        let userData = null;
+
+        while (userData === null) {
+            const querySnapshot = await getDocs(query(userCollection, where("email", "==", auth.currentUser?.email)));
+
+            if (!querySnapshot.empty) {
+                querySnapshot.forEach((doc) => {
+                    userData = doc.data();
+                });
+            }
+            console.log("UsuarioNo: " + userData)
+            // Pequeño retardo para no sobrecargar la solicitud
+            await new Promise(resolve => setTimeout(resolve, 500));
+        }
+
+        console.log("Usuario: " + userData)
+        setCurrentUser(userData);
+    }
+
     return (
         <Stack.Navigator initialRouteName="Login"
         >
@@ -212,7 +240,46 @@ function StackGroup() {
                 name="Private Chat"
                 component={PrivateChatScreen}
                 options={({ route }) => ({
-                    title: route.params.userName,
+                    title: route.params.item.userName ? route.params.item.userName : route.params.item.professionalImg,
+                    headerTitleStyle: {
+                        textAlignVertical: "center",
+                        fontSize: 20,
+                    },
+                    headerLeft: () =>
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                            }}
+                        >
+                            <Pressable onPress={() => navigation.goBack()}>
+                                <Image
+                                    source={require("../assets/iconos/flechaBack.png")}
+                                    style={{ width: 30, height: 30 }}
+                                />
+                            </Pressable>
+                            <Image
+                                source={{
+                                    uri: currentUser.isProfessional ? route.params.item.professionalImg : route.params.item.userImg,
+                                }}
+                                style={{
+                                    width: 50,
+                                    height: 50,
+                                    borderRadius: 50,
+                                    marginLeft: 15,
+                                    marginRight: 15,
+                                }}
+                            />
+                            <Text
+                                style={{
+                                    color: "#B7C1FF",
+                                    fontSize: 60,
+                                }}
+                            />
+                        </View>,
+                    headerStyle: {
+                        backgroundColor: "#B7C1FF",
+                    },
                 })}
             />
             <Stack.Screen

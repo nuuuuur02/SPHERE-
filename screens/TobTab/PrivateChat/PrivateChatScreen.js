@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useLayoutEffect } from 'react';
 import { View, Text } from 'react-native';
-import { Bubble, GiftedChat, Send, Day } from 'react-native-gifted-chat';
+import { Bubble, GiftedChat, Send, Day, InputToolbar } from 'react-native-gifted-chat';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { db, auth } from '../../../components/ConfigFirebase';
