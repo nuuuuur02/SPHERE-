@@ -2,6 +2,7 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { SearchBar } from "react-native-elements";
+import { AntDesign } from '@expo/vector-icons';
 
 
 export default function AllJuegosScreen() {
@@ -48,6 +49,7 @@ export default function AllJuegosScreen() {
                 inputContainerStyle={styles.searchBarInputContainer}
                 inputStyle={styles.searchBarInput}
                 clearIcon
+                searchIcon={() => < AntDesign name="search1" size={24} color="white" size={24} style={{marginLeft: 10}} />}
             />
             <View style={{ height: 60 }}></View>
             <SectionList
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
         borderRadius: 40,
     },
     searchBarInputContainer: {
-        backgroundColor: 'black',
+        backgroundColor: '#313131',
         borderRadius: 40,
     },
 });

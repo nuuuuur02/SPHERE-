@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, ScrollView, Linking } from 'react-native';
 import { SearchBar } from "react-native-elements";
+import { AntDesign } from '@expo/vector-icons';
 
 const SearchArticulo = () => {
     const [searchText, setSearchText] = React.useState('');
@@ -65,6 +66,7 @@ const SearchArticulo = () => {
                 inputContainerStyle={styles.searchBarInputContainer}
                 inputStyle={styles.searchBarInput}
                 clearIcon
+                searchIcon={() => < AntDesign name="search1" size={24} color="white" size={24} style={{ marginLeft: 10 }} />}
             />
             <ScrollView>
                 <View style={{ height: 60 }}></View>
@@ -120,7 +122,7 @@ const styles = StyleSheet.create({
         borderRadius: 40,
     },
     searchBarInputContainer: {
-        backgroundColor: 'black',
+        backgroundColor: '#313131',
         borderRadius: 40,
     },
 });
