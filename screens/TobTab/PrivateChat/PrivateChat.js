@@ -163,6 +163,7 @@ const MessagesScreen = ({ navigation }) => {
     const ExpertItem = ({ item, index, navigation }) => {
 
         const handlePress = async () => {
+            console.log("Item", item)
             setItemExpertUser(item);
             await AddChat(item);
         };

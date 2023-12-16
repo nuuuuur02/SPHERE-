@@ -112,20 +112,22 @@ function StackGroup() {
 
     useEffect(() => {
         LoadCurrentUser();
-    }, []);
+    }, [auth.currentUser]);
 
     const [currentUser, setCurrentUser] = useState(null);
 
     const LoadCurrentUser = async () => {
         const userCollection = collection(db, "user");
         let userData = null;
-
+        console.log(auth.currentUser?.email)
         while (userData === null) {
+            console.log(auth.currentUser?.email)
             const querySnapshot = await getDocs(query(userCollection, where("email", "==", auth.currentUser?.email)));
-
+            console.log(querySnapshot)
             if (!querySnapshot.empty) {
                 querySnapshot.forEach((doc) => {
                     userData = doc.data();
+                    console.log("docdata: " + doc.data())
                 });
             }
             console.log("UsuarioNo: " + userData)
@@ -240,7 +242,7 @@ function StackGroup() {
                 name="Private Chat"
                 component={PrivateChatScreen}
                 options={({ route }) => ({
-                    title: route.params.item.userName ? route.params.item.userName : route.params.item.professionalImg,
+                    title: currentUser.isProfessional ? route.params.item.userName : route.params.item.professionalName,
                     headerTitleStyle: {
                         textAlignVertical: "center",
                         fontSize: 20,
@@ -260,7 +262,7 @@ function StackGroup() {
                             </Pressable>
                             <Image
                                 source={{
-                                    uri: currentUser.isProfessional ? route.params.item.professionalImg : route.params.item.userImg,
+                                    uri: currentUser.isProfessional ? route.params.item.userImg : route.params.item.professionalImg,
                                 }}
                                 style={{
                                     width: 50,
