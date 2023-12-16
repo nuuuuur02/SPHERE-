@@ -1,6 +1,6 @@
 import React, { useState, useLayoutEffect, useCallback } from 'react';
-import { View } from 'react-native';
-import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat';
+import { View, Text } from 'react-native';
+import { Bubble, GiftedChat, Send, Day, InputToolbar } from 'react-native-gifted-chat';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { db, auth } from '../../../components/ConfigFirebase';
@@ -12,7 +12,7 @@ const ChatScreen = ({ route }) => {
 
     const postId = item.id;
     const postRef = doc(db, 'groups', postId);
-    
+
     const [messages, setMessages] = useState([]);
 
     useLayoutEffect(() => {
@@ -25,10 +25,13 @@ const ChatScreen = ({ route }) => {
 
     }, []);
 
+    // Return a sliced name
+    // If the first and second name are too long, return only the first name
+    // Else return the entire name
     const truncateName = (name) => {
         const userNameSliced = name.split(' ');
-        const firstName = userNameSliced[0];
-        return firstName.length > 10 ? firstName.slice(0, 10) + "..." : firstName;
+        const expertName = userNameSliced[0] + ' ' + userNameSliced[1];
+        return expertName.length > 15 ? (expertName.split(' '))[0] : expertName;
     };
 
     const postMessage = async (message) => {
@@ -44,7 +47,7 @@ const ChatScreen = ({ route }) => {
             await updateDoc(postRef, { _messages, messageTime });
 
         } catch (error) {
-            console.error('Error al agregar el comentario: ', error);
+            console.error('Error al enviar el mensaje: ', error);
         }
     }
 
@@ -77,7 +80,7 @@ const ChatScreen = ({ route }) => {
                 setMessages(messages.slice().reverse())
             }
         } catch (error) {
-            console.error('Error al cargar los comentarios: ', error);
+            console.error('Error al cargar los mensajes: ', error);
         }
     }
 
@@ -94,13 +97,17 @@ const ChatScreen = ({ route }) => {
     const renderSend = (props) => {
         return (
             <Send {...props}>
-                <View>
-                    <MaterialCommunityIcons
-                        name="send-circle"
-                        style={{ marginBottom: 2, marginRight: 5 }}
-                        size={45}
-                        color="#2e64e5"
-                    />
+                <View style={{ alignItems: 'center' }}>
+                    <Text
+                        style={{
+                            fontSize: 15,
+                            color: "#725AB9",
+                            fontWeight: 'bold',
+                            alignItems: 'center',
+                        }}
+                    >
+                        Enviar
+                    </Text>
                 </View>
             </Send>
         );
@@ -112,16 +119,25 @@ const ChatScreen = ({ route }) => {
                 {...props}
                 wrapperStyle={{
                     right: {
-                        backgroundColor: '#2e64e5',
+                        backgroundColor: '#B7C1FF',
+                        padding: 15,
                     },
                     left: {
-                        backgroundColor: '#dddddd',
+                        backgroundColor: '#F9F9F9',
+                        padding: 15,
                     }
                 }}
                 textStyle={{
                     right: {
-                        color: '#fff',
+                        color: '#111111',
                     },
+                    left: {
+                        color: '#111111',
+                    },
+                }}
+                timeTextStyle={{
+                    right: { color: '#727272' },
+                    left: { color: '#727272' }
                 }}
             />
         );
@@ -131,6 +147,36 @@ const ChatScreen = ({ route }) => {
         return (
             <FontAwesome name='angle-double-down' size={25} color='#333' />
         );
+    }
+
+    const renderUsername = (user) => {
+        return (
+            <View>
+                <Text
+                    style={{
+                        color: '#725AB9',
+                        marginLeft: 10,
+                        marginBottom: 5,
+                        marginTop: -4,
+                        fontWeight: 'bold',
+                    }}>
+                    {user.name}
+                </Text>
+            </View>
+        );
+    };
+
+    const renderDay = (props) => {
+        return <Day {...props} textStyle={{ color: '#111111' }} />
+    }
+
+    const renderInputToolbar = (props) => {
+        return <InputToolbar  {...props} containerStyle={{
+            marginBottom: 20,
+            marginLeft: 20,
+            marginRight: 20,
+            borderRadius: 20,
+        }} />
     }
 
     return (
@@ -147,7 +193,18 @@ const ChatScreen = ({ route }) => {
             renderSend={renderSend}
             scrollToBottom
             scrollToBottomComponent={scrollToBottomComponent}
-            renderUsernameOnMessage={true}
+            renderUsernameOnMessage
+            renderUsername={renderUsername}
+            placeholder={''}
+            renderAvatarOnTop
+            timeFormat={"H:ss"}
+            renderDay={renderDay}
+            renderInputToolbar={renderInputToolbar}
+            minInputToolbarHeight={90}
+            textInputStyle={{
+                marginBottom: 10,
+                marginTop: 10,
+            }}
         />
     );
 };

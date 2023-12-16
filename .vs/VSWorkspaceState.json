@@ -9,7 +9,15 @@
     "\\screens\\Tab",
     "\\screens\\TobTab",
     "\\screens\\TobTab\\GrupalChat",
+<<<<<<< HEAD
     "\\screens\\TobTab\\PrivateChat"
   ],
+=======
+    "\\screens\\TobTab\\PrivateChat",
+    "\\styles",
+    "\\styles\\GrupalChat"
+  ],
+  "SelectedNode": "\\screens\\TobTab\\GrupalChat\\ChatScreen.js",
+>>>>>>> Javier-ChatStyles
   "PreviewInSolutionExplorer": false
 }

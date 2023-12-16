@@ -58,4 +58,5 @@ export const PostTime = styled.Text`
 export const MessageText = styled.Text`
     font-size: 14px;
     color: #333333;
+    max-width: 250px;
 `;
