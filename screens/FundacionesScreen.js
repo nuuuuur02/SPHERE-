@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useLayoutEffect } from 'react';
-import { FlatList, RefreshControl, StyleSheet, Text, View, Image,} from 'react-native';
+import { FlatList, RefreshControl, StyleSheet, Text, View, Image,TouchableOpacity} from 'react-native';
 import { Container } from '../styles/FeedStyles';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { db } from '../components/ConfigFirebase';
@@ -9,8 +9,12 @@ import * as Location from 'expo-location';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { EventRegister } from 'react-native-event-listeners';
+import { useNavigation } from '@react-navigation/native';
 
 const FundacionScreen = () => {
+
+  const navigation = useNavigation();
+
     const locationInitial = {
         latitude: 0,
         longitude: 0,
@@ -111,12 +115,16 @@ const FundacionScreen = () => {
     }, []);
 
     const renderItem = ({ item, index }) => (
-        <View style={[styles.newsCard, getColor(index)]}>
-            <Text style={styles.newsTitle}>{item.ciudad}</Text>
-            <Image source={{ uri: item.urlToImage }} style={{ width: 200, height: 200, alignSelf: 'center' }} />
-            <Text style={styles.newsTitle}>{item.nombre}</Text>
-            <Text style={styles.newsContent}>{item.descripcion}</Text>
-        </View>
+        <TouchableOpacity style={styles.itemContainer}
+            onPress={() => navigation.navigate('DescripcionFundacion', { item: item })}
+        >
+          <View style={[styles.newsCard, getColor(index)]}>
+              <Text style={styles.newsTitle}>{item.ciudad}</Text>
+              <Image source={{ uri: item.urlToImage }} style={{ width: 200, height: 200, alignSelf: 'center' }} />
+              <Text style={styles.newsTitle}>{item.nombre}</Text>
+              <Text style={styles.newsContent}>{item.descripcion}</Text>
+          </View>
+        </TouchableOpacity>
     );
 
     const showDialog = () => {

@@ -15,6 +15,8 @@ import { useLayoutEffect } from "react";
 
 //Screens
 import Descripcion from "../screens/Tab/Descripcion";
+import DescripcionFundacion from "../screens/Tab/DescripcionFundacion.js"
+import Donar from "../screens/Tab/Donar.js";
 import PerfilScreen from "../screens/Tab/PerfilScreen";
 import AjustesScreen from "../screens/Drawer/AjustesScreen";
 import RecursosPictosScreen from "../screens/RecursosPictosScreen";
@@ -125,23 +127,23 @@ function StackGroup() {
     const LoadCurrentUser = async () => {
         const userCollection = collection(db, "user");
         let userData = null;
-        console.log(auth.currentUser?.email)
+        //console.log(auth.currentUser?.email)
         while (userData === null) {
-            console.log(auth.currentUser?.email)
+            //console.log(auth.currentUser?.email)
             const querySnapshot = await getDocs(query(userCollection, where("email", "==", auth.currentUser?.email)));
-            console.log(querySnapshot)
+            //console.log(querySnapshot)
             if (!querySnapshot.empty) {
                 querySnapshot.forEach((doc) => {
                     userData = doc.data();
                     console.log("docdata: " + doc.data())
                 });
             }
-            console.log("UsuarioNo: " + userData)
-            // Pequeño retardo para no sobrecargar la solicitud
+            //console.log("UsuarioNo: " + userData)
+            // Pequeï¿½o retardo para no sobrecargar la solicitud
             await new Promise(resolve => setTimeout(resolve, 500));
         }
 
-        console.log("Usuario: " + userData)
+        //console.log("Usuario: " + userData)
         setCurrentUser(userData);
     }
 
@@ -244,6 +246,9 @@ function StackGroup() {
                 name="Descripcion"
                 component={Descripcion}
             />
+            <Stack.Screen name="DescripcionFundacion" component={DescripcionFundacion}/>
+            <Stack.Screen name="Donar" component={Donar}/>
+            
             <Stack.Screen
                 name="Private Chat"
                 component={PrivateChatScreen}
