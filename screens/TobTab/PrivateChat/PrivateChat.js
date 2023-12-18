@@ -27,6 +27,7 @@ const MessagesScreen = ({ navigation }) => {
     const [itemExpertUser, setItemExpertUser] = useState(null);
     const [currentUser, setCurrentUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [newMessage, setNewMessage] = useState(false);
 
     useLayoutEffect(() => {
         fetchChats();
@@ -162,6 +163,7 @@ const MessagesScreen = ({ navigation }) => {
     const ExpertItem = ({ item, index, navigation }) => {
 
         const handlePress = async () => {
+            console.log("Item", item)
             setItemExpertUser(item);
             await AddChat(item);
         };
@@ -229,9 +231,36 @@ const MessagesScreen = ({ navigation }) => {
                                         <TextSection>
                                             <UserInfoText>
                                                 <UserName style={darkMode === true ? { color: 'white' } : { color: 'black' }}>{currentUser.isProfessional ? item.userName : item.professionalName}</UserName>
-                                                <PostTime style={darkMode === true ? { color: '#909090' } : { color: '#666' }}>{item.messageTime.toDate().toLocaleString()}</PostTime>
+                                                {/*<PostTime style={darkMode === true ? { color: '#909090' } : { color: '#666' }}>{item.messageTime.toDate().toLocaleString()}</PostTime>*/}
                                             </UserInfoText>
-                                            <MessageText style={darkMode === true ? { color: '#909090' } : { color: '#333333' }}>{item.messageText}</MessageText>
+                                            <View
+                                                style={{
+                                                    flexDirection: "row",
+                                                    justifyContent: 'space-between',
+                                                }}>
+                                                <MessageText style={{
+                                                    marginBottom: 15,
+
+                                                }}
+                                                    numberOfLines={2}
+                                                    ellipsizeMode='tail'
+                                                >
+                                                    {item.messageText}
+                                                </MessageText>
+                                                {newMessage ? (
+                                                    <View style={{
+                                                        height: 30,
+                                                        width: 30,
+                                                        backgroundColor: '#FFD37E',
+                                                        borderRadius: 15,
+                                                        justifyContent: 'center',
+                                                        alignItems: 'center',
+                                                        marginBottom: 10,
+                                                        marginTop: -12.5,
+                                                    }}
+                                                    />
+                                                ) : (<></>)}
+                                            </View>
                                         </TextSection>
                                     </UserInfo>
                                 </Card>

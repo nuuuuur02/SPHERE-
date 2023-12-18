@@ -1,24 +1,23 @@
 {
   "ExpandedNodes": [
     "",
-<<<<<<< HEAD
     "\\assets",
-=======
-    "\\components",
->>>>>>> Javier-CreateChats+
+    "\\assets\\iconos",
     "\\navigation",
     "\\screens",
+    "\\screens\\Drawer",
+    "\\screens\\Tab",
     "\\screens\\TobTab",
     "\\screens\\TobTab\\GrupalChat",
 <<<<<<< HEAD
-    "\\__tests__"
+    "\\screens\\TobTab\\PrivateChat"
   ],
-  "SelectedNode": "\\screens\\TobTab\\GrupalChat\\GrupalChat.js",
 =======
     "\\screens\\TobTab\\PrivateChat",
-    "\\__tests__"
+    "\\styles",
+    "\\styles\\GrupalChat"
   ],
-  "SelectedNode": "\\screens\\RegisterScreen.js",
->>>>>>> Javier-CreateChats+
+  "SelectedNode": "\\screens\\TobTab\\GrupalChat\\ChatScreen.js",
+>>>>>>> Javier-ChatStyles
   "PreviewInSolutionExplorer": false
 }
