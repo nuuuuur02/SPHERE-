@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useLayoutEffect } from 'react';
-import { FlatList, RefreshControl, StyleSheet, Text, View, Image} from 'react-native';
+import { FlatList, RefreshControl, StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import { Container } from '../styles/FeedStyles';
 import { db } from '../components/ConfigFirebase';
 import { query, collection, getDocs } from "firebase/firestore";
@@ -10,8 +10,12 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { EventRegister } from 'react-native-event-listeners';
 import { SearchBar } from 'react-native-elements';
 import { black } from 'color-name';
+import { useNavigation } from '@react-navigation/native';
 
 const FundacionScreen = () => {
+
+  const navigation = useNavigation();
+
     const locationInitial = {
         latitude: 0,
         longitude: 0,
@@ -113,12 +117,17 @@ const FundacionScreen = () => {
     }, []);
 
     const renderItem = ({ item, index }) => (
+      <TouchableOpacity style={styles.itemContainer}
+            onPress={() => navigation.navigate('DescripcionFundacion', { item: item })}
+        >
+          <View style={[styles.newsCard, getColor(index)]}></View>
         <View style={[styles.newsCard, getColor(index)]}>
             <Icon name = "location-outline" size={40}></Icon>
             <Text style={styles.newsTitle}>{item.nombre}</Text>
             <Text style={styles.newsTitle}>{item.ciudad}</Text>
             <Text style={styles.newsContent}>ver en mapa</Text>
         </View>
+      </TouchableOpacity>
     );
 
     const showDialog = () => {
