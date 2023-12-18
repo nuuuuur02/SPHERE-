@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useLayoutEffect } from 'react';
-import { FlatList, RefreshControl, StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import { FlatList, RefreshControl, StyleSheet, Text, View, Image, TouchableOpacity, Linking} from 'react-native';
 import { Container } from '../styles/FeedStyles';
 import { db } from '../components/ConfigFirebase';
 import { query, collection, getDocs } from "firebase/firestore";
@@ -8,7 +8,7 @@ import * as Location from 'expo-location';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { EventRegister } from 'react-native-event-listeners';
-import { SearchBar } from 'react-native-elements';
+import { Divider, SearchBar } from 'react-native-elements';
 import { black } from 'color-name';
 import { useNavigation } from '@react-navigation/native';
 
@@ -37,6 +37,16 @@ const FundacionScreen = () => {
             return { backgroundColor: 'lightpink' }
         }
     }
+
+    const getColorString = (index) => {
+      if (index % 3 === 0) {
+          return 'lightblue' 
+      } else if (index % 3 === 1) {
+          return 'lightyellow' 
+      } else {
+          return 'lightpink' 
+      }
+  }
 
     const getLocation = async () => {
         let location = await Location.getCurrentPositionAsync({});
@@ -116,16 +126,26 @@ const FundacionScreen = () => {
         setRefreshing(false);
     }, []);
 
+    const nosFuimos = (item) => {
+      Linking.openURL('https://www.google.es/maps/place/' + item.ubicacion);
+    }
+
     const renderItem = ({ item, index }) => (
       <TouchableOpacity style={styles.itemContainer}
             onPress={() => navigation.navigate('DescripcionFundacion', { item: item })}
         >
-          <View style={[styles.newsCard, getColor(index)]}></View>
         <View style={[styles.newsCard, getColor(index)]}>
-            <Icon name = "location-outline" size={40}></Icon>
-            <Text style={styles.newsTitle}>{item.nombre}</Text>
-            <Text style={styles.newsTitle}>{item.ciudad}</Text>
-            <Text style={styles.newsContent}>ver en mapa</Text>
+          <View style={styles.vertical}>
+            <Icon style={styles.icono} name = "location-outline" size={30}></Icon>
+            <Divider orientation="vertical" color={getColorString(index)}/>
+            <View style={styles.horizontal}>
+              <Text style={styles.newsTitle}>{item.nombre}</Text>
+              <Divider orientation="horizontal" color={getColorString(index)}/>
+              <Text style={styles.newsdirection}>{item.direccion}</Text>
+              <Divider style={styles.Divisor} orientation="horizontal" color={getColorString(index)}/>
+                <Text style={styles.newsContent}>ver en mapa</Text>
+            </View>
+          </View>
         </View>
       </TouchableOpacity>
     );
@@ -223,30 +243,41 @@ const styles = StyleSheet.create({
   titulo: {
     fontSize:30,
     fontWeight: 'bold',
-    textAlign: 'right'
   },
   searchBarContainer: {
-    borderColor:'black',
-    borderRadius: 20,
-    width: '95%',
+    margin: 20,
+    borderRadius: 22,
+    backgroundColor: '#313131',
+    borderColor:'#313131',
+    width: '90%',
   },
   inputStyle: {
     backgroundColor: 'black',
+    borderColor: '#313131',
     fontSize: 16,
     borderRadius: 20,
-    paddingLeft: 5,
+    paddingLeft: 10,
   },
   newsCard: {
     borderWidth: 3,
+    alignContent: 'center',
     borderColor: '#000',
+    textAlign: 'center',
     borderRadius: 8,
-    padding: 16,
+    padding: 12,
     margin: 8,
+  },
+  itemContainer: {
+    borderWidth: 0,
+    alignContent: 'center',
+    borderColor: '#000',
+    textAlign: 'center',
   },
   newsCardBlue: {
     borderWidth: 3,
     backgroundColor: 'blue',
     borderColor: '#000',
+    textAlign: 'center',
     borderRadius: 8,
     padding: 16,
     margin: 8,
@@ -270,17 +301,44 @@ const styles = StyleSheet.create({
   newsTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    textAlign: 'center',
+    textAlign: 'left',
     marginTop: 8,
     marginBottom: 8,
+    maxWidth: '100%',
+  },
+  newsdirection: {
+    fontSize: 12,
+    textAlign: 'left',
+    maxWidth: '100%',
   },
   newsContent: {
-    textAlign: 'center',
+    textAlign: 'right',
     fontSize: 16,
+    maxWidth: '100%',
   },
 
   awesomeButton: {
     size: 12,
     marginBottom: -12,
   },
+  vertical: {
+    maxWidth: 300,
+    marginVertical: 10,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start'
+},
+horizontal: {
+  display: 'flex',
+  flexDirection: 'column',
+  width: 250,
+},
+Divisor:{
+  alignContent: 'center',
+},
+icono:{
+  paddingRight: 5,
+  alignSelf: 'center',
+  paddingBottom: 3,
+},
 });
