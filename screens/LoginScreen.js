@@ -97,7 +97,8 @@ const LoginScreen = ({ navigation }) => {
             <View style={styles.buttonContainer}>
             <TouchableOpacity
                 onPress={() => {
-                SignIn()
+                
+                 SignIn()
                 }}
                 style={styles.button}
             >
@@ -115,7 +116,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     flex: 1,
     marginLeft: 20,
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    marginTop:60,
 
   },
   inputContainer: {
@@ -135,7 +137,7 @@ const styles = StyleSheet.create({
     width: '95%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 250,
+    marginTop: 175,
   },
   button: {
     backgroundColor: 'black',
@@ -184,7 +186,7 @@ const styles = StyleSheet.create({
   big: {
     fontSize: 40,
     marginTop: 20,
-    marginBottom: 70,
+    marginBottom: 0,
     color: '#000000',
   },
   titleContainer: {

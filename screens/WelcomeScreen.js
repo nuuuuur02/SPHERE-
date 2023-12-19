@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     flex: 1,
     marginLeft: 20,
-    alignItems: 'center'
-
+    alignItems: 'center',
+    marginTop:60,
   },
   inputContainer: {
     width: "95%",
@@ -111,8 +111,8 @@ const styles = StyleSheet.create({
     marginLeft: 5
   },
   logo: {
-    height: 500,
-    width: 500,
+    height: 350,
+    width: 350,
     marginTop: 20,
     marginRight: 20,
     marginBottom: 40,

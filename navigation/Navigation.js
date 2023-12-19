@@ -118,6 +118,7 @@ function StackGroup() {
             <Stack.Screen name="Welcome" component={WelcomeScreen} 
             options=
             {{
+                headerShown: false,
                 title: '',
                 headerTitleAlign: 'center',
                 headerTitleStyle: {
@@ -134,6 +135,7 @@ function StackGroup() {
             <Stack.Screen name="Register" component={RegisterScreen} 
             options=
             {{
+                headerShown: false,
                 title: '',
                 headerTitleAlign: 'center',
                 headerTitleStyle: {
@@ -150,6 +152,7 @@ function StackGroup() {
             <Stack.Screen name="Login" component={LoginScreen}
                 options=
                 {{
+                    headerShown: false,
                     title: '',
                     headerTitleAlign: 'center',
                     headerTitleStyle: {
@@ -166,6 +169,7 @@ function StackGroup() {
             <Stack.Screen name="ForgottenLogin" component={ForgottenLoginScreen} 
             options=
             {{
+                headerShown: false,
                 title: '',
                 headerTitleAlign: 'center',
                 headerTitleStyle: {

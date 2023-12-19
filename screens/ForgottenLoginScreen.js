@@ -45,7 +45,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     flex: 1,
     marginLeft: 20,
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    marginTop:60,
 
   },
   inputContainer: {
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
     width: '95%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 325,
+    marginTop: 150,
   },
   button: {
     backgroundColor: 'black',

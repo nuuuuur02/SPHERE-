@@ -184,7 +184,8 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         flex: 1,
         marginLeft: 20,
-        alignItems: 'flex-start'
+        alignItems: 'flex-start',
+        marginTop:60,
     },
     inputContainer: {
         width: "95%",
@@ -196,7 +197,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         borderRadius: 70,
         marginTop: 10,
-        height: 60,
+        height: 50,
         color: 'black'
     },
     buttonContainer: {
@@ -279,7 +280,7 @@ const styles = StyleSheet.create({
         width: '46%'
     },
     opcionSeleccionada: {
-        backgroundColor: 'A49CFF',
+        backgroundColor: 'black',
     },
     opcionSeleccionadaTexto: {
         color: 'white'
@@ -290,8 +291,8 @@ const styles = StyleSheet.create({
     },
     titleInput: {
         fontWeight: 'bold',
-        marginTop: 30,
-        fontSize: 18
+        marginTop: 10,
+        fontSize: 14
     }
 
 
