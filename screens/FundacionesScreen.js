@@ -30,21 +30,21 @@ const FundacionScreen = () => {
 
     const getColor = (index) => {
         if (index % 3 === 0) {
-            return { backgroundColor: 'lightblue' }
+            return { backgroundColor: '#ffd37e' }
         } else if (index % 3 === 1) {
-            return { backgroundColor: 'lightyellow' }
+            return { backgroundColor: '#dacefc' }
         } else {
-            return { backgroundColor: 'lightpink' }
+            return { backgroundColor: '#b7c1ff' }
         }
     }
 
     const getColorString = (index) => {
       if (index % 3 === 0) {
-          return 'lightblue' 
+          return '#ffd37e' 
       } else if (index % 3 === 1) {
-          return 'lightyellow' 
+          return '#dacefc' 
       } else {
-          return 'lightpink' 
+          return '#b7c1ff' 
       }
   }
 
@@ -143,7 +143,7 @@ const FundacionScreen = () => {
               <Divider orientation="horizontal" color={getColorString(index)}/>
               <Text style={styles.newsdirection}>{item.direccion}</Text>
               <Divider style={styles.Divisor} orientation="horizontal" color={getColorString(index)}/>
-                <Text style={styles.newsContent}>ver en mapa</Text>
+              <Text style={styles.newsContent}>ver en mapa</Text>
             </View>
           </View>
         </View>
@@ -299,21 +299,23 @@ const styles = StyleSheet.create({
     margin: 8,
   },
   newsTitle: {
-    fontSize: 18,
+    fontSize: 12,
     fontWeight: 'bold',
     textAlign: 'left',
+    marginLeft: 8,
     marginTop: 8,
     marginBottom: 8,
     maxWidth: '100%',
   },
   newsdirection: {
-    fontSize: 12,
+    fontSize: 10,
+    marginLeft: 8,
     textAlign: 'left',
     maxWidth: '100%',
   },
   newsContent: {
+    fontSize: 10,
     textAlign: 'right',
-    fontSize: 16,
     maxWidth: '100%',
   },
 
