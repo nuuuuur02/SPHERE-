@@ -259,11 +259,11 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   newsCard: {
-    borderWidth: 3,
+    borderWidth: 0,
     alignContent: 'center',
     borderColor: '#000',
     textAlign: 'center',
-    borderRadius: 8,
+    borderRadius: 40,
     padding: 12,
     margin: 8,
   },
