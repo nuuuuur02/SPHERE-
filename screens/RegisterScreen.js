@@ -7,7 +7,7 @@ import { doc, setDoc } from "firebase/firestore";
 const RegisterScreen = ({ navigation }) => {
     const [nick, setNick] = useState('')
     const [email, setEmail] = useState('')
-    const [photo, setPhoto] = useState('')
+    const [photo, setPhoto] = useState('https://i.pinimg.com/564x/3c/81/4a/3c814a534b0cf42c80fd5cba6e2ac07f.jpg')
     const [password, setPassword] = useState('')
     const [repeatPassword, setRepeatPassword] = useState('')
 
@@ -31,7 +31,7 @@ const RegisterScreen = ({ navigation }) => {
                     // Actualizamos el displayName y photoURL
                     return updateProfile(user, {
                         displayName: nick,
-                        photoURL: photo,
+                        photoURL: 'https://i.pinimg.com/564x/3c/81/4a/3c814a534b0cf42c80fd5cba6e2ac07f.jpg',
                     });
                 })
                 .then(() => {
