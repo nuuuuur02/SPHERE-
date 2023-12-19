@@ -45,9 +45,9 @@ const LoginScreen = ({ navigation }) => {
             })
             .catch((error) => Alert.alert("Login error:", error.message));
         } else if (blacklistEmails.includes(email)) {
-            Alert.alert("Login error:", "Tu cuenta a sido Baneada");
+            Alert.alert("Login error:", "Tu cuenta ha sido baneada");
         } else {
-            Alert.alert("Login error:", "Escribe un email y/o contraseña valida.");
+            Alert.alert("Login error:", "Escribe un email y/o contraseña válida");
         }
     };
 
@@ -56,26 +56,42 @@ const LoginScreen = ({ navigation }) => {
           style={styles.container}
           behavior='padding'
         >
-            <Image
-                source={{ uri: "https://firebasestorage.googleapis.com/v0/b/niideapepe-45402.appspot.com/o/Images%2FGroups%2FSphereLogo.jpg?alt=media&token=517e5910-c963-47e2-96b3-2343fbb2ff88" }}
-                style={styles.logo}
-            />
+            <View style={styles.titleContainer}>
+              <Text style={styles.big}>
+                Accede a{'\n'}tu cuenta
+              </Text>
+            </View>
             <View style={styles.inputContainer}>
+                <Text style={styles.titleInput}>
+                  E-Mail
+                </Text>
                 <TextInput
-                  placeholder="Email"
+                  placeholder="E-Mail"
                   value={email}
-                  onChangeText={text => setEmail(text.toLowerCase())}
+                  onChangeText={text => setEmail(text)}
                   style={styles.input}
                 >
                 </TextInput>
+                <Text style={styles.titleInput}>
+                  Contraseña
+                </Text>
                 <TextInput
-                  placeholder="Password"
+                  placeholder="Contraseña"
                   value={password}
                   onChangeText={text => setPassword(text)}
                   style={styles.input}
                   secureTextEntry
                 >
                 </TextInput>
+                <TouchableOpacity
+                style={styles.forgotButton}
+                onPress={() => navigation.navigate('ForgottenLogin')}
+            >
+                <Text style={styles.navButtonText}>
+                ¿Olvidaste tu contraseña?
+                </Text>
+            </TouchableOpacity>
+            
             </View>
 
             <View style={styles.buttonContainer}>
@@ -85,15 +101,7 @@ const LoginScreen = ({ navigation }) => {
                 }}
                 style={styles.button}
             >
-                <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.forgotButton}
-                onPress={() => navigation.navigate('Register')}
-            >
-                <Text style={styles.navButtonText}>
-                Don't have an acount? Create here
-                </Text>
+                <Text style={styles.buttonText}>Iniciar sesión</Text>
             </TouchableOpacity>
             </View>
         </View>
@@ -104,34 +112,38 @@ export default LoginScreen
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
+    justifyContent: "flex-start",
     flex: 1,
-    alignItems: 'center',
+    marginLeft: 20,
+    alignItems: 'flex-start'
 
   },
   inputContainer: {
-    width: "80%",
+    width: "95%",
+    alignContent: "flex-start"
   },
   input: {
-    backgroundColor: "white",
+    backgroundColor: '#E7E7E7',
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 70,
-    marginTop: 15,
+    marginTop: 10,
+    height: 60,
+    color: 'black'
   },
   buttonContainer: {
-    width: '60%',
+    width: '95%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 40,
-
+    marginTop: 250,
   },
   button: {
-    backgroundColor: '#0782F9',
+    backgroundColor: 'black',
     width: '100%',
     padding: 15,
     borderRadius: 70,
-    alignItems: 'center'
+    alignItems: 'center',
+    height: 60
   },
   buttonOutline: {
     backgroundColor: 'white',
@@ -141,8 +153,9 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
-    fontWeight: '700',
-    fontSize: 16,
+    fontWeight: '400',
+    fontSize: 24,
+    textAlign: 'center'
   },
   buttonOutlineText: {
     color: '#0782F9',
@@ -150,13 +163,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   forgotButton: {
-    marginVertical: 35,
+    marginVertical: 10,
+    alignItems: "flex-end"
   },
   navButtonText: {
     fontSize: 14,
-    fontWeight: '500',
-    color: '#2e64e5',
-
+    fontWeight: 'bold',
+    color: '#A49CFF',
   },
   logo: {
     height: 150,
@@ -164,11 +177,25 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   text: {
-
     fontSize: 28,
     marginBottom: 10,
     color: '#051d5f',
   },
+  big: {
+    fontSize: 40,
+    marginTop: 20,
+    marginBottom: 70,
+    color: '#000000',
+  },
+  titleContainer: {
+    justifyContent: "flex-start",
+    alignItems: 'flex-start'
+  },
+  titleInput: {
+    fontWeight: 'bold',
+    marginTop: 30,
+    fontSize: 18
+  }
 
 
 })
