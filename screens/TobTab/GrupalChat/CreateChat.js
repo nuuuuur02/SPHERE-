@@ -76,15 +76,15 @@ const CreateChat = ({ navigation }) => {
                 Alert.alert("Foto incorrecta.", "La foto tiene que ser un enlace.")
             }
         } else if (nameGroup == '') {
-            Alert.alert("Nombre del grupo vacío.", "Un grupo debe tener un nombre.")
+            //Alert.alert("Nombre del grupo vacío.", "Un grupo debe tener un nombre.")
         } else if (description == '') {
-            Alert.alert("Descripción del grupo vacía.", "Un grupo debe tener una descripción.")
+            //Alert.alert("Descripción del grupo vacía.", "Un grupo debe tener una descripción.")
         } else if (photo == '') {
-            Alert.alert("Foto del grupo vacía.", "Un grupo debe tener una foto.")
+            //Alert.alert("Foto del grupo vacía.", "Un grupo debe tener una foto.")
         } else if (users == '') {
-            Alert.alert("Lista de usuarios vacía.", "Un grupo debe tener al menos 1 usuario en la lista.")
+            //Alert.alert("Lista de usuarios vacía.", "Un grupo debe tener al menos 1 usuario en la lista.")
         } else {
-            Alert.alert("Datos del grupo incorrectos.", "Por favor, introduce los datos correctamente.")
+            //Alert.alert("Datos del grupo incorrectos.", "Por favor, introduce los datos correctamente.")
         }
     }
 
@@ -164,12 +164,11 @@ const CreateChat = ({ navigation }) => {
                                     name="circle"
                                     size={30}
                                     backgroundColor='transparent'
-                                    color="#2e64e5"
+                                    color="#DACEFC"
                                     onPress={() => {
                                         CheckCredentials();
                                     }}
                                     style={{
-
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         backgroundColor: darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#fff' },
@@ -192,7 +191,7 @@ const CreateChat = ({ navigation }) => {
                                     name="circle"
                                     size={30}
                                     backgroundColor='transparent'
-                                    color="#2e64e5"
+                                    color="#DACEFC"
                                     onPress={() => {
                                         CheckCredentials();
                                     }}
@@ -219,7 +218,7 @@ const CreateChat = ({ navigation }) => {
                                     name="circle"
                                     size={30}
                                     backgroundColor='transparent'
-                                    color="#2e64e5"
+                                    color="#DACEFC"
                                     onPress={() => {
                                         CheckCredentials();
                                     }}
