@@ -1,43 +1,34 @@
 import * as React from 'react';
-import { View, Text, Button, StyleSheet, Image, ScrollView, FlatList } from 'react-native';
+import { View, Text, Button, StyleSheet, Image, TouchableOpacity, Modal, ScrollView, FlatList } from 'react-native';
 
 export default function GameDetailScreen({ navigation, route }) {
   
+  const CustomButton = ({ onPress }) => {
+    return (
+      <TouchableOpacity style={styles.ButtonNext} onPress={onPress}>
+        <Text style={styles.buttonText}>SIGUIENTE</Text>
+      </TouchableOpacity>
+    );
+  };
+
   const {item} = route.params
   return (
     <ScrollView contentContainerStyle= {styles.scroll} >
+    <Text style={styles.title}>{item.name}</Text>
+    <Text style = {styles.espacio}></Text>
     <View>
-      <Text style={styles.title}>{item.name}</Text>
-      <Image source={item.image} style={styles.image} />
-    <View style={styles.table}>
-        <View style={styles.row}>
-            <View style={styles.cell}>
-                <Text style={styles.title}>Horario</Text>
-            </View>
-        </View>
-    </View>
-    <Text style = {styles.description}>{item.desc[0]}</Text>
+    <Text style = {styles.descri}>{item.desc[0]}</Text>
+    <Image source={item.image} style={styles.image} />
     <Text style = {styles.espacio}></Text>
-    <View style={styles.table}>
-        <View style={styles.row}>
-            <View style={styles.cell}>
-                <Text style={styles.title}>Descripción</Text>
-            </View>
-        </View>
-    </View>
     <Text style = {styles.description}>{item.desc[1]}</Text>
-    <Text style = {styles.espacio}></Text>
-    <View style={styles.table}>
-        <View style={styles.row}>
-            <View style={styles.cell}>
-                <Text style={styles.title}>Acceder al diario de seguimiento</Text>
-            </View>
-        </View>
-    </View>
-    <Button title="Diario"
-            onPress={() => navigation.navigate('Diario', {item : item})}/> 
+    <Text style = {styles.descri}>{item.desc[2]}</Text>
+    {item.image2 != null && <Image source={item.image2} style={styles.image} />}
+    {item.image2 != null &&<Text style = {styles.espacio}></Text>}
+    {item.image2 != null &&<Text style = {styles.description}>{item.desc[3]}</Text>}
+  <CustomButton onPress={() => navigation.navigate('PrincipalEvento', { item })} />
     </View>
     </ScrollView>
+    
   );
 }
 
@@ -57,6 +48,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingVertical: 20,
+        marginLeft: 0,
       },
       row: {
         flexDirection: 'row',
@@ -92,18 +84,21 @@ const styles = StyleSheet.create({
         alignContent: 'center',
     },
     title: {
-      fontSize: 22,
+      fontSize: 28,
       fontWeight: 'bold',
-      alignSelf: 'center',
+      alignSelf: 'flex-start',
       textAlign: 'center',
+      marginLeft: 45,
     },
-      
     image: {
-      width: 200,
-      height: 200,
+      width: 325,
+      height: 325,
       resizeMode: 'cover',
-      marginBottom: 10,
+      marginBottom: 20,
       alignSelf: 'center',
+      marginLeft: 10,
+      marginRight: 0,
+      marginTop: 20,
     },
     description: {
       fontSize: 16,
@@ -112,4 +107,36 @@ const styles = StyleSheet.create({
       alignSelf:'center',
       textAlign: 'center',
     },
+    descri: {
+      fontSize: 20,
+      maxWidth: null,
+      fontWeight: 'bold',
+      margin: 15,
+      alignSelf:'flex-start',
+      textAlign: 'center',
+    },
+    ButtonNext: {
+      fontSize: 20,
+      backgroundColor: '#B7C1FF',
+      maxWidth: null,
+      fontWeight: 'bold',
+      margin: 15,
+      alignSelf:'flex-end',
+      textAlign: 'center',
+      marginBottom: 20,
+      marginLeft: 20,
+      marginRight: 20,
+      borderRadius: 50,
+      color: 'black',
+    },
+    buttonText: {
+      fontSize: 15,
+      maxWidth: null,
+      margin: 15,
+      textAlign: 'center',
+      marginBottom: 20,
+      marginLeft: 20,
+      marginRight: 20,
+      color: 'black',
+    }
   });
