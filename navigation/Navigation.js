@@ -247,11 +247,18 @@ function StackGroup() {
                     shadowOpacity: 0,
                 },
             }} />
-            <Stack.Screen name="PrincipalEvento" component={PrincipalEvento} />
+            <Stack.Screen name="PrincipalEvento" component={PrincipalEvento}options={{
+                    title: '',
+                    headerStyle: {
+                        backgroundColor: '#d9cffb',
+                    },
+                    headerShown: false,
+                }}/>
             <Stack.Screen
                 name="Chat"
                 component={ChatScreen}
                 options={({ route }) => ({
+                    
                     title: route.params.item.userName,
                     headerTitleStyle: {
                         textAlignVertical: "center",

@@ -172,7 +172,7 @@ const PrivateChatScreen = ({ route }) => {
         );
     };
 
-    const renderDay = () => {
+    const renderDay = (props) => {
         return <Day {...props} textStyle={{ color: '#111111' }} />
     }
 

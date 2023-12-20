@@ -468,14 +468,15 @@ const styles = StyleSheet.create({
     borderBottomColor: 'black',
   },
   textInCell1: {
-    fontSize: 24,
+    fontSize: 18,
     marginTop: 5,
     marginRight: 10,
     marginLeft: 10,
     marginBottom: 5,
+    fontFamily: 'GeneralSansSemibold',
   },
   textInCell2: {
-    fontSize: 16,
+    fontSize: 14,
     marginRight: 10,
     marginLeft: 10,
     marginBottom: 5,
