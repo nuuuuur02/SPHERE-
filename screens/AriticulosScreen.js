@@ -2,6 +2,7 @@
 import { View, TouchableOpacity, Text, StyleSheet, ScrollView, Linking } from 'react-native';
 import { SearchBar } from "react-native-elements";
 import { AntDesign } from '@expo/vector-icons';
+import { Container } from '../styles/FeedStyles';
 
 const SearchArticulo = () => {
     const [searchText, setSearchText] = React.useState('');
@@ -58,7 +59,7 @@ const SearchArticulo = () => {
        
 
     return (
-        <View >
+        <View>
             <SearchBar
                 onChangeText={(text) => setSearchText(text)}
                 value={searchText}

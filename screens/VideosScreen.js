@@ -12,7 +12,7 @@ const SearchArticulo = () => {
 
     //Articulos
     const data = [
-        { id: 1, nombre: 'Trastorno del Espectro Autista (TEA): Síntomas y criterios', time: '16 octubre 2023', link: 'https://www.youtube.com/watch?v=NBxhzcDCH5g', image: 'https://img.youtube.com/vi/NBxhzcDCH5g/maxresdefault.jpg' },
+        { id: 1, nombre: 'Trastorno del Espectro Autista (TEA): Todo lo que debes saber (Síntomas y criterios)', time: '16 octubre 2023', link: 'https://www.youtube.com/watch?v=NBxhzcDCH5g', image: 'https://img.youtube.com/vi/NBxhzcDCH5g/maxresdefault.jpg' },
         { id: 2, nombre: 'El Autismo. Claves para padres, educadores y profesionales.', time: '15 octubre 2023', link: 'https://www.youtube.com/watch?v=FXDt0VRfGeY', image: 'https://img.youtube.com/vi/FXDt0VRfGeY/maxresdefault.jpg' },
         { id: 3, nombre: 'Así es como un niño con autismo percibe el mundo', time: '28 septiembre 2023', link: 'https://www.youtube.com/watch?v=0-X2gqto7Z4', image: 'https://img.youtube.com/vi/0-X2gqto7Z4/sddefault.jpg' },
         { id: 4, nombre: '10 rasgos del AUTISMO INFANTIL - Identifica los PRIMEROS SIGNOS de TEA visibles', time: '23 noviembre 2023', link: 'https://www.youtube.com/watch?v=_R4lWNpsmno', image: 'https://img.youtube.com/vi/_R4lWNpsmno/maxresdefault.jpg' },

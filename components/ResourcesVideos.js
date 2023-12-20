@@ -48,7 +48,6 @@ export default function ResourcesList() {
                     <Text style={styles.headerText} numberOfLines={3} ellipsizeMode="tail">
                         Así es como un niño con autismo percibe el mundo
                     </Text>
-                    <Text />
                     <Text style={styles.DateText}>
                         28 septiembre 2023
                     </Text>
@@ -108,7 +107,7 @@ const styles = StyleSheet.create({
     DateText: {
         color: 'black',
         margin: 15,
-        marginTop: 0,
+        marginTop: -5,
         fontSize: 12,
         alignItems: 'center',
         justifyContent: 'center',

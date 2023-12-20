@@ -23,7 +23,7 @@ const FundacionScreen = () => {
     }
     const [fundaciones, setFundaciones] = useState(null);
     const [refreshing, setRefreshing] = useState(false);
-    const [distanciaMaxima, setDistanciaMaxima] = useState(1000); // Define la distancia máxima permitida en kilómetros
+    const [distanciaMaxima, setDistanciaMaxima] = useState(100000000); // Define la distancia máxima permitida en kilómetros
     const [isDialogVisible, setDialogVisible] = useState(false);
     const [userPosition, setUserPosition] = useState(locationInitial);
     const [color, setColor] = useState('blue');
@@ -175,6 +175,10 @@ const FundacionScreen = () => {
         })();
     }, [distanciaMaxima]);
 
+    const renderIcon = () => (
+        <Icon name="md-search" size={20} style={{ ...styles.actionButtonIcon, color: 'black' }} />
+    );
+
     return (
         <Container style={styles.container}>
             <Text style={styles.titulo}>Fundaciones</Text>
@@ -224,7 +228,7 @@ const styles = StyleSheet.create({
     // Define estilos para NewsCard según tus necesidades
     titulo: {
         fontSize: 30,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     container: {
         backgroundColor: 'white'
@@ -253,7 +257,7 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         padding: 15,
         margin: 8,
-
+        
     },
     dir: {
         alignItems: 'center',
@@ -298,6 +302,6 @@ const styles = StyleSheet.create({
     filtroText: {
         marginLeft: 15,
         marginRight: 15,
-        margin: 2
+        margin:2
     }
 });

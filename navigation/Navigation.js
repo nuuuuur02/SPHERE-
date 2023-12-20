@@ -622,7 +622,6 @@ export default function Navigation() {
     const [fontsLoaded] = useFonts({
         GeneralSans: require("../assets/fonts/GeneralSans-Medium.ttf"),
         GeneralSansSemibold: require("../assets/fonts/GeneralSans-Semibold.ttf"),
-        rara: require("../assets/fonts/Zodiak-BoldItalic.ttf"),
     });
     if (!fontsLoaded) return null;
 
