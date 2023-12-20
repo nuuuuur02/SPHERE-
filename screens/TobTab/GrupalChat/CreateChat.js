@@ -1,16 +1,28 @@
 ﻿import React, { useState, useEffect } from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { TextInput, View, StyleSheet, Alert, Image } from 'react-native';
+import { TextInput, View, StyleSheet, Alert, Image, Text, Button, TouchableOpacity,Table, Row, Modal, ScrollView, FlatList } from 'react-native';
 import { db, auth } from '../../../components/ConfigFirebase';
 import { query, collection, addDoc } from "firebase/firestore";
 import { fetchSignInMethodsForEmail } from "firebase/auth";
 import { EventRegister } from 'react-native-event-listeners';
+import { doc, getDoc } from 'firebase/firestore';
+import {
+    CardDiary,
+    CardDiaryCom,
+    DiaryText,
+    AddDiaryBar,
+    NoteButton,
+    UserImgDiary,
+    UserNameDiary,
+} from '../../../styles/FeedStyles';
+
 
 const CreateChat = ({ navigation }) => {
     const [nameGroup, onChangeName] = useState('');
     const [description, onChangeDescription] = useState('');
     const [photo, onChangePhoto] = useState('');
     const [users, onChangeUsers] = useState('');
+    const [userData, setUserData] = useState(null);
 
     //Theme
     const [darkMode, setDarkMode] = useState(false)
@@ -110,15 +122,46 @@ const CreateChat = ({ navigation }) => {
             style={darkMode === true ? styles.containerDark : styles.container}
             behavior='padding'
         >
-            <Image
-                source={{ uri: "https://firebasestorage.googleapis.com/v0/b/niideapepe-45402.appspot.com/o/Images%2FGroups%2FSphereLogo.jpg?alt=media&token=517e5910-c963-47e2-96b3-2343fbb2ff88" }}
-                style={styles.logo}
-            />
+            <Text style={styles.title}>Nuevo grupo</Text>
+            <Text style={styles.espacio}></Text>
+            <Text style={styles.titleSec}>Nombre del grupo</Text>
             <View>
-                <Input property="Nombre" onChangeText={onChangeName} value={nameGroup} />
+                <Input property="Nombre del grupo" onChangeText={onChangeName} value={nameGroup} />
+                <Text style={styles.espacio}></Text>
+                <Text style={styles.titleSec}>¿A quién quieres invitar?</Text>
+                <Input property="Buscar usuarios" onChangeText={onChangeUsers} value={users} />
+                <Text style={styles.espacio}></Text>
+                <View style={{ flexDirection: 'row', width: '90%', alignSelf: 'center', }}>
+                <View style={styles.row}>
+                <View style={styles.column2}>
+                    <UserImgDiary source={{ uri: auth.currentUser.photoURL }} />
+                </View>
+                <View style={styles.column2}>
+                    <Text style={styles.text}>{auth.currentUser.displayName}</Text>
+                </View>
+                <View style={styles.column2}>
+                    <FontAwesome5.Button
+                        name="circle"
+                        size={40}
+                        backgroundColor="#fff"
+                        color="#2e64e5"
+                        onPress={() => {
+                            CheckCredentials();
+                        }}
+                        style={{
+                            marginTop: 15,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#fff' },
+                        }}
+                    />
+                </View>
+                </View>
+            </View>
+                <Text style={styles.espacio}></Text>
                 <Input property="Descripción" onChangeText={onChangeDescription} value={description} />
                 <Input property="Foto" onChangeText={onChangePhoto} value={photo} />
-                <Input property="Usuarios" onChangeText={onChangeUsers} value={users} />
+                
                 <FontAwesome5.Button
                     name="plus-circle"
                     size={40}
@@ -134,8 +177,8 @@ const CreateChat = ({ navigation }) => {
                         backgroundColor: darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#fff' },
                     }}
                     />
-            </View>
-        </View>
+            </View>      
+        </View>        
     );
 };
 
@@ -149,6 +192,17 @@ const Input = props => {
         />
     )
 }
+
+const loadUserData = async () => {
+    const user = auth.currentUser;
+
+    if (user) {
+        setUserData({
+            photo: user.photoURL,
+            nombre: user.displayName,
+        });
+    }
+};
 
 const styles = StyleSheet.create({
     boldText: {
@@ -166,6 +220,36 @@ const styles = StyleSheet.create({
         marginTop: 15,
         fontFamily: 'Roboto',
     },
+    title: {
+        fontSize: 40,
+        alignSelf: 'flex-start',
+        textAlign: 'center',
+        marginLeft: 0,
+    },
+    formContainer: {
+        width: '80%',
+        padding: 20,
+        borderRadius: 10,
+        backgroundColor: '#fff',
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 3,
+        },
+        shadowOpacity: 0.27,
+        shadowRadius: 4.65,
+        elevation: 6,
+    },
+    titleSec: {
+        fontSize: 18,
+        alignSelf: 'flex-start',
+        textAlign: 'center',
+        marginLeft: 0,
+        fontWeight: 'bold',
+    },
+    espacio: {
+        marginTop: 15,
+    },
     container: {
         flex: 1,
         justifyContent: 'center',
@@ -173,6 +257,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         padding: 50,
         margin: 10,
+        alignSelf: 'flex-start',
     },
     containerDark: {
         flex: 1,
@@ -187,6 +272,49 @@ const styles = StyleSheet.create({
         width: 150,
         resizeMode: 'cover',
     },
+    table: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '90%',
+        marginTop: 10,
+        marginBottom: 10,
+        marginLeft: 20,
+        padding: 12,
+        borderRadius: 20,
+        backgroundColor: '#fff',
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 3,
+        },
+        shadowOpacity: 0.27,
+        shadowRadius: 4.65,
+        elevation: 6,
+      },row: {
+        flexDirection: 'row',
+        width: '100%',
+        marginRight: 20,
+      },
+      column2: {
+        borderBottomWidth: 0,
+        borderBottomColor: 'black',
+        alignItems: 'flex-start',
+        alignSelf:'center',
+        padding: 8,
+      },
+      textInCell1: {
+        fontSize: 24,
+        marginTop: 5,
+        marginRight: 10,
+        marginLeft: 10,
+        marginBottom: 5,
+      },
+      textInCell2: {
+        fontSize: 16,
+        marginRight: 10,
+        marginLeft: 10,
+        marginBottom: 5,
+      },
 });
 
 export default CreateChat;
