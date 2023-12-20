@@ -52,7 +52,7 @@ const HomeScreen = ({ navigation }) => {
     }, [darkMode])
 
     return (
-        <Container style={darkMode === true ? { backgroundColor: '#1c1c1c', marginBottom: 60 } : { backgroundColor: '#ebebeb' , marginBottom: 60}} >
+        <Container style={darkMode === true ? { backgroundColor: '#1c1c1c', marginBottom: 35 } : { backgroundColor: '#ebebeb' , marginBottom: 35}} >
             <FlatList
                 data={posts}
                 renderItem={({ item }) => <PostCard item={item} updatePosts={updatePosts} />}
