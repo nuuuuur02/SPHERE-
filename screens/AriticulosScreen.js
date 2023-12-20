@@ -66,7 +66,7 @@ const SearchArticulo = () => {
                 inputContainerStyle={styles.searchBarInputContainer}
                 inputStyle={styles.searchBarInput}
                 clearIcon
-                searchIcon={() => < AntDesign name="search1" size={24} color="white" size={24} style={{ marginLeft: 10 }} />}
+                searchIcon={() => < AntDesign name="search1" size={24} color="white" style={{ marginLeft: 10 }} />}
             />
             <ScrollView>
                 <View style={{ height: 60 }}></View>

@@ -11,6 +11,7 @@ import { EventRegister } from 'react-native-event-listeners';
 import { Divider, SearchBar } from 'react-native-elements';
 import { black } from 'color-name';
 import { useNavigation } from '@react-navigation/native';
+import { AntDesign } from '@expo/vector-icons';
 
 const FundacionScreen = () => {
 
@@ -195,17 +196,19 @@ const FundacionScreen = () => {
 
     return (
 
-    <Container style={darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: 'white' }}>
+    <Container style={styles.container}>
 
       <Text style={styles.titulo}>Fundaciones</Text>
 
       <SearchBar
-      placeholder="Buscar fundaciones..."
-      onChangeText={(text) => setSearchText(text)}
-      value={searchText}
-      inputStyle={styles.inputStyle}
-      containerStyle={styles.searchBarContainer}
-    />
+                onChangeText={(text) => setSearchText(text)}
+                value={searchText}
+                containerStyle={styles.searchBarContainer}
+                inputContainerStyle={styles.searchBarInputContainer}
+                inputStyle={styles.searchBarInput}
+                clearIcon
+                searchIcon={() => < AntDesign name="search1" size={24} color="white" style={{ marginLeft: 10 }} />}
+            />
 
       <FlatList
         data={fundaciones}
@@ -213,6 +216,7 @@ const FundacionScreen = () => {
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        style = {styles.lista}
       />
       <ActionButton
         buttonColor="#d9cffb"
@@ -244,20 +248,29 @@ const styles = StyleSheet.create({
     fontSize:30,
     fontWeight: 'bold',
   },
+  container: {
+    backgroundColor: 'white'
+  },
+  lista: {
+    marginTop: 70,
+  },
   searchBarContainer: {
+    backgroundColor: 'transparent',
+    borderBottomColor: 'transparent',
+    borderTopColor: 'transparent',
+    position: 'absolute',
     margin: 20,
-    borderRadius: 22,
-    backgroundColor: '#313131',
-    borderColor:'#313131',
-    width: '90%',
-  },
-  inputStyle: {
-    backgroundColor: 'black',
-    borderColor: '#313131',
-    fontSize: 16,
-    borderRadius: 20,
-    paddingLeft: 10,
-  },
+    marginTop: 40,
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1,
+    borderRadius: 40,
+},
+searchBarInputContainer: {
+  backgroundColor: '#313131',
+  borderRadius: 40,
+},
   newsCard: {
     borderWidth: 0,
     alignContent: 'center',
