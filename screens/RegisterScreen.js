@@ -7,7 +7,7 @@ import { doc, setDoc } from "firebase/firestore";
 const RegisterScreen = ({ navigation }) => {
     const [nick, setNick] = useState('')
     const [email, setEmail] = useState('')
-    const [photo, setPhoto] = useState('')
+    const [photo, setPhoto] = useState('https://i.pinimg.com/564x/3c/81/4a/3c814a534b0cf42c80fd5cba6e2ac07f.jpg')
     const [password, setPassword] = useState('')
     const [repeatPassword, setRepeatPassword] = useState('')
 
@@ -17,8 +17,8 @@ const RegisterScreen = ({ navigation }) => {
     const [isFamiliar, setIsFamiliar] = useState(false);
     const [pinFamiliar, setPinFamiliar] = useState('');
 
-    const toggleProfesionalSwitch = () => setIsProfessional(previousState => !previousState);
-    const toggleFamiliarSwitch = () => setIsFamiliar(previousState => !previousState);
+    const toggleProfessionalTouchable = () => setIsProfessional(previousState => !previousState);
+    const toggleFamiliarTouchable = () => setIsFamiliar(previousState => !previousState);
 
     const AddUser = () => {
 
@@ -31,7 +31,7 @@ const RegisterScreen = ({ navigation }) => {
                     // Actualizamos el displayName y photoURL
                     return updateProfile(user, {
                         displayName: nick,
-                        photoURL: photo,
+                        photoURL: 'https://i.pinimg.com/564x/3c/81/4a/3c814a534b0cf42c80fd5cba6e2ac07f.jpg',
                     });
                 })
                 .then(() => {
@@ -75,83 +75,92 @@ const RegisterScreen = ({ navigation }) => {
         console.log("button pressed")
     }
 
+    const handleToggle = (opcion) => {
+        if (opcion === 'profesional') {
+            setProfessional(!isProfessional);
+        } else if (opcion === 'familiar') {
+            setFamiliar(!isFamiliar);
+        }
+    };
+
     return (
         <View
             style={styles.container}
             behavior='padding'
         >
-            <Text style={styles.text}>Join Sphere Today</Text>
+
+            <View style={styles.titleContainer}>
+                <Text style={styles.big}>
+                    Crea una{'\n'}cuenta
+                </Text>
+            </View>
             {/*<TouchableOpacity
                 style={styles.button}
                 onPress={pressedImageButton}
             ></TouchableOpacity>*/}
+
+            <Text style={styles.titleInput}>
+                ¿Quién eres?
+            </Text>
+            <View style={styles.eleccion}>
+                <TouchableOpacity
+                    style={[styles.opcion, isProfessional && styles.opcionSeleccionada]}
+                    onPress={() => toggleProfessionalTouchable()}
+                >
+                    <Text style={[styles.textoOpcion, isProfessional && styles.opcionSeleccionadaTexto]}>Experto</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={[styles.opcion, isFamiliar && styles.opcionSeleccionada]}
+                    onPress={() => toggleFamiliarTouchable()}
+                >
+                    <Text style={[styles.textoOpcion, isFamiliar && styles.opcionSeleccionadaTexto]}>Familiar</Text>
+                </TouchableOpacity>
+            </View>
+
             <View style={styles.inputContainer}>
+                <Text style={styles.titleInput}>
+                    Nombre
+                </Text>
                 <TextInput
-                    placeholder="Username"
+                    placeholder="Nombre"
                     value={nick}
                     onChangeText={text => setNick(text)}
                     style={styles.input}
                 >
                 </TextInput>
+                <Text style={styles.titleInput}>
+                    E-Mail
+                </Text>
                 <TextInput
-                    placeholder="Email"
+                    placeholder="E-Mail"
                     value={email}
                     onChangeText={text => setEmail(text.toLowerCase())}
                     style={styles.input}
                 >
                 </TextInput>
+                <Text style={styles.titleInput}>
+                    Contraseña
+                </Text>
                 <TextInput
-                    placeholder="Password"
+                    placeholder="Contraseña"
                     value={password}
                     onChangeText={text => setPassword(text)}
                     style={styles.input}
                     secureTextEntry
                 >
                 </TextInput>
+                <Text style={styles.titleInput}>
+                    Repetir contraseña
+                </Text>
                 <TextInput
-                    placeholder="Confirm Password"
+                    placeholder="Repetir contraseña"
                     value={repeatPassword}
                     onChangeText={text => setRepeatPassword(text)}
                     style={styles.input}
                     secureTextEntry
                 >
                 </TextInput>
-                <TextInput
-                    placeholder="Photo"
-                    value={photo}
-                    onChangeText={text => setPhoto(text)}
-                    style={styles.input}
-                >
-                </TextInput>
-                <View
-                    accessibilityRole={'checkbox'}
-                    style={{
-                        flexDirection: 'row',
-                        height: 50,
-                        padding: 15,
-                    }}
-                >
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text>¿Profesional?</Text>
-                        <Switch
-                            trackColor={{ false: '#767577', true: '#767577' }}
-                            thumbColor={isProfessional ? '#f5dd4b' : '#f4f3f4'}
-                            onValueChange={toggleProfesionalSwitch}
-                            value={isProfessional}
-                            accessibilityRole={'checkbox'}
-                        />
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 60 }}>
-                        <Text>¿Familiar?</Text>
-                        <Switch
-                            trackColor={{ false: '#767577', true: '#767577' }}
-                            thumbColor={isFamiliar ? '#f5dd4b' : '#f4f3f4'}
-                            onValueChange={toggleFamiliarSwitch}
-                            value={isFamiliar}
-                            accessibilityRole={'checkbox'}
-                        />
-                    </View>
-                </View>
             </View>
 
             <View style={styles.buttonContainer}>
@@ -161,16 +170,7 @@ const RegisterScreen = ({ navigation }) => {
                     }}
                     style={styles.button}
                 >
-                    <Text style={styles.buttonText}>Register</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    style={styles.forgotButton}
-                    onPress={() => navigation.navigate('Login')}
-                >
-                    <Text style={styles.navButtonText}>
-                        Already have an acount?
-                    </Text>
+                    <Text style={styles.buttonText}>Crear cuenta</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -181,33 +181,38 @@ export default RegisterScreen
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: "center",
+        justifyContent: "flex-start",
         flex: 1,
-        alignItems: 'center',
+        marginLeft: 20,
+        alignItems: 'flex-start',
+        marginTop:60,
     },
     inputContainer: {
-        width: "80%",
+        width: "95%",
+        alignContent: "flex-start"
     },
     input: {
-        backgroundColor: "white",
+        backgroundColor: '#E7E7E7',
         paddingHorizontal: 15,
         paddingVertical: 10,
         borderRadius: 70,
-        marginTop: 15,
+        marginTop: 10,
+        height: 50,
+        color: 'black'
     },
     buttonContainer: {
-        width: '60%',
+        width: '95%',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 40,
-
+        marginTop: 20,
     },
     button: {
-        backgroundColor: '#0782F9',
+        backgroundColor: 'black',
         width: '100%',
         padding: 15,
         borderRadius: 70,
-        alignItems: 'center'
+        alignItems: 'center',
+        height: 60
     },
     buttonOutline: {
         backgroundColor: 'white',
@@ -217,9 +222,10 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: 'white',
-        fontWeight: '700',
-        fontSize: 16,
-    },
+        fontWeight: '400',
+        fontSize: 24,
+        textAlign: 'center'
+      },
     buttonOutlineText: {
         color: '#0782F9',
         fontWeight: '700',
@@ -245,6 +251,49 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         color: '#051d5f',
     },
+    big: {
+        fontSize: 40,
+        marginTop: 20,
+        marginBottom: 10,
+        color: '#000000',
+    },
+    titleContainer: {
+        justifyContent: "flex-start",
+        alignItems: 'flex-start'
+    },
+    textoOpcion: {
+        textAlign: 'center',
+        alignItems: 'center',
+        fontSize: 16,
+        justifyContent: 'center'
+    },
+    opcion: {
+        backgroundColor: '#A2A2A2',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        borderWidth: 0,
+        borderRadius: 70,
+        marginRight: 10,
+        height: 50,
+        width: '46%'
+    },
+    opcionSeleccionada: {
+        backgroundColor: 'black',
+    },
+    opcionSeleccionadaTexto: {
+        color: 'white'
+    },
+    eleccion: {
+        flexDirection: 'row',
+        marginTop: 10
+    },
+    titleInput: {
+        fontWeight: 'bold',
+        marginTop: 10,
+        fontSize: 14
+    }
 
 
 })

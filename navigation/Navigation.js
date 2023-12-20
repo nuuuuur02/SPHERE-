@@ -43,8 +43,10 @@ import AddCommentScreen from '../screens/AddCommentScreen';
 import AddPostScreen from '../screens/AddPostScreen';
 
 //Login/User
+import WelcomeScreen from "../screens/WelcomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
+import ForgottenLoginScreen from "../screens/ForgottenLoginScreen";
 
 //Theme
 import { EventRegister } from 'react-native-event-listeners';
@@ -148,14 +150,47 @@ function StackGroup() {
     }
 
     return (
-        <Stack.Navigator initialRouteName="Login"
+        <Stack.Navigator initialRouteName="Welcome"
         >
-            <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }}
+            <Stack.Screen name="Welcome" component={WelcomeScreen} 
+            options=
+            {{
+                headerShown: false,
+                title: '',
+                headerTitleAlign: 'center',
+                headerTitleStyle: {
+                    color: '#2e64e5',
+                    fontSize: 18,
+                },
+                headerStyle: {
+                    shadowColor: '#fff',
+                    elevation: 0,
+                    backgroundColor: 'transparent'
+                },
+            }}
+            />
+            <Stack.Screen name="Register" component={RegisterScreen} 
+            options=
+            {{
+                headerShown: false,
+                title: '',
+                headerTitleAlign: 'center',
+                headerTitleStyle: {
+                    color: '#2e64e5',
+                    fontSize: 18,
+                },
+                headerStyle: {
+                    shadowColor: '#fff',
+                    elevation: 0,
+                    backgroundColor: 'transparent'
+                },
+            }}
             />
             <Stack.Screen name="Login" component={LoginScreen}
                 options=
                 {{
-                    title: 'Sphere',
+                    headerShown: false,
+                    title: '',
                     headerTitleAlign: 'center',
                     headerTitleStyle: {
                         color: '#2e64e5',
@@ -164,8 +199,26 @@ function StackGroup() {
                     headerStyle: {
                         shadowColor: '#fff',
                         elevation: 0,
+                        backgroundColor: 'transparent'
                     },
                 }}
+            />
+            <Stack.Screen name="ForgottenLogin" component={ForgottenLoginScreen} 
+            options=
+            {{
+                headerShown: false,
+                title: '',
+                headerTitleAlign: 'center',
+                headerTitleStyle: {
+                    color: '#2e64e5',
+                    fontSize: 18,
+                },
+                headerStyle: {
+                    shadowColor: '#fff',
+                    elevation: 0,
+                    backgroundColor: 'transparent'
+                },
+            }}
             />
             <Stack.Screen name="HomeMain" component={TabGroup}
                 options={{

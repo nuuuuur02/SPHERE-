@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, useLayoutEffect } from 'react';
-import { FlatList, RefreshControl, StyleSheet, Text, View, Image,TouchableOpacity} from 'react-native';
+import { FlatList, RefreshControl, StyleSheet, Text, View, Image, TouchableOpacity, Linking} from 'react-native';
 import { Container } from '../styles/FeedStyles';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { db } from '../components/ConfigFirebase';
 import { query, collection, getDocs } from "firebase/firestore";
 import DialogInput from 'react-native-dialog-input';
@@ -9,6 +8,8 @@ import * as Location from 'expo-location';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { EventRegister } from 'react-native-event-listeners';
+import { Divider, SearchBar } from 'react-native-elements';
+import { black } from 'color-name';
 import { useNavigation } from '@react-navigation/native';
 
 const FundacionScreen = () => {
@@ -25,16 +26,27 @@ const FundacionScreen = () => {
     const [isDialogVisible, setDialogVisible] = useState(false);
     const [userPosition, setUserPosition] = useState(locationInitial);
     const [color, setColor] = useState('blue');
+    const [searchText, setSearchText] = useState('');
 
     const getColor = (index) => {
         if (index % 3 === 0) {
-            return { backgroundColor: 'lightblue' }
+            return { backgroundColor: '#ffd37e' }
         } else if (index % 3 === 1) {
-            return { backgroundColor: 'lightyellow' }
+            return { backgroundColor: '#dacefc' }
         } else {
-            return { backgroundColor: 'lightpink' }
+            return { backgroundColor: '#b7c1ff' }
         }
     }
+
+    const getColorString = (index) => {
+      if (index % 3 === 0) {
+          return '#ffd37e' 
+      } else if (index % 3 === 1) {
+          return '#dacefc' 
+      } else {
+          return '#b7c1ff' 
+      }
+  }
 
     const getLocation = async () => {
         let location = await Location.getCurrentPositionAsync({});
@@ -114,17 +126,28 @@ const FundacionScreen = () => {
         setRefreshing(false);
     }, []);
 
+    const nosFuimos = (item) => {
+      Linking.openURL('https://www.google.es/maps/place/' + item.ubicacion);
+    }
+
     const renderItem = ({ item, index }) => (
-        <TouchableOpacity style={styles.itemContainer}
+      <TouchableOpacity style={styles.itemContainer}
             onPress={() => navigation.navigate('DescripcionFundacion', { item: item })}
         >
-          <View style={[styles.newsCard, getColor(index)]}>
-              <Text style={styles.newsTitle}>{item.ciudad}</Text>
-              <Image source={{ uri: item.urlToImage }} style={{ width: 200, height: 200, alignSelf: 'center' }} />
+        <View style={[styles.newsCard, getColor(index)]}>
+          <View style={styles.vertical}>
+            <Icon style={styles.icono} name = "location-outline" size={30}></Icon>
+            <Divider orientation="vertical" color={getColorString(index)}/>
+            <View style={styles.horizontal}>
               <Text style={styles.newsTitle}>{item.nombre}</Text>
-              <Text style={styles.newsContent}>{item.descripcion}</Text>
+              <Divider orientation="horizontal" color={getColorString(index)}/>
+              <Text style={styles.newsdirection}>{item.direccion}</Text>
+              <Divider style={styles.Divisor} orientation="horizontal" color={getColorString(index)}/>
+              <Text style={styles.newsContent}>ver en mapa</Text>
+            </View>
           </View>
-        </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
     );
 
     const showDialog = () => {
@@ -171,7 +194,19 @@ const FundacionScreen = () => {
     }, [darkMode])
 
     return (
-        <Container style={darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: 'white' }}>
+
+    <Container style={darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: 'white' }}>
+
+      <Text style={styles.titulo}>Fundaciones</Text>
+
+      <SearchBar
+      placeholder="Buscar fundaciones..."
+      onChangeText={(text) => setSearchText(text)}
+      value={searchText}
+      inputStyle={styles.inputStyle}
+      containerStyle={styles.searchBarContainer}
+    />
+
       <FlatList
         data={fundaciones}
         keyExtractor={(item, index) => index.toString()}
@@ -205,17 +240,44 @@ export default FundacionScreen;
 
 const styles = StyleSheet.create({
   // Define estilos para NewsCard según tus necesidades
+  titulo: {
+    fontSize:30,
+    fontWeight: 'bold',
+  },
+  searchBarContainer: {
+    margin: 20,
+    borderRadius: 22,
+    backgroundColor: '#313131',
+    borderColor:'#313131',
+    width: '90%',
+  },
+  inputStyle: {
+    backgroundColor: 'black',
+    borderColor: '#313131',
+    fontSize: 16,
+    borderRadius: 20,
+    paddingLeft: 10,
+  },
   newsCard: {
-    borderWidth: 3,
+    borderWidth: 0,
+    alignContent: 'center',
     borderColor: '#000',
-    borderRadius: 8,
-    padding: 16,
+    textAlign: 'center',
+    borderRadius: 40,
+    padding: 12,
     margin: 8,
+  },
+  itemContainer: {
+    borderWidth: 0,
+    alignContent: 'center',
+    borderColor: '#000',
+    textAlign: 'center',
   },
   newsCardBlue: {
     borderWidth: 3,
     backgroundColor: 'blue',
     borderColor: '#000',
+    textAlign: 'center',
     borderRadius: 8,
     padding: 16,
     margin: 8,
@@ -237,19 +299,48 @@ const styles = StyleSheet.create({
     margin: 8,
   },
   newsTitle: {
-    fontSize: 18,
+    fontSize: 12,
     fontWeight: 'bold',
-    textAlign: 'center',
+    textAlign: 'left',
+    marginLeft: 8,
     marginTop: 8,
     marginBottom: 8,
+    maxWidth: '100%',
+  },
+  newsdirection: {
+    fontSize: 10,
+    marginLeft: 8,
+    textAlign: 'left',
+    maxWidth: '100%',
   },
   newsContent: {
-    textAlign: 'center',
-    fontSize: 16,
+    fontSize: 10,
+    textAlign: 'right',
+    maxWidth: '100%',
   },
 
   awesomeButton: {
     size: 12,
     marginBottom: -12,
   },
+  vertical: {
+    maxWidth: 300,
+    marginVertical: 10,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start'
+},
+horizontal: {
+  display: 'flex',
+  flexDirection: 'column',
+  width: 250,
+},
+Divisor:{
+  alignContent: 'center',
+},
+icono:{
+  paddingRight: 5,
+  alignSelf: 'center',
+  paddingBottom: 3,
+},
 });
