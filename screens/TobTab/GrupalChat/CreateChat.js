@@ -124,12 +124,12 @@ const CreateChat = ({ navigation }) => {
     return (
         <View>
             <ScrollView>
-                <View>
+                <View style={{ marginLeft: 30, marginRight: 30}}>
                     <Text style={styles.title}>Nuevo grupo</Text>
                     <Text style={styles.espacio}></Text>
                     <Text style={styles.titleSec}>Nombre del grupo</Text>
                     <View>
-                        <Input property="Nombre del grupo" onChangeText={onChangeName} value={nameGroup} />
+                        <Input property="    Nombre del grupo" onChangeText={onChangeName} value={nameGroup} style={{ marginLeft: 20 }}/>
                         <Text style={styles.espacio}></Text>
                         <Text style={styles.titleSec}>¿A quién quieres invitar?</Text>
                         <SearchBar
@@ -140,34 +140,91 @@ const CreateChat = ({ navigation }) => {
                             inputContainerStyle={styles.searchBarInputContainer}
                             inputStyle={styles.searchBarInput}
                             clearIcon
-                            searchIcon={() => < AntDesign name="search1" size={24} color="black" size={24} style={{ marginLeft: 10 }} />}
+                            searchIcon={() => < AntDesign name="search1" size={24} color="black" style={{ marginLeft: 10 }} />}
                         />
                         {/*<Input property="Buscar usuarios" onChangeText={onChangeUsers} value={users} />*/}
+                        <Text style={styles.espacio}></Text>
                         <Text style={styles.titleSec}>Descripción</Text>
-                        <Input property="Descripción" onChangeText={onChangeDescription} value={description} />
-                        <Text style={styles.titleSec}>Foto perfil</Text>
-                        <Input property="Foto" onChangeText={onChangePhoto} value={photo} />
+                        <Input property="    Descripción" onChangeText={onChangeDescription} value={description} style={{ marginLeft: 20 }}/>
+                        <Text style={styles.espacio}></Text>
+                        <Text style={styles.titleSec}>Foto perfil grupo</Text>
+                        <Input property="    Foto" onChangeText={onChangePhoto} value={photo} />
                     </View>
-                    <Text style={styles.espacio}></Text>
                     <View style={{ flexDirection: 'row', width: '90%', alignSelf: 'center', }}>
                         <View style={styles.row}>
-                            <View style={styles.column2}>
-                                <UserImgDiary source={{ uri: auth.currentUser.photoURL }} />
+                        <View style={styles.column2}>
+                                <UserImgDiary source={{  }} style={{width: 75, height: 75,}}/>
                             </View>
                             <View style={styles.column2}>
-                                <Text style={styles.text}>{auth.currentUser.displayName}</Text>
+                                {/*<Text style={styles.text}>{auth.currentUser.displayName}</Text>*/}
+                                <Text style={styles.text}>Juan Francisco </Text>
                             </View>
-                            <View style={styles.column2}>
+                            <View style={styles.column3}>
                                 <FontAwesome5.Button
                                     name="circle"
-                                    size={40}
-                                    backgroundColor="#fff"
+                                    size={30}
+                                    backgroundColor='transparent'
                                     color="#2e64e5"
                                     onPress={() => {
                                         CheckCredentials();
                                     }}
                                     style={{
-                                        marginTop: 15,
+
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        backgroundColor: darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#fff' },
+                                    }}
+                                />
+                            </View>
+                        </View>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '90%', alignSelf: 'center', }}>
+                        <View style={styles.row}>
+                            <View style={styles.column2}>
+                                <UserImgDiary source={{  }} style={{width: 75, height: 75,}}/>
+                            </View>
+                            <View style={styles.column2}>
+                                {/*<Text style={styles.text}>{auth.currentUser.displayName}</Text>*/}
+                                <Text style={styles.text}>Juana Bárbara  </Text>
+                            </View>
+                            <View style={styles.column3}>
+                                <FontAwesome5.Button
+                                    name="circle"
+                                    size={30}
+                                    backgroundColor='transparent'
+                                    color="#2e64e5"
+                                    onPress={() => {
+                                        CheckCredentials();
+                                    }}
+                                    style={{
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        backgroundColor: darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#fff' },
+                                    }}
+                                />
+                            </View>
+                        </View>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '90%', alignSelf: 'center', }}>
+                        <View style={styles.row}>
+                            <View style={styles.column2}>
+                                <UserImgDiary source={{  }} style={{width: 75, height: 75,}}/>
+                            </View>
+                            <View style={styles.column2}>
+                                {/*<Text style={styles.text}>{auth.currentUser.displayName}</Text>*/}
+                                <Text style={styles.text}>María Landete  </Text>
+                            </View>
+                            <View style={styles.column3}>
+                            <FontAwesome5.Button
+                                    name="circle"
+                                    size={30}
+                                    backgroundColor='transparent'
+                                    color="#2e64e5"
+                                    onPress={() => {
+                                        CheckCredentials();
+                                    }}
+                                    style={{
+
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         backgroundColor: darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#fff' },
@@ -178,21 +235,9 @@ const CreateChat = ({ navigation }) => {
                     </View>
                     <Text style={styles.espacio}></Text>
 
-                    <FontAwesome5.Button
-                        name="plus-circle"
-                        size={40}
-                        backgroundColor="#fff"
-                        color="#2e64e5"
-                        onPress={() => {
-                            CheckCredentials()
-                        }}
-                        style={{
-                            marginTop: 15,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            backgroundColor: darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#fff' },
-                        }}
-                    />
+                    <TouchableOpacity onPress={CheckCredentials()} style={styles.touchableSave}>
+                        <Text style={styles.textButton}>¡HECHO!</Text>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </View>
@@ -240,6 +285,14 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         textAlign: 'center',
         marginLeft: 0,
+        marginTop: 10,
+    },
+    text: {
+        fontSize: 20,
+        alignSelf: 'flex-start',
+        textAlign: 'center',
+        marginLeft: 0,
+        marginTop: 50,
     },
     formContainer: {
         width: '80%',
@@ -317,6 +370,14 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         padding: 8,
     },
+    column3: {
+        borderBottomWidth: 0,
+        borderBottomColor: 'black',
+        alignItems: 'flex-start',
+        alignSelf: 'center',
+        padding: 8,
+        marginTop: 50,
+    },
     textInCell1: {
         fontSize: 24,
         marginTop: 5,
@@ -339,11 +400,30 @@ const styles = StyleSheet.create({
         right: 0,
         zIndex: 1,
         borderRadius: 40,
+        marginLeft: -10,
+        marginRight: -10,
     },
     searchBarInputContainer: {
         backgroundColor: '#EBEBEB',
         borderRadius: 40,
     },
+    touchableSave: {
+        backgroundColor: '#FFD37E',
+        alignItems: 'center',
+        alignSelf: 'flex-end',
+        marginTop: 20,
+        marginRight: 20,
+        borderRadius: 30,
+        padding: 5,
+        marginVertical: 20,
+      },
+      textButton: {
+        marginVertical: 10,
+        paddingHorizontal: 25,
+        fontSize: 15,
+        alignSelf: 'center',
+        color: 'black',
+      },
 });
 
 export default CreateChat;
