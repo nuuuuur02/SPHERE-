@@ -52,7 +52,7 @@ const HomeScreen = ({ navigation }) => {
     }, [darkMode])
 
     return (
-        <Container style={darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#ebebeb' }} >
+        <Container style={darkMode === true ? { backgroundColor: '#1c1c1c', marginBottom: 60 } : { backgroundColor: '#ebebeb' , marginBottom: 60}} >
             <FlatList
                 data={posts}
                 renderItem={({ item }) => <PostCard item={item} updatePosts={updatePosts} />}
@@ -69,7 +69,7 @@ const HomeScreen = ({ navigation }) => {
                 <Ionicons name="add" size={25} color="black" />
                     
                 )}
-                style={{ position: 'absolute', bottom: 40, right: 0 }}
+                style={{ position: 'absolute', bottom: 15, right: 0 }}
             />
         </Container>
     );
