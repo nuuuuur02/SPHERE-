@@ -121,10 +121,18 @@ const Principal = ({ navigation }) => {
         extraData={isRender}
       />
 
-      
-      <TouchableOpacity onPress={onAddItem} style={styles.touchableAdd2}>
-        <Ionicons name="add" size={40} color="white"/>
-      </TouchableOpacity>
+     
+
+          <ActionButton
+              buttonColor="black"
+              onPress={onAddItem}
+              renderIcon={() => (
+
+                  <Ionicons name="add" size={25} color="white" />
+
+              )}
+              style={{ position: 'absolute', bottom: 10, right: 0 }}
+          />
       <Modal
         animationType="fade"
         visible={isModalVisible}

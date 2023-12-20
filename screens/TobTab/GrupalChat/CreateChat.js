@@ -1,11 +1,13 @@
 ﻿import React, { useState, useEffect } from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { TextInput, View, StyleSheet, Alert, Image, Text, Button, TouchableOpacity,Table, Row, Modal, ScrollView, FlatList } from 'react-native';
+import { TextInput, View, StyleSheet, Alert, Image, Text, Button, TouchableOpacity, Table, Row, Modal, ScrollView, FlatList } from 'react-native';
 import { db, auth } from '../../../components/ConfigFirebase';
 import { query, collection, addDoc } from "firebase/firestore";
 import { fetchSignInMethodsForEmail } from "firebase/auth";
 import { EventRegister } from 'react-native-event-listeners';
 import { doc, getDoc } from 'firebase/firestore';
+import { SearchBar } from "react-native-elements";
+import { AntDesign } from '@expo/vector-icons';
 import {
     CardDiary,
     CardDiaryCom,
@@ -117,36 +119,72 @@ const CreateChat = ({ navigation }) => {
         }
     }
 
+    const [searchText, setSearchText] = React.useState('');
+
     return (
-        <View
-            style={darkMode === true ? styles.containerDark : styles.container}
-            behavior='padding'
-        >
-            <Text style={styles.title}>Nuevo grupo</Text>
-            <Text style={styles.espacio}></Text>
-            <Text style={styles.titleSec}>Nombre del grupo</Text>
-            <View>
-                <Input property="Nombre del grupo" onChangeText={onChangeName} value={nameGroup} />
-                <Text style={styles.espacio}></Text>
-                <Text style={styles.titleSec}>¿A quién quieres invitar?</Text>
-                <Input property="Buscar usuarios" onChangeText={onChangeUsers} value={users} />
-                <Text style={styles.espacio}></Text>
-                <View style={{ flexDirection: 'row', width: '90%', alignSelf: 'center', }}>
-                <View style={styles.row}>
-                <View style={styles.column2}>
-                    <UserImgDiary source={{ uri: auth.currentUser.photoURL }} />
-                </View>
-                <View style={styles.column2}>
-                    <Text style={styles.text}>{auth.currentUser.displayName}</Text>
-                </View>
-                <View style={styles.column2}>
+        <View>
+            <ScrollView>
+                <View>
+                    <Text style={styles.title}>Nuevo grupo</Text>
+                    <Text style={styles.espacio}></Text>
+                    <Text style={styles.titleSec}>Nombre del grupo</Text>
+                    <View>
+                        <Input property="Nombre del grupo" onChangeText={onChangeName} value={nameGroup} />
+                        <Text style={styles.espacio}></Text>
+                        <Text style={styles.titleSec}>¿A quién quieres invitar?</Text>
+                        <SearchBar
+                            onChangeText={(text) => setSearchText(text)}
+                            value={searchText}
+                            placeholder="Buscar usuarios"
+                            containerStyle={styles.searchBarContainer}
+                            inputContainerStyle={styles.searchBarInputContainer}
+                            inputStyle={styles.searchBarInput}
+                            clearIcon
+                            searchIcon={() => < AntDesign name="search1" size={24} color="black" size={24} style={{ marginLeft: 10 }} />}
+                        />
+                        {/*<Input property="Buscar usuarios" onChangeText={onChangeUsers} value={users} />*/}
+                        <Text style={styles.titleSec}>Descripción</Text>
+                        <Input property="Descripción" onChangeText={onChangeDescription} value={description} />
+                        <Text style={styles.titleSec}>Foto perfil</Text>
+                        <Input property="Foto" onChangeText={onChangePhoto} value={photo} />
+                    </View>
+                    <Text style={styles.espacio}></Text>
+                    <View style={{ flexDirection: 'row', width: '90%', alignSelf: 'center', }}>
+                        <View style={styles.row}>
+                            <View style={styles.column2}>
+                                <UserImgDiary source={{ uri: auth.currentUser.photoURL }} />
+                            </View>
+                            <View style={styles.column2}>
+                                <Text style={styles.text}>{auth.currentUser.displayName}</Text>
+                            </View>
+                            <View style={styles.column2}>
+                                <FontAwesome5.Button
+                                    name="circle"
+                                    size={40}
+                                    backgroundColor="#fff"
+                                    color="#2e64e5"
+                                    onPress={() => {
+                                        CheckCredentials();
+                                    }}
+                                    style={{
+                                        marginTop: 15,
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        backgroundColor: darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#fff' },
+                                    }}
+                                />
+                            </View>
+                        </View>
+                    </View>
+                    <Text style={styles.espacio}></Text>
+
                     <FontAwesome5.Button
-                        name="circle"
+                        name="plus-circle"
                         size={40}
                         backgroundColor="#fff"
                         color="#2e64e5"
                         onPress={() => {
-                            CheckCredentials();
+                            CheckCredentials()
                         }}
                         style={{
                             marginTop: 15,
@@ -156,29 +194,8 @@ const CreateChat = ({ navigation }) => {
                         }}
                     />
                 </View>
-                </View>
-            </View>
-                <Text style={styles.espacio}></Text>
-                <Input property="Descripción" onChangeText={onChangeDescription} value={description} />
-                <Input property="Foto" onChangeText={onChangePhoto} value={photo} />
-                
-                <FontAwesome5.Button
-                    name="plus-circle"
-                    size={40}
-                    backgroundColor="#fff"
-                    color="#2e64e5"
-                    onPress={() => {
-                        CheckCredentials()
-                    }}
-                    style={{
-                        marginTop: 15,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#fff' },
-                    }}
-                    />
-            </View>      
-        </View>        
+            </ScrollView>
+        </View>
     );
 };
 
@@ -210,12 +227,10 @@ const styles = StyleSheet.create({
     },
     inputField: {
         height: 40,
-        width: 300,
-        borderColor: '#2e64e5',
+        //width: 300,
+        borderColor: 'transparent',
         borderWidth: 1,
-        backgroundColor: "white",
-        paddingHorizontal: 15,
-        paddingVertical: 10,
+        backgroundColor: "#EBEBEB",
         borderRadius: 70,
         marginTop: 15,
         fontFamily: 'Roboto',
@@ -233,8 +248,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         shadowColor: '#000',
         shadowOffset: {
-          width: 0,
-          height: 3,
+            width: 0,
+            height: 3,
         },
         shadowOpacity: 0.27,
         shadowRadius: 4.65,
@@ -284,37 +299,51 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         shadowColor: '#000',
         shadowOffset: {
-          width: 0,
-          height: 3,
+            width: 0,
+            height: 3,
         },
         shadowOpacity: 0.27,
         shadowRadius: 4.65,
         elevation: 6,
-      },row: {
+    }, row: {
         flexDirection: 'row',
         width: '100%',
         marginRight: 20,
-      },
-      column2: {
+    },
+    column2: {
         borderBottomWidth: 0,
         borderBottomColor: 'black',
         alignItems: 'flex-start',
-        alignSelf:'center',
+        alignSelf: 'center',
         padding: 8,
-      },
-      textInCell1: {
+    },
+    textInCell1: {
         fontSize: 24,
         marginTop: 5,
         marginRight: 10,
         marginLeft: 10,
         marginBottom: 5,
-      },
-      textInCell2: {
+    },
+    textInCell2: {
         fontSize: 16,
         marginRight: 10,
         marginLeft: 10,
         marginBottom: 5,
-      },
+    },
+    searchBarContainer: {
+        backgroundColor: 'transparent',
+        borderBottomColor: 'transparent',
+        borderTopColor: 'transparent',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1,
+        borderRadius: 40,
+    },
+    searchBarInputContainer: {
+        backgroundColor: '#EBEBEB',
+        borderRadius: 40,
+    },
 });
 
 export default CreateChat;

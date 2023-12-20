@@ -4,6 +4,7 @@ import { db, auth } from '../../../components/ConfigFirebase';
 import { query, collection, orderBy, onSnapshot } from "firebase/firestore";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import ActionButton from 'react-native-action-button';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
     Container,
     Card,
@@ -12,7 +13,6 @@ import {
     UserImg,
     UserInfoText,
     UserName,
-    PostTime,
     MessageText,
     TextSection,
 } from '../../../styles/GrupalChat/MessageStyles';
@@ -146,8 +146,13 @@ const MessagesScreen = ({ navigation }) => {
                 )}
             />
             <ActionButton
-                buttonColor="#2e64e5"
+                buttonColor="#d9cffb"
                 onPress={() => navigation.navigate('CreateChat')}
+                renderIcon={() => (
+
+                    <Ionicons name="add" size={25} color="black" />
+
+                )}
                 style={{ position: 'absolute', bottom: 40, right: 0 }}
             ></ActionButton>
         </Container>
