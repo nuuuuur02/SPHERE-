@@ -76,15 +76,15 @@ const CreateChat = ({ navigation }) => {
                 Alert.alert("Foto incorrecta.", "La foto tiene que ser un enlace.")
             }
         } else if (nameGroup == '') {
-            //Alert.alert("Nombre del grupo vacío.", "Un grupo debe tener un nombre.")
+            Alert.alert("Nombre del grupo vacío.", "Un grupo debe tener un nombre.")
         } else if (description == '') {
-            //Alert.alert("Descripción del grupo vacía.", "Un grupo debe tener una descripción.")
+            Alert.alert("Descripción del grupo vacía.", "Un grupo debe tener una descripción.")
         } else if (photo == '') {
-            //Alert.alert("Foto del grupo vacía.", "Un grupo debe tener una foto.")
+            Alert.alert("Foto del grupo vacía.", "Un grupo debe tener una foto.")
         } else if (users == '') {
-            //Alert.alert("Lista de usuarios vacía.", "Un grupo debe tener al menos 1 usuario en la lista.")
+            Alert.alert("Lista de usuarios vacía.", "Un grupo debe tener al menos 1 usuario en la lista.")
         } else {
-            //Alert.alert("Datos del grupo incorrectos.", "Por favor, introduce los datos correctamente.")
+            Alert.alert("Datos del grupo incorrectos.", "Por favor, introduce los datos correctamente.")
         }
     }
 
@@ -132,17 +132,7 @@ const CreateChat = ({ navigation }) => {
                         <Input property="    Nombre del grupo" onChangeText={onChangeName} value={nameGroup} style={{ marginLeft: 20 }}/>
                         <Text style={styles.espacio}></Text>
                         <Text style={styles.titleSec}>¿A quién quieres invitar?</Text>
-                        <SearchBar
-                            onChangeText={(text) => setSearchText(text)}
-                            value={searchText}
-                            placeholder="Buscar usuarios"
-                            containerStyle={styles.searchBarContainer}
-                            inputContainerStyle={styles.searchBarInputContainer}
-                            inputStyle={styles.searchBarInput}
-                            clearIcon
-                            searchIcon={() => < AntDesign name="search1" size={24} color="black" style={{ marginLeft: 10 }} />}
-                        />
-                        {/*<Input property="Buscar usuarios" onChangeText={onChangeUsers} value={users} />*/}
+                        <Input property="    Buscar usuarios" onChangeText={onChangeUsers} value={users} />
                         <Text style={styles.espacio}></Text>
                         <Text style={styles.titleSec}>Descripción</Text>
                         <Input property="    Descripción" onChangeText={onChangeDescription} value={description} style={{ marginLeft: 20 }}/>
@@ -152,8 +142,8 @@ const CreateChat = ({ navigation }) => {
                     </View>
                     <View style={{ flexDirection: 'row', width: '90%', alignSelf: 'center', }}>
                         <View style={styles.row}>
-                        <View style={styles.column2}>
-                                <UserImgDiary source={{  }} style={{width: 75, height: 75,}}/>
+                            <View style={styles.column2}>
+                                <Image source={require('../../../assets/users/user-dog.jpg')} style={styles.image}/>
                             </View>
                             <View style={styles.column2}>
                                 {/*<Text style={styles.text}>{auth.currentUser.displayName}</Text>*/}
@@ -166,7 +156,7 @@ const CreateChat = ({ navigation }) => {
                                     backgroundColor='transparent'
                                     color="#DACEFC"
                                     onPress={() => {
-                                        CheckCredentials();
+                                        ButtonChange();
                                     }}
                                     style={{
                                         alignItems: 'center',
@@ -180,7 +170,7 @@ const CreateChat = ({ navigation }) => {
                     <View style={{ flexDirection: 'row', width: '90%', alignSelf: 'center', }}>
                         <View style={styles.row}>
                             <View style={styles.column2}>
-                                <UserImgDiary source={{  }} style={{width: 75, height: 75,}}/>
+                                <Image source={require('../../../assets/users/user-cat.jpg')} style={styles.image}/>
                             </View>
                             <View style={styles.column2}>
                                 {/*<Text style={styles.text}>{auth.currentUser.displayName}</Text>*/}
@@ -193,7 +183,7 @@ const CreateChat = ({ navigation }) => {
                                     backgroundColor='transparent'
                                     color="#DACEFC"
                                     onPress={() => {
-                                        CheckCredentials();
+                                        ButtonChange();
                                     }}
                                     style={{
                                         alignItems: 'center',
@@ -207,7 +197,7 @@ const CreateChat = ({ navigation }) => {
                     <View style={{ flexDirection: 'row', width: '90%', alignSelf: 'center', }}>
                         <View style={styles.row}>
                             <View style={styles.column2}>
-                                <UserImgDiary source={{  }} style={{width: 75, height: 75,}}/>
+                                <Image source={require('../../../assets/users/user-3.jpg')} style={styles.image}/>
                             </View>
                             <View style={styles.column2}>
                                 {/*<Text style={styles.text}>{auth.currentUser.displayName}</Text>*/}
@@ -220,7 +210,7 @@ const CreateChat = ({ navigation }) => {
                                     backgroundColor='transparent'
                                     color="#DACEFC"
                                     onPress={() => {
-                                        CheckCredentials();
+                                        ButtonChange();
                                     }}
                                     style={{
 
@@ -234,9 +224,20 @@ const CreateChat = ({ navigation }) => {
                     </View>
                     <Text style={styles.espacio}></Text>
 
-                    <TouchableOpacity onPress={CheckCredentials()} style={styles.touchableSave}>
-                        <Text style={styles.textButton}>¡HECHO!</Text>
-                    </TouchableOpacity>
+                    <FontAwesome5.Button
+                        name="circle"
+                        size={30}
+                        backgroundColor='transparent'
+                        color="#DACEFC"
+                        onPress={() => {
+                            CheckCredentials();
+                        }}
+                        style={{
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: darkMode === true ? { backgroundColor: '#1c1c1c' } : { backgroundColor: '#fff' },
+                        }}
+                    />
                 </View>
             </ScrollView>
         </View>
@@ -250,6 +251,21 @@ const Input = props => {
             onChangeText={props.onChangeText}
             value={props.value}
             placeholder={props.property}
+        />
+    )
+}
+
+const ButtonChange = props => {
+    return (
+        <FontAwesome5.Button
+            name="circle"
+            size={30}
+            backgroundColor="#DACEFC"
+            color="#DACEFC"    
+            style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}
         />
     )
 }
@@ -423,6 +439,11 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         color: 'black',
       },
+      image: {
+        width: 75,
+        height:75,
+        marginTop: 60,
+      }
 });
 
 export default CreateChat;
